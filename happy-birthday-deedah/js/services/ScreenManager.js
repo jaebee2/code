@@ -1,7 +1,7 @@
 /******************************************************************************
  * File Name : ScreenManager.js
  * Project   : Happy Birthday My Deedah ❤️
- * Author    : Jibril Bulama & ChatGPT
+ * Author    : Jibril Bulama 
  * Purpose   : Controls which screen is currently visible.
  * Version   : 1.0.0
  ******************************************************************************/

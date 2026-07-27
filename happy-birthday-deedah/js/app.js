@@ -1,8 +1,7 @@
-console.clear();
-
-console.log("❤️ Happy Birthday My Deedah");
-
-console.log("Application Started");
+// Import the countdown manager.
+import CountdownManager from "./services/CountdownManager.js";
+// Import the audio manager.
+import AudioManager from "./services/AudioManager.js";
 /******************************************************************************
  * File Name : app.js
  * Project   : Happy Birthday My Deedah ❤️
@@ -13,7 +12,8 @@ console.log("Application Started");
 
 // Import the Screen Manager class.
 import ScreenManager from "./services/ScreenManager.js";
-
+// Create one global audio manager.
+const audioManager = new AudioManager();
 // Get a reference to the loading screen.
 const loadingScreen = document.getElementById("loading-screen");
 
@@ -49,16 +49,27 @@ screenManager.show("loading");
  * LOADING SCREEN TIMER
  ******************************************************************************/
 
-// Wait three seconds
+// Wait three seconds.
 setTimeout(() => {
 
-    // Display the countdown screen
+    // Display the countdown screen.
     screenManager.show("countdown");
 
-    // Remove the loading screen from the document flow
+    // Remove the loading screen.
     document.getElementById("loading-screen").remove();
 
-    // Confirm in the console
-    console.log("Countdown Screen Loaded Successfully");
+    // Create a countdown manager.
+    const countdown = new CountdownManager(() => {
+
+        // Display a confirmation message.
+        console.log("🎉 Countdown Finished");
+
+        // Play the heartbeat sound.
+        audioManager.play("heartbeat");
+
+    });
+
+    // Start the countdown.
+    countdown.start();
 
 },3000);
