@@ -1,0 +1,169 @@
+/******************************************************************************
+BACKGROUND LAYER
+******************************************************************************/
+
+#background-layer{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:100vw;
+
+    height:100vh;
+
+    overflow:hidden;
+
+    pointer-events:none;
+
+    z-index:-1;
+
+}
+
+/******************************************************************************
+STAR
+******************************************************************************/
+
+.star{
+
+    position:absolute;
+
+    border-radius:50%;
+
+    background:#ffffff;
+
+    box-shadow:
+        0 0 8px white,
+        0 0 18px white;
+
+    animation:twinkle 4s infinite ease-in-out;
+
+}
+
+/******************************************************************************
+FLOATING HEART
+******************************************************************************/
+
+.floating-heart{
+
+    position:absolute;
+
+    color:#ff6aa5;
+
+    opacity:.35;
+
+    animation:floatHeart 18s linear infinite;
+
+}
+
+/******************************************************************************
+GOLD PARTICLES
+******************************************************************************/
+
+.particle{
+
+    position:absolute;
+
+    width:4px;
+
+    height:4px;
+
+    border-radius:50%;
+
+    background:gold;
+
+    opacity:.4;
+
+    animation:particleMove 8s ease-in-out infinite;
+
+}
+
+/******************************************************************************
+STAR ANIMATION
+******************************************************************************/
+
+@keyframes twinkle{
+
+    0%{
+
+        opacity:.2;
+
+        transform:scale(.5);
+
+    }
+
+    50%{
+
+        opacity:1;
+
+        transform:scale(1.5);
+
+    }
+
+    100%{
+
+        opacity:.2;
+
+        transform:scale(.5);
+
+    }
+
+}
+
+/******************************************************************************
+HEART ANIMATION
+******************************************************************************/
+
+@keyframes floatHeart{
+
+    0%{
+
+        transform:translateY(0);
+
+        opacity:0;
+
+    }
+
+    15%{
+
+        opacity:.4;
+
+    }
+
+    100%{
+
+        transform:translateY(-120vh) rotate(360deg);
+
+        opacity:0;
+
+    }
+
+}
+
+/******************************************************************************
+PARTICLE ANIMATION
+******************************************************************************/
+
+@keyframes particleMove{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-20px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}

@@ -21,6 +21,11 @@ import AudioManager from "./services/AudioManager.js";
 
 // Import the Final 10 Seconds Manager.
 import FinalTenSecondsManager from "./services/FinalTenSecondsManager.js";
+import BackgroundManager from "./services/BackgroundManager.js";
+
+// Create the background manager.
+const backgroundManager = new BackgroundManager();
+
 
 
 /******************************************************************************
@@ -75,7 +80,8 @@ screenManager.register("birthday", birthdayScreen);
 
 // Show the loading screen first.
 screenManager.show("loading");
-
+// Create the animated background.
+backgroundManager.create();
 
 /******************************************************************************
  * LOADING TIMER

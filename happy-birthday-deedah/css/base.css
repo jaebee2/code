@@ -1,21 +1,61 @@
-body{
+/******************************************************************************
+HTML
+******************************************************************************/
 
-    font-family:"Poppins",sans-serif;
+html{
 
-    background:var(--bg);
+    width:100%;
 
-    color:white;
+    height:100%;
+
+    margin:0;
+
+    padding:0;
 
 }
 
-#app{
+/******************************************************************************
+BODY
+******************************************************************************/
+
+body{
+
+    margin:0;
+
+    padding:0;
 
     width:100vw;
 
     height:100vh;
 
+    overflow:hidden;
+
     position:relative;
 
+    font-family:Poppins,sans-serif;
+
+    background:
+        radial-gradient(circle at top,
+        #4b1248 0%,
+        #22052d 45%,
+        #090013 100%);
+
+}
+
+/******************************************************************************
+APPLICATION
+******************************************************************************/
+
+#app{
+
+    position:relative;
+
+    width:100vw;
+
+    height:100vh;
+
     overflow:hidden;
+
+    z-index:10;
 
 }

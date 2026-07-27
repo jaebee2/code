@@ -1,159 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Happy Birthday My Deedah ❤️</title>
 
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap"
+          rel="stylesheet">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet"
+          href="css/style.css">
+
 </head>
 
 <body>
 
+    <!-- Animated Background -->
+    <div id="background-layer"></div>
+
+    <!-- Entire Website -->
     <div id="app">
+        <div id="loading-screen">
 
-        <!-- ========================================================= -->
-<!-- Loading Screen                                            -->
-<!-- ========================================================= -->
+            <div class="loading-container">
 
-<!-- ========================================================= -->
-<!-- Loading Screen                                             -->
-<!-- This screen is displayed immediately after the website      -->
-<!-- loads. It prepares the visitor for the birthday experience. -->
-<!-- ========================================================= -->
+                <div class="loading-heart">
+                    ❤️
+                </div>
 
-<div id="loading-screen">
+                <h1 class="loading-title">
+                    Happy Birthday
+                </h1>
 
-    <!-- Main loading container -->
-    <div class="loading-container">
+                <h2 class="loading-subtitle">
+                    Senior MM
+                </h2>
 
-        <!-- Heart icon -->
-        <div class="loading-heart">
-            ❤️
-        </div>
+                <p class="loading-text">
+                    Preparing Something Beautiful...
+                </p>
 
-        <!-- Main title -->
-        <h1 class="loading-title">
+                <div class="progress-bar">
 
-            Happy Birthday
+                    <div class="progress-fill"></div>
 
-        </h1>
-
-        <!-- Subtitle -->
-        <h2 class="loading-subtitle">
-
-            Senior MM
-
-        </h2>
-
-        <!-- Loading message -->
-        <p class="loading-text">
-
-            Preparing Something Beautiful...
-
-        </p>
-
-        <!-- Progress Bar -->
-        <div class="progress-bar">
-
-            <div class="progress-fill"></div>
-
-        </div>
-
-    </div>
-
-</div>
-<!-- ========================================================= -->
-<!-- COUNTDOWN SCREEN                                           -->
-<!-- This screen displays the countdown until the birthday.     -->
-<!-- ========================================================= -->
-
-<div id="countdown-screen">
-
-    <!-- Main countdown card -->
-    <div class="countdown-card">
-
-        <!-- Small heading -->
-        <p class="countdown-heading">
-
-            Countdown To
-
-        </p>
-
-        <!-- Main title -->
-        <h1 class="countdown-title">
-
-            Happy Birthday My Deedah ❤️
-
-        </h1>
-
-        <!-- Subtitle -->
-        <p class="countdown-description">
-
-            Every second brings us closer to your special day.
-
-        </p>
-
-        <!-- Countdown Boxes -->
-        <div class="countdown-boxes">
-
-            <!-- Days -->
-            <div class="count-box">
-
-                <span id="days">00</span>
-
-                <small>Days</small>
-
-            </div>
-
-            <!-- Hours -->
-            <div class="count-box">
-
-                <span id="hours">00</span>
-
-                <small>Hours</small>
-
-            </div>
-
-            <!-- Minutes -->
-            <div class="count-box">
-
-                <span id="minutes">00</span>
-
-                <small>Minutes</small>
-
-            </div>
-
-            <!-- Seconds -->
-            <div class="count-box">
-
-                <span id="seconds">00</span>
-
-                <small>Seconds</small>
+                </div>
 
             </div>
 
         </div>
 
-    </div>
+        <!-- ===================================================== -->
+        <!-- COUNTDOWN SCREEN                                       -->
+        <!-- ===================================================== -->
 
-</div>
+        <div id="countdown-screen">
+
+            <div class="countdown-card">
+
+                <p class="countdown-heading">
+
+                    Countdown To
+
+                </p>
+
+                <h1 class="countdown-title">
+
+                    Happy Birthday My Deedah ❤️
+
+                </h1>
+
+                <p class="countdown-description">
+
+                    Every second brings us closer to your special day.
+
+                </p>
+
+                <div class="countdown-boxes">
+
+                    <div class="count-box">
+
+                        <span id="days">00</span>
+
+                        <small>Days</small>
+
+                    </div>
+
+                    <div class="count-box">
+
+                        <span id="hours">00</span>
+
+                        <small>Hours</small>
+
+                    </div>
+
+                    <div class="count-box">
+
+                        <span id="minutes">00</span>
+
+                        <small>Minutes</small>
+
+                    </div>
+
+                    <div class="count-box">
+
+                        <span id="seconds">00</span>
+
+                        <small>Seconds</small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ===================================================== -->
+        <!-- Celebration Screen                                     -->
+        <!-- ===================================================== -->
 
         <div id="celebration-screen"></div>
+
+        <!-- ===================================================== -->
+        <!-- Birthday Screen                                        -->
+        <!-- ===================================================== -->
 
         <div id="birthday-screen"></div>
 
     </div>
+</div>
 
-    <script type="module" src="js/app.js"></script>
+    <!-- ========================================================= -->
+    <!-- Main JavaScript                                           -->
+    <!-- ========================================================= -->
+
+    <script type="module"
+            src="js/app.js"></script>
 
 </body>
+
 </html>
