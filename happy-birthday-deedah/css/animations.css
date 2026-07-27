@@ -1,0 +1,37 @@
+/******************************************************************************
+Heartbeat Animation
+******************************************************************************/
+
+body.heartbeat{
+
+    animation: heartbeatPulse .45s ease;
+
+}
+
+@keyframes heartbeatPulse{
+
+    0%{
+
+        transform: scale(1);
+
+    }
+
+    35%{
+
+        transform: scale(1.01);
+
+    }
+
+    70%{
+
+        transform: scale(0.995);
+
+    }
+
+    100%{
+
+        transform: scale(1);
+
+    }
+
+}

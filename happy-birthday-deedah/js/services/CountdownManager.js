@@ -29,14 +29,22 @@ export default class CountdownManager {
         // Store the timer ID.
         this.timer = null;
 
+        // Cache the countdown elements.
+        this.daysElement = document.getElementById("days");
+        this.hoursElement = document.getElementById("hours");
+        this.minutesElement = document.getElementById("minutes");
+        this.secondsElement = document.getElementById("seconds");
+
     }
 
     /**
      * Create the unlock date.
+     *
+     * @returns {Date}
      */
     createUnlockDate() {
 
-        // Check if developer mode is enabled.
+        // Check whether developer mode is enabled.
         if (CONFIG.developer.testMode) {
 
             // Create today's date.
@@ -45,12 +53,12 @@ export default class CountdownManager {
             // Add the configured test seconds.
             date.setSeconds(date.getSeconds() + CONFIG.developer.testSeconds);
 
-            // Return the new date.
+            // Return the test date.
             return date;
 
         }
 
-        // Return the real birthday.
+        // Return the real birthday date.
         return new Date(
 
             CONFIG.birthday.year,
@@ -77,29 +85,29 @@ export default class CountdownManager {
 
             this.update();
 
-        },1000);
+        }, 1000);
 
     }
 
     /**
-     * Update countdown.
+     * Update the countdown.
      */
     update() {
 
         // Get the current time.
         const now = new Date();
 
-        // Calculate the remaining milliseconds.
+        // Calculate the remaining time.
         const difference = this.unlockDate - now;
 
-        // Check whether time has finished.
-        if(difference <= 0){
+        // Check whether the countdown has finished.
+        if (difference <= 0) {
 
             // Stop the timer.
             clearInterval(this.timer);
 
             // Display zero.
-            this.render(0,0,0,0);
+            this.render(0, 0, 0, 0);
 
             // Notify the application.
             this.onComplete();
@@ -108,39 +116,104 @@ export default class CountdownManager {
 
         }
 
-        // Calculate days.
-        const days = Math.floor(difference / (1000*60*60*24));
+        // Calculate remaining days.
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
 
-        // Calculate hours.
-        const hours = Math.floor((difference%(1000*60*60*24))/(1000*60*60));
+        // Calculate remaining hours.
+        const hours = Math.floor(
+            (difference % (1000 * 60 * 60 * 24)) /
+            (1000 * 60 * 60)
+        );
 
-        // Calculate minutes.
-        const minutes = Math.floor((difference%(1000*60*60))/(1000*60));
+        // Calculate remaining minutes.
+        const minutes = Math.floor(
+            (difference % (1000 * 60 * 60)) /
+            (1000 * 60)
+        );
 
-        // Calculate seconds.
-        const seconds = Math.floor((difference%(1000*60))/1000);
+        // Calculate remaining seconds.
+        const seconds = Math.floor(
+            (difference % (1000 * 60)) /
+            1000
+        );
 
-        // Display the values.
-        this.render(days,hours,minutes,seconds);
+        // Update the countdown.
+        this.render(days, hours, minutes, seconds);
+
+        // Notify the Final 10 Seconds Manager.
+        if (window.finalTenManager) {
+
+            window.finalTenManager.update(seconds);
+
+        }
 
     }
 
     /**
-     * Display countdown values.
+     * Animate a countdown value.
+     *
+     * @param {HTMLElement} element
+     * @param {number} value
      */
-    render(days,hours,minutes,seconds){
+    animateValue(element, value) {
 
-        // Update days.
-        document.getElementById("days").textContent = String(days).padStart(2,"0");
+        // Format the value.
+        const formattedValue = String(value).padStart(2, "0");
 
-        // Update hours.
-        document.getElementById("hours").textContent = String(hours).padStart(2,"0");
+        // Skip if the value hasn't changed.
+        if (element.textContent === formattedValue) {
 
-        // Update minutes.
-        document.getElementById("minutes").textContent = String(minutes).padStart(2,"0");
+            return;
 
-        // Update seconds.
-        document.getElementById("seconds").textContent = String(seconds).padStart(2,"0");
+        }
+
+        // Add the change animation.
+        element.classList.add("change");
+
+        // Wait before updating.
+        setTimeout(() => {
+
+            // Update the displayed value.
+            element.textContent = formattedValue;
+
+            // Remove the glow animation.
+            element.classList.remove("change");
+
+            // Add the heartbeat animation.
+            element.classList.add("beat");
+
+            // Remove the heartbeat class.
+            setTimeout(() => {
+
+                element.classList.remove("beat");
+
+            }, 500);
+
+        }, 150);
+
+    }
+
+    /**
+     * Render the countdown.
+     *
+     * @param {number} days
+     * @param {number} hours
+     * @param {number} minutes
+     * @param {number} seconds
+     */
+    render(days, hours, minutes, seconds) {
+
+        // Animate the days.
+        this.animateValue(this.daysElement, days);
+
+        // Animate the hours.
+        this.animateValue(this.hoursElement, hours);
+
+        // Animate the minutes.
+        this.animateValue(this.minutesElement, minutes);
+
+        // Animate the seconds.
+        this.animateValue(this.secondsElement, seconds);
 
     }
 

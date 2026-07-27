@@ -1,70 +1,105 @@
-// Import the countdown manager.
-import CountdownManager from "./services/CountdownManager.js";
-// Import the audio manager.
-import AudioManager from "./services/AudioManager.js";
 /******************************************************************************
  * File Name : app.js
  * Project   : Happy Birthday My Deedah ❤️
- * Author    : Jibril Bulama 
+ * Author    : Jibril Bulama
  * Purpose   : Main entry point of the application.
  * Version   : 1.0.0
  ******************************************************************************/
 
-// Import the Screen Manager class.
+/******************************************************************************
+ * IMPORTS
+ ******************************************************************************/
+
+// Import the Screen Manager.
 import ScreenManager from "./services/ScreenManager.js";
-// Create one global audio manager.
+
+// Import the Countdown Manager.
+import CountdownManager from "./services/CountdownManager.js";
+
+// Import the Audio Manager.
+import AudioManager from "./services/AudioManager.js";
+
+// Import the Final 10 Seconds Manager.
+import FinalTenSecondsManager from "./services/FinalTenSecondsManager.js";
+
+
+/******************************************************************************
+ * CREATE APPLICATION MANAGERS
+ ******************************************************************************/
+
+// Create the Audio Manager FIRST.
 const audioManager = new AudioManager();
-// Get a reference to the loading screen.
-const loadingScreen = document.getElementById("loading-screen");
 
-// Get a reference to the countdown screen.
-const countdownScreen = document.getElementById("countdown-screen");
+// Create the Final 10 Seconds Manager.
+const finalTenManager = new FinalTenSecondsManager(audioManager);
 
-// Get a reference to the celebration screen.
-const celebrationScreen = document.getElementById("celebration-screen");
+// Make it globally available.
+// (We will remove this later when we improve the architecture.)
+window.finalTenManager = finalTenManager;
 
-// Get a reference to the birthday screen.
-const birthdayScreen = document.getElementById("birthday-screen");
-
-// Create a new Screen Manager.
+// Create the Screen Manager.
 const screenManager = new ScreenManager();
 
-// Register every application screen.
+
+/******************************************************************************
+ * GET SCREEN ELEMENTS
+ ******************************************************************************/
+
+// Loading screen.
+const loadingScreen = document.getElementById("loading-screen");
+
+// Countdown screen.
+const countdownScreen = document.getElementById("countdown-screen");
+
+// Celebration screen.
+const celebrationScreen = document.getElementById("celebration-screen");
+
+// Birthday screen.
+const birthdayScreen = document.getElementById("birthday-screen");
+
+
+/******************************************************************************
+ * REGISTER ALL APPLICATION SCREENS
+ ******************************************************************************/
+
+// Register every screen with the Screen Manager.
 screenManager.register("loading", loadingScreen);
 screenManager.register("countdown", countdownScreen);
 screenManager.register("celebration", celebrationScreen);
 screenManager.register("birthday", birthdayScreen);
 
-// Display only the loading screen.
+
+/******************************************************************************
+ * DISPLAY LOADING SCREEN
+ ******************************************************************************/
+
+// Show the loading screen first.
 screenManager.show("loading");
+
+
 /******************************************************************************
- * LOADING SCREEN TIMER
- *
- * Keep the loading screen visible for three seconds before moving to the
- * countdown screen.
+ * LOADING TIMER
  ******************************************************************************/
 
-// Wait for three seconds before changing screens.
-/******************************************************************************
- * LOADING SCREEN TIMER
- ******************************************************************************/
-
-// Wait three seconds.
+// Wait three seconds before showing the countdown.
 setTimeout(() => {
 
-    // Display the countdown screen.
+    // Show the countdown screen.
     screenManager.show("countdown");
 
-    // Remove the loading screen.
-    document.getElementById("loading-screen").remove();
+    // Remove the loading screen from the page.
+    loadingScreen.remove();
 
-    // Create a countdown manager.
+    /**************************************************************************
+     * CREATE THE COUNTDOWN
+     **************************************************************************/
+
     const countdown = new CountdownManager(() => {
 
         // Display a confirmation message.
         console.log("🎉 Countdown Finished");
 
-        // Play the heartbeat sound.
+        // Temporary test sound.
         audioManager.play("heartbeat");
 
     });
@@ -72,4 +107,4 @@ setTimeout(() => {
     // Start the countdown.
     countdown.start();
 
-},3000);
+}, 3000);
