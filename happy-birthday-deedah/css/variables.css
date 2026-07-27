@@ -1,0 +1,16 @@
+:root{
+
+    --pink:#ff4d8d;
+    --dark:#111111;
+    --white:#ffffff;
+    --gold:#FFD700;
+
+    --bg:#080808;
+
+    --shadow:0 20px 60px rgba(0,0,0,.35);
+
+    --radius:20px;
+
+    --transition:.35s ease;
+
+}

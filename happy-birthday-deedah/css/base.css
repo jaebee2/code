@@ -1,0 +1,21 @@
+body{
+
+    font-family:"Poppins",sans-serif;
+
+    background:var(--bg);
+
+    color:white;
+
+}
+
+#app{
+
+    width:100vw;
+
+    height:100vh;
+
+    position:relative;
+
+    overflow:hidden;
+
+}

@@ -1,0 +1,139 @@
+/* ==========================================================================
+   LOADING SCREEN
+   ========================================================================== */
+
+/* Style the loading screen */
+#loading-screen{
+
+    /* Use Flexbox */
+    display:flex;
+
+    /* Centre content horizontally */
+    justify-content:center;
+
+    /* Centre content vertically */
+    align-items:center;
+
+    /* Full width */
+    width:100%;
+
+    /* Full height */
+    height:100%;
+
+    /* Dark cinematic background */
+    background:#080808;
+
+}
+
+/* Container for all loading content */
+.loading-container{
+
+    /* Centre text */
+    text-align:center;
+
+}
+
+/* Heart icon */
+.loading-heart{
+
+    /* Large size */
+    font-size:70px;
+
+    /* Space below */
+    margin-bottom:20px;
+
+    /* Heart animation */
+    animation:pulse 1.2s infinite;
+
+}
+
+/* Main title */
+.loading-title{
+
+    font-size:54px;
+
+    color:white;
+
+    font-weight:700;
+
+}
+
+/* Subtitle */
+.loading-subtitle{
+
+    color:#ff4d8d;
+
+    font-size:42px;
+
+    margin-top:10px;
+
+    font-family:"Dancing Script",cursive;
+
+}
+
+/* Loading message */
+.loading-text{
+
+    margin-top:30px;
+
+    color:#bdbdbd;
+
+}
+
+/* Progress bar */
+.progress-bar{
+
+    width:350px;
+
+    height:10px;
+
+    margin:40px auto;
+
+    background:#222;
+
+    border-radius:100px;
+
+    overflow:hidden;
+
+}
+
+/* Animated progress */
+.progress-fill{
+
+    width:0%;
+
+    height:100%;
+
+    background:linear-gradient(90deg,#ff4d8d,#FFD700);
+
+    animation:loadingProgress 3s linear forwards;
+
+}
+
+/* Heart animation */
+@keyframes pulse{
+
+    50%{
+
+        transform:scale(1.15);
+
+    }
+
+}
+
+/* Progress animation */
+@keyframes loadingProgress{
+
+    from{
+
+        width:0%;
+
+    }
+
+    to{
+
+        width:100%;
+
+    }
+
+}
