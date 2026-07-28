@@ -1,16 +1,43 @@
+/******************************************************************************
+ * File Name : style.css
+ * Project   : Happy Birthday My Deedah ❤️
+ * Author    : Jibril Bulama
+ * Purpose   : Main stylesheet. Imports all project stylesheets.
+ * Version   : 1.0.0
+ ******************************************************************************/
+
+/******************************************************************************
+ * CORE STYLES
+ ******************************************************************************/
+
 @import url("./variables.css");
 @import url("./reset.css");
 @import url("./base.css");
+
+/******************************************************************************
+ * SCREENS
+ ******************************************************************************/
+
 @import url("./loading.css");
 @import url("./countdown.css");
 @import url("./celebration.css");
 @import url("./birthday.css");
 @import url("./letter.css");
 @import url("./gallery.css");
+
+/******************************************************************************
+ * EFFECTS
+ ******************************************************************************/
+
+@import url("./background.css");
+@import url("./fireworks.css");
+
+@import url("./flash.css");
+@import url("./celebration-text.css");
+
+/******************************************************************************
+ * ANIMATIONS & RESPONSIVE
+ ******************************************************************************/
+
 @import url("./animations.css");
 @import url("./responsive.css");
-@import url("./background.css");
-/******************************************************************************
-FLOATING HEARTS
-******************************************************************************/
-

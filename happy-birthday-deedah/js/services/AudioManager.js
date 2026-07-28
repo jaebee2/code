@@ -1,155 +1,148 @@
 /******************************************************************************
  * File Name : AudioManager.js
  * Project   : Happy Birthday My Deedah ❤️
- * Author    : Jibril Bulama & ChatGPT
- * Purpose   : Controls every sound used throughout the application.
- * Version   : 1.0.0
+ * Purpose   : Professional audio controller.
  ******************************************************************************/
 
-/**
- * AudioManager Class
- *
- * This class loads and controls all audio used in the project.
- */
 export default class AudioManager {
 
-    /**
-     * Constructor
-     * This runs automatically whenever a new AudioManager is created.
-     */
     constructor() {
 
-        // Store every audio object inside one collection.
         this.audio = {
 
-            // Background music.
-            birthdayMusic: new Audio("./assets/audio/music/birthday-theme.mp3"),
+            birthdayMusic: new Audio("assets/audio/music/birthday-theme.mp3"),
 
-            // Heartbeat sound.
-            heartbeat: new Audio("./assets/audio/effects/heartbeat.mp3"),
+            heartbeat: new Audio("assets/audio/effects/heartbeat.mp3"),
 
-            // Countdown tick.
-            tick: new Audio("./assets/audio/effects/tick.mp3"),
+            tick: new Audio("assets/audio/effects/tick.mp3"),
 
-            // Fireworks.
-            fireworks: new Audio("./assets/audio/celebration/fireworks.mp3"),
+            fireworks: new Audio("assets/audio/celebration/fireworks.mp3"),
 
-            // Confetti.
-            confetti: new Audio("./assets/audio/celebration/confetti.mp3"),
+            confetti: new Audio("assets/audio/celebration/confetti.mp3"),
 
-            // Your recorded voice.
-            myVoice: new Audio("./assets/audio/recordings/happy-birthday-my-deedah.mp3")
+            myVoice: new Audio("assets/audio/recordings/happy-birthday-my-deedah.mp3")
 
         };
 
-        // Configure every audio file.
         this.initialise();
 
     }
 
-    /**
-     * Configure all sounds.
-     */
     initialise() {
 
-        // Allow the background music to repeat forever.
-        this.audio.birthdayMusic.loop = true;
+        Object.values(this.audio).forEach(sound => {
 
-        // Set a comfortable music volume.
+            sound.preload = "auto";
+
+        });
+
+        this.audio.birthdayMusic.loop = true;
         this.audio.birthdayMusic.volume = 0;
 
-        // Set heartbeat volume.
+        this.audio.fireworks.loop = true;
+        this.audio.fireworks.volume = 0.8;
+
         this.audio.heartbeat.volume = 1;
 
-        // Set tick volume.
-        this.audio.tick.volume = 0.35;
+        this.audio.tick.volume = 0.3;
 
-        // Fireworks volume.
-        this.audio.fireworks.volume = 1;
+        this.audio.confetti.volume = 0.5;
 
-        // Confetti volume.
-        this.audio.confetti.volume = 0.8;
-
-        // Voice volume.
         this.audio.myVoice.volume = 1;
 
     }
 
-    /**
-     * Play a sound.
-     *
-     * @param {String} name
-     * Name of the sound.
-     */
     play(name) {
 
-        // Check that the sound exists.
-        if (!this.audio[name]) {
+        const sound = this.audio[name];
+
+        if (!sound) {
+
+            console.warn(`Sound "${name}" not found`);
 
             return;
 
         }
 
-        // Restart the sound.
-        this.audio[name].currentTime = 0;
+        sound.currentTime = 0;
 
-        // Play the sound.
-        this.audio[name].play().catch(() => {});
+        sound.play().catch(console.error);
 
     }
 
-    /**
-     * Stop a sound.
-     *
-     * @param {String} name
-     */
     stop(name) {
 
-        // Check that the sound exists.
-        if (!this.audio[name]) {
+        const sound = this.audio[name];
 
-            return;
+        if (!sound) return;
 
-        }
+        sound.pause();
 
-        // Pause playback.
-        this.audio[name].pause();
-
-        // Reset playback position.
-        this.audio[name].currentTime = 0;
+        sound.currentTime = 0;
 
     }
 
-    /**
-     * Fade in the background music.
-     *
-     * @param {Number} duration
-     * Duration in milliseconds.
-     */
-    fadeInMusic(duration = 5000) {
+    pause(name) {
 
-        // Play the music.
-        this.audio.birthdayMusic.play().catch(() => {});
+        const sound = this.audio[name];
 
-        // Calculate the volume increase.
-        const step = 0.4 / (duration / 100);
+        if (!sound) return;
 
-        // Gradually increase the volume.
-        const interval = setInterval(() => {
+        sound.pause();
 
-            // Increase the volume.
-            this.audio.birthdayMusic.volume += step;
+    }
 
-            // Stop when the target volume is reached.
-            if (this.audio.birthdayMusic.volume >= 0.4) {
+    fadeInMusic(duration = 3000) {
 
-                this.audio.birthdayMusic.volume = 0.4;
+        const music = this.audio.birthdayMusic;
 
-                clearInterval(interval);
+        music.volume = 0;
+
+        music.play().catch(console.error);
+
+        const target = 0.45;
+
+        const step = target / (duration / 100);
+
+        const timer = setInterval(() => {
+
+            music.volume += step;
+
+            if (music.volume >= target) {
+
+                music.volume = target;
+
+                clearInterval(timer);
 
             }
 
-        }, 100);
+        },100);
+
+    }
+
+    fadeOutMusic(duration = 2000) {
+
+        const music = this.audio.birthdayMusic;
+
+        const step = music.volume / (duration / 100);
+
+        const timer = setInterval(() => {
+
+            music.volume -= step;
+
+            if (music.volume <= 0) {
+
+                music.pause();
+
+                music.currentTime = 0;
+
+                music.volume = 0;
+
+                clearInterval(timer);
+
+            }
+
+        },100);
 
     }
 

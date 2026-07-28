@@ -1,0 +1,60 @@
+/******************************************************************************
+ * BIRTHDAY TEXT
+ ******************************************************************************/
+
+#birthday-text{
+
+    position:absolute;
+
+    top:50%;
+
+    left:50%;
+
+    transform:translate(-50%,-50%) scale(.8);
+
+    text-align:center;
+
+    opacity:0;
+
+    transition:all 1.5s ease;
+
+    z-index:50;
+
+}
+
+#birthday-text.show{
+
+    opacity:1;
+
+    transform:translate(-50%,-50%) scale(1);
+
+}
+
+#birthday-text h1{
+
+    font-size:5rem;
+
+    color:#ffffff;
+
+    text-shadow:
+        0 0 20px #ffffff,
+        0 0 40px #ff4da6,
+        0 0 80px #ff4da6;
+
+    margin:0;
+
+}
+
+#birthday-text h2{
+
+    margin-top:20px;
+
+    font-size:3rem;
+
+    color:#FFD700;
+
+    text-shadow:
+        0 0 15px gold,
+        0 0 35px gold;
+
+}

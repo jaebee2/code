@@ -1,49 +1,25 @@
 /******************************************************************************
  * File Name : config.js
- * Project   : Happy Birthday My Deedah ❤️
- * Purpose   : Stores all project configuration values.
  ******************************************************************************/
 
-/**
- * Configuration object.
- * Every important setting for the application lives here.
- */
 const CONFIG = {
 
-    // Birthday settings.
-    birthday: {
+    // Development
+    TEST_MODE: true,
 
-        // Unlock year.
-        year: 2026,
+    // Countdown duration for testing
+    TEST_COUNTDOWN: 20,
 
-        // Month (JavaScript starts counting months from zero).
-        month: 7,
-
-        // Day of the month.
-        day: 31,
-
-        // Hour.
-        hour: 12,
-
-        // Minute.
-        minute: 0,
-
-        // Second.
-        second: 0
-
-    },
-
-    // Enable developer testing.
-    developer: {
-
-       testMode: true,
-
-        // Number of seconds before the countdown ends in test mode.
-        testSeconds: 20
-
-    }
+    // Real birthday
+    UNLOCK_DATE: new Date(
+        2026,
+        7,
+        31,
+        12,
+        0,
+        0
+    )
 
 };
 
-// Export the configuration.
-export default CONFIG;  
+export default CONFIG;

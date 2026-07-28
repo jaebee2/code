@@ -1,86 +1,55 @@
 /******************************************************************************
  * File Name : FinalTenSecondsManager.js
  * Project   : Happy Birthday My Deedah ❤️
- * Purpose   : Controls everything during the final 10 seconds.
+ * Purpose   : Controls the final ten seconds countdown.
  ******************************************************************************/
 
-// Export the class.
 export default class FinalTenSecondsManager {
 
-    /**
-     * Constructor.
-     *
-     * @param {AudioManager} audioManager
-     */
     constructor(audioManager) {
 
-        // Store the audio manager.
         this.audioManager = audioManager;
 
-        // Prevent events from running twice.
-        this.alreadyTriggered = [];
+        this.lastSecond = -1;
 
     }
 
     /**
-     * Runs every second.
-     *
-     * @param {Number} secondsRemaining
+     * Update countdown.
      */
-    update(secondsRemaining) {
+    update(seconds) {
 
-        // Ignore if not in the final 10 seconds.
-        if (secondsRemaining > 10) {
+        // Ignore anything above 10.
+        if (seconds > 10) {
 
             return;
 
         }
 
-        // Ignore duplicates.
-        if (this.alreadyTriggered.includes(secondsRemaining)) {
+        // Prevent duplicate playback.
+        if (seconds === this.lastSecond) {
 
             return;
 
         }
 
-        // Remember this second.
-        this.alreadyTriggered.push(secondsRemaining);
+        this.lastSecond = seconds;
 
-        // Run effects.
-        this.triggerEffects(secondsRemaining);
-
-    }
-
-    /**
-     * Trigger all effects.
-     */
-    triggerEffects(secondsRemaining) {
-
-        // Log the second.
-        console.log("Final Second:", secondsRemaining);
-
-        // Play heartbeat.
-        this.audioManager.play("heartbeat");
+        console.log(`⏳ ${seconds}`);
 
         // Play tick.
         this.audioManager.play("tick");
 
-        // Pulse countdown.
-        document.body.classList.add("heartbeat");
+    }
 
-        // Remove animation afterwards.
-        setTimeout(() => {
+    /**
+     * Stop final countdown.
+     */
+    stop() {
 
-            document.body.classList.remove("heartbeat");
+        this.audioManager.stop("tick");
 
-        },500);
-
-        // Vibrate on supported devices.
-        if (navigator.vibrate) {
-
-            navigator.vibrate(120);
-
-        }
+        this.lastSecond = -1;
 
     }
 
