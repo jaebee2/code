@@ -11,6 +11,30 @@ import FireworksManager from "./services/FireworksManager.js";
 import CelebrationManager from "./services/CelebrationManager.js";
 
 const audioManager = new AudioManager();
+// Unlock audio/video after first user interaction
+function unlockMedia() {
+
+    Object.values(audioManager.audio).forEach(sound => {
+
+        sound.play()
+            .then(() => {
+
+                sound.pause();
+                sound.currentTime = 0;
+
+            })
+            .catch(() => {});
+
+    });
+
+    document.removeEventListener("click", unlockMedia);
+    document.removeEventListener("touchstart", unlockMedia);
+
+}
+
+document.addEventListener("click", unlockMedia);
+
+document.addEventListener("touchstart", unlockMedia);
 
 const finalTenManager = new FinalTenSecondsManager(audioManager);
 

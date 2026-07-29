@@ -3,16 +3,13 @@
  * Project   : Happy Birthday My Deedah ❤️
  * Purpose   : Controls the complete cinematic celebration sequence.
  * Author    : Jibril Bulama
- * Version   : 2.0.0
+ * Version   : 3.0.0
  ******************************************************************************/
 
 import TimelineManager from "./TimelineManager.js";
 
 export default class CelebrationManager {
 
-    /**
-     * Constructor.
-     */
     constructor(screenManager, fireworksManager, audioManager) {
 
         this.screenManager = screenManager;
@@ -24,104 +21,78 @@ export default class CelebrationManager {
     }
 
     /**
-     * Start the celebration.
+     * Start Celebration
      */
     start() {
 
         console.log("🎉 Celebration Started");
 
-        // Show celebration screen
         this.screenManager.show("celebration");
 
-        // Clear any previous timeline
         this.timeline.clear();
 
-        /**********************************************************************
-         * CELEBRATION TIMELINE
-         **********************************************************************/
+        /************************************************************
+         * TIMELINE
+         ************************************************************/
 
-        // 0.2s White Flash
+        // 0.2 seconds
         this.timeline.add(200, () => {
+
+            this.playCountdownBoom();
+
+        });
+
+        // 0.5 seconds
+        this.timeline.add(500, () => {
 
             this.whiteFlash();
 
         });
 
-        // 0.4s Heartbeat
-        this.timeline.add(400, () => {
-
-            this.playHeartbeat();
-
-        });
-
-        // 0.8s Recorded Voice
+        // 0.8 seconds
         this.timeline.add(800, () => {
 
-            this.playVoice();
+            this.playIntroVideo();
 
         });
 
-        // 4.4s Fireworks
-        this.timeline.add(4400, () => {
-
-            this.startFireworks();
-
-        });
-
-        // 4.4s Confetti
-        this.timeline.add(4400, () => {
-
-            this.startConfetti();
-
-        });
-
-        // 4.8s Birthday Title
-        this.timeline.add(4800, () => {
-
-            this.showTitle();
-
-        });
-
-        // 8s Background Music Starts
-        this.timeline.add(8000, () => {
-
-            this.startBirthdayMusic();
-
-        });
-
-        // 34.4s Stop Fireworks (30 seconds later)
-        this.timeline.add(34400, () => {
+        // Fireworks stop after 60 seconds
+        this.timeline.add(64500, () => {
 
             this.stopFireworks();
 
         });
 
-        // 35.5s Show Birthday Page
-        this.timeline.add(35500, () => {
+        // Birthday page
+        this.timeline.add(67500, () => {
 
             this.showBirthdayPage();
 
         });
 
-        // Start Timeline
         this.timeline.start();
 
     }
 
     /**
-     * White flash.
+     * Countdown Boom
+     */
+    playCountdownBoom() {
+
+        console.log("💥 Countdown Boom");
+
+        this.audioManager.play("countdownBoom");
+
+    }
+
+    /**
+     * White Flash
      */
     whiteFlash() {
 
         const flash = document.getElementById("flash-overlay");
 
-        if (!flash) {
-
-            console.warn("Flash overlay not found.");
-
-            return;
-
-        }
+        if (!flash) return;
 
         flash.classList.add("show");
 
@@ -134,18 +105,68 @@ export default class CelebrationManager {
     }
 
     /**
-     * Heartbeat.
+     * Intro Video
      */
-    playHeartbeat() {
+    playIntroVideo() {
 
-        console.log("❤️ Heartbeat");
+        console.log("🎬 Playing Intro Video");
 
-        this.audioManager.play("heartbeat");
+        const video = document.getElementById("intro-video");
+
+        if (!video) {
+
+            console.warn("Intro video not found.");
+
+            this.afterVideo();
+
+            return;
+
+        }
+
+        video.classList.add("show");
+
+        video.currentTime = 0;
+
+        video.play();
+
+        video.onended = () => {
+
+            video.classList.remove("show");
+
+            this.afterVideo();
+
+        };
 
     }
 
     /**
-     * Play recorded voice.
+     * Continue after video finishes
+     */
+    afterVideo() {
+
+        // Play your recorded message
+        this.playVoice();
+
+        // Wait for voice to finish
+        setTimeout(() => {
+
+            this.startFireworks();
+
+            this.startConfetti();
+
+        }, 3500);
+
+        // Show title
+        setTimeout(() => {
+
+            this.showTitle();
+
+        }, 4000);
+
+    }
+
+    /**
+     * Play Birthday Voice
      */
     playVoice() {
 
@@ -156,7 +177,7 @@ export default class CelebrationManager {
     }
 
     /**
-     * Fireworks.
+     * Fireworks
      */
     startFireworks() {
 
@@ -164,12 +185,18 @@ export default class CelebrationManager {
 
         this.fireworksManager.start();
 
+        // Background music
+        this.audioManager.fadeInMusic(6000);
+
+        // Fireworks ambience
         this.audioManager.play("fireworks");
+
+        this.audioManager.play("fireworks2");
 
     }
 
     /**
-     * Confetti.
+     * Confetti
      */
     startConfetti() {
 
@@ -180,50 +207,37 @@ export default class CelebrationManager {
     }
 
     /**
-     * Birthday Title.
+     * Birthday Title
      */
     showTitle() {
 
         const title = document.getElementById("birthday-title");
 
-        if (!title) {
-
-            console.warn("birthday-title not found.");
-
-            return;
-
-        }
+        if (!title) return;
 
         title.classList.add("show");
 
     }
 
     /**
-     * Stop Fireworks.
+     * Stop Fireworks
      */
     stopFireworks() {
 
-        console.log("🛑 Fireworks Stopped");
+        console.log("🛑 Fireworks Finished");
 
         this.fireworksManager.stop();
 
         this.audioManager.stop("fireworks");
 
-    }
+        this.audioManager.stop("fireworks2");
 
-    /**
-     * Fade in Birthday Music.
-     */
-    startBirthdayMusic() {
-
-        console.log("🎵 Birthday Music");
-
-        this.audioManager.fadeInMusic(3000);
+        // Birthday music keeps playing
 
     }
 
     /**
-     * Show Birthday Page.
+     * Birthday Page
      */
     showBirthdayPage() {
 
