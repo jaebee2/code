@@ -1,0 +1,82 @@
+/*====================================
+BALLOONS
+====================================*/
+
+.balloon{
+
+    position:absolute;
+
+    width:170px;
+
+    pointer-events:none;
+
+    animation:floatBalloon 6s ease-in-out infinite;
+
+    filter:
+    drop-shadow(0 15px 20px rgba(0,0,0,.35));
+
+}
+
+.balloon-left{
+
+    left:-40px;
+
+    top:120px;
+
+    animation-delay:0s;
+
+}
+
+.balloon-right{
+
+    right:-40px;
+
+    top:90px;
+
+    animation-delay:2s;
+
+}
+
+@keyframes floatBalloon{
+
+0%{
+
+transform:
+translateY(0)
+rotate(-2deg);
+
+}
+
+25%{
+
+transform:
+translateY(-18px)
+rotate(2deg);
+
+}
+
+50%{
+
+transform:
+translateY(-35px)
+rotate(-3deg);
+
+}
+
+75%{
+
+transform:
+translateY(-18px)
+rotate(2deg);
+
+}
+
+100%{
+
+transform:
+translateY(0)
+rotate(-2deg);
+
+}
+
+}

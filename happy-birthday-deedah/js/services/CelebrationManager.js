@@ -3,10 +3,11 @@
  * Project   : Happy Birthday My Deedah ❤️
  * Purpose   : Controls the complete cinematic celebration sequence.
  * Author    : Jibril Bulama
- * Version   : 3.0.0
+ * Version   : 3.1.0
  ******************************************************************************/
 
 import TimelineManager from "./TimelineManager.js";
+import BirthdayPageManager from "./BirthdayPageManager.js";
 
 export default class CelebrationManager {
 
@@ -17,6 +18,9 @@ export default class CelebrationManager {
         this.audioManager = audioManager;
 
         this.timeline = new TimelineManager();
+
+        // Birthday Page Manager
+        this.birthdayPageManager = new BirthdayPageManager(screenManager);
 
     }
 
@@ -56,14 +60,14 @@ export default class CelebrationManager {
 
         });
 
-        // Fireworks stop after 60 seconds
+        // Stop fireworks after 60 seconds
         this.timeline.add(64500, () => {
 
             this.stopFireworks();
 
         });
 
-        // Birthday page
+        // Show Birthday Page
         this.timeline.add(67500, () => {
 
             this.showBirthdayPage();
@@ -140,14 +144,14 @@ export default class CelebrationManager {
     }
 
     /**
-     * Continue after video finishes
+     * Continue after intro video
      */
     afterVideo() {
 
-        // Play your recorded message
+        // Play your recorded birthday message
         this.playVoice();
 
-        // Wait for voice to finish
+        // After voice
         setTimeout(() => {
 
             this.startFireworks();
@@ -177,7 +181,7 @@ export default class CelebrationManager {
     }
 
     /**
-     * Fireworks
+     * Start Fireworks
      */
     startFireworks() {
 
@@ -196,18 +200,18 @@ export default class CelebrationManager {
     }
 
     /**
-     * Confetti
+     * Start Confetti
      */
     startConfetti() {
 
         console.log("🎊 Confetti Started");
 
-        // Confetti manager will be added later.
+        // ConfettiManager will be added later
 
     }
 
     /**
-     * Birthday Title
+     * Show Celebration Title
      */
     showTitle() {
 
@@ -232,18 +236,18 @@ export default class CelebrationManager {
 
         this.audioManager.stop("fireworks2");
 
-        // Birthday music keeps playing
+        // Background music continues
 
     }
 
     /**
-     * Birthday Page
+     * Show Birthday Page
      */
     showBirthdayPage() {
 
         console.log("🎂 Showing Birthday Page");
 
-        this.screenManager.show("birthday");
+        this.birthdayPageManager.show();
 
     }
 

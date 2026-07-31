@@ -196,39 +196,150 @@
         <!-- This will later contain the full birthday experience.  -->
         <!-- ===================================================== -->
 
-       <div id="birthday-screen"
-     style="position:fixed;
-            top:0;
-            left:0;
-            width:100%;
-            height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            background:rgba(0,0,0,0.85);
-            z-index:9999;">
+      <!-- ===================================================== -->
+<!-- BIRTHDAY SCREEN -->
+<!-- ===================================================== -->
 
-    <a href="birthdaypage.html"
-       class="birthday-btn"
-       style="display:inline-block;
-              padding:20px 45px;
-              background:linear-gradient(135deg,#ff4d6d,#ff9a3d);
-              color:#fff;
-              text-decoration:none;
-              font-size:24px;
-              font-weight:bold;
-              border-radius:50px;
-              box-shadow:0 10px 30px rgba(255,77,109,.5);
-              transition:all .3s ease;
-              font-family:'Poppins',sans-serif;">
+<div id="birthday-screen">
 
-        🎁 Enter Birthday Surprise 🎁
+    <!-- Floating Decorations -->
 
-    </a>
+    <div class="floating-hearts"></div>
+
+    <div class="floating-stars"></div>
+
+    <!-- ================================================= -->
+    <!-- HERO CARD -->
+    <!-- ================================================= -->
+
+    <div class="hero-card">
+
+        <!-- Left Balloon -->
+
+        <img
+            src="assets/images/balloons/balloon-left.png"
+            class="balloon balloon-left"
+            alt="Balloon">
+
+        <!-- Right Balloon -->
+
+        <img
+            src="assets/images/balloons/balloon-right.png"
+            class="balloon balloon-right"
+            alt="Balloon">
+
+        <!-- Profile -->
+
+        <div class="profile-container">
+
+            <img
+                id="birthday-photo"
+                src="assets/images/deedah.png"
+                alt="My Deedah">
+
+        </div>
+
+        <!-- Main Title -->
+
+        <h1 id="birthday-main-title">
+
+            HAPPY
+
+        </h1>
+
+        <h1 id="birthday-second-title">
+
+            BIRTHDAY
+
+        </h1>
+
+        <h2 id="birthday-name">
+
+            MY DEEDAH ❤️
+
+        </h2>
+
+        <p id="birthday-date"></p>
+
+        <!-- Button -->
+
+        <button id="open-letter-btn">
+
+            💌 Open My Letter
+
+        </button>
+
+    </div>
+
+  <!-- ================================================= -->
+<!-- LOVE LETTER -->
+<!-- ================================================= -->
+
+<div id="letter-overlay">
+
+    <div id="envelope">
+
+        <!-- Close Button -->
+
+        <button id="close-letter">
+
+            ✕
+
+        </button>
+
+        <!-- Decorative Glow -->
+
+        <div class="envelope-glow"></div>
+
+        <!-- Back -->
+
+        <div class="envelope-back"></div>
+
+        <!-- Left Side -->
+
+        <div class="envelope-left"></div>
+
+        <!-- Right Side -->
+
+        <div class="envelope-right"></div>
+
+        <!-- Bottom -->
+
+        <div class="envelope-bottom"></div>
+
+        <!-- Top Flap -->
+
+        <div class="envelope-flap"></div>
+
+        <!-- Wax Seal -->
+
+        <div class="wax-seal">
+
+            ❤️
+
+        </div>
+
+        <!-- Letter -->
+
+        <div class="letter">
+
+            <div class="letter-paper">
+
+                <h2 id="letter-title"></h2>
+
+                <hr>
+
+                <p id="letter-text"></p>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
-    </div>
+</div>
 
     <!-- ========================================================= -->
     <!-- Main JavaScript                                            -->
