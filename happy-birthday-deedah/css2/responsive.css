@@ -1,0 +1,273 @@
+/* ==========================================
+   RESPONSIVE DESIGN
+========================================== */
+
+/* Large Tablets (1024px and below) */
+@media (max-width:1024px){
+
+    .content{
+        flex-direction:column;
+        align-items:center;
+        gap:40px;
+        padding-top:2rem;
+    }
+
+    .content .left,
+    .content .right{
+        width:100%;
+        text-align:center;
+    }
+
+    .content .right .image{
+        width:320px;
+        height:320px;
+    }
+
+    .title{
+        font-size:2.5rem;
+    }
+
+    .title .hat{
+        right:20px;
+    }
+
+    .decorate_star.star1{
+        left:120px;
+    }
+
+    .decorate_star.star2{
+        right:120px;
+    }
+
+    .decorate_star.star3{
+        left:75%;
+    }
+
+    .decorate_star.star5{
+        left:60%;
+    }
+
+    .decorate_flower--two{
+        left:65%;
+    }
+
+    .decorate_flower--three{
+        right:15%;
+    }
+
+    .smiley__icon{
+        left:70%;
+    }
+
+}
+
+
+/* Tablets */
+@media (max-width:768px){
+
+    .flag__birthday img{
+        width:140px;
+    }
+
+    .content{
+        flex-direction:column-reverse;
+        align-items:center;
+        justify-content:center;
+        gap:30px;
+    }
+
+    .content .left,
+    .content .right{
+        width:100%;
+    }
+
+    .content .right .image{
+        width:260px;
+        height:260px;
+        border-width:4px;
+    }
+
+    .title{
+        font-size:2rem;
+    }
+
+    .title .happy,
+    .title .birthday{
+        flex-wrap:wrap;
+    }
+
+    .title .hat{
+        width:80px;
+        right:15px;
+    }
+
+    .date__of__birth{
+        width:260px !important;
+        height:45px !important;
+    }
+
+    .date__of__birth span{
+        margin:0 15px;
+        font-size:1rem;
+    }
+
+    .name{
+        padding:0 15px;
+    }
+
+    .name span{
+        margin:0 12px;
+        font-size:1.4rem;
+    }
+
+    .text__cricle{
+        width:80px;
+        height:80px;
+    }
+
+    .text__cricle span{
+        transform-origin:0 35px;
+        font-size:.55rem;
+    }
+
+    .cricle{
+        top:10px;
+        right:10px;
+    }
+
+    .right .balloon_one{
+        width:70px;
+        top:-40px;
+        left:-20px;
+    }
+
+    .right .balloon_two{
+        width:70px;
+        right:-20px;
+        top:120px;
+    }
+
+    .decorate_star,
+    .decorate_flower--one,
+    .decorate_flower--two,
+    .decorate_flower--three,
+    .smiley__icon{
+        display:none;
+    }
+
+    #btn__letter{
+        font-size:.9rem;
+        padding:10px 22px;
+    }
+
+    .birthday-btn{
+        font-size:18px;
+        padding:15px 28px;
+    }
+
+}
+
+
+/* Mobile Phones */
+@media (max-width:480px){
+
+    body{
+        overflow-x:hidden;
+    }
+
+    .flag__birthday{
+        margin-top:10px;
+    }
+
+    .flag__birthday img{
+        width:90px;
+    }
+
+    .content{
+        padding:15px;
+        gap:20px;
+    }
+
+    .content .right .image{
+        width:220px;
+        height:220px;
+        border-width:3px;
+    }
+
+    .title{
+        font-size:1.5rem;
+    }
+
+    .title .happy,
+    .title .birthday{
+        text-shadow:
+            2px 2px #000,
+            -2px 2px #000,
+            2px -2px #000,
+            -2px -2px #000;
+    }
+
+    .title .hat{
+        width:65px;
+        right:5px;
+    }
+
+    .date__of__birth{
+        width:220px !important;
+        height:40px !important;
+    }
+
+    .date__of__birth span{
+        margin:0 8px;
+        font-size:.8rem;
+    }
+
+    .name{
+        bottom:-15px;
+        padding:0 10px;
+    }
+
+    .name span{
+        margin:0 6px;
+        font-size:1.1rem;
+    }
+
+    .text__cricle{
+        width:65px;
+        height:65px;
+        border-width:3px;
+    }
+
+    .text__cricle span{
+        transform-origin:0 28px;
+        font-size:.45rem;
+    }
+
+    .cricle{
+        top:5px;
+        right:5px;
+    }
+
+    .fa-heart{
+        font-size:18px;
+    }
+
+    #btn__letter{
+        width:90%;
+        max-width:280px;
+        font-size:.9rem;
+        padding:12px;
+    }
+
+    .birthday-btn{
+        width:90%;
+        font-size:16px;
+        padding:14px;
+    }
+
+    .right .balloon_one,
+    .right .balloon_two{
+        display:none;
+    }
+
+}

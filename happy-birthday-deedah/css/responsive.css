@@ -1,0 +1,710 @@
+/******************************************************************************
+RESPONSIVE DESIGN
+******************************************************************************/
+
+/******************************************************************************
+Large Desktop (1400px+)
+******************************************************************************/
+
+@media (min-width:1400px){
+
+.hero-card{
+
+    max-width:700px;
+
+}
+
+.countdown-card{
+
+    max-width:900px;
+
+}
+
+#envelope{
+
+    transform:scale(1);
+
+}
+
+}
+
+/******************************************************************************
+Laptop
+******************************************************************************/
+
+@media (max-width:1200px){
+
+.hero-card{
+
+    width:90%;
+
+}
+
+.countdown-card{
+
+    width:90%;
+
+}
+
+.balloon{
+
+    width:120px;
+
+}
+
+}
+
+/******************************************************************************
+Tablet
+******************************************************************************/
+
+@media (max-width:992px){
+
+body{
+
+    overflow-x:hidden;
+
+}
+
+.hero-card{
+
+    width:92%;
+
+    padding:35px 25px;
+
+}
+
+#birthday-photo{
+
+    width:220px;
+
+    height:220px;
+
+}
+
+#birthday-main-title{
+
+    font-size:4rem;
+
+}
+
+#birthday-second-title{
+
+    font-size:4rem;
+
+}
+
+#birthday-name{
+
+    font-size:2rem;
+
+}
+
+.balloon{
+
+    width:90px;
+
+}
+
+.countdown-boxes{
+
+    gap:15px;
+
+}
+
+.count-box{
+
+    width:100px;
+
+    height:100px;
+
+}
+
+.count-box span{
+
+    font-size:2.5rem;
+
+}
+
+#envelope{
+
+    transform:scale(.90);
+
+}
+
+}
+
+/******************************************************************************
+Large Phones
+******************************************************************************/
+
+@media (max-width:768px){
+
+.loading-title{
+
+    font-size:3rem;
+
+}
+
+.loading-subtitle{
+
+    font-size:1.8rem;
+
+}
+
+.loading-text{
+
+    font-size:1rem;
+
+}
+
+.progress-bar{
+
+    width:90%;
+
+}
+
+.countdown-card{
+
+    width:95%;
+
+    padding:30px 20px;
+
+}
+
+.countdown-title{
+
+    font-size:2.2rem;
+
+}
+
+.countdown-description{
+
+    font-size:1rem;
+
+}
+
+.countdown-boxes{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:18px;
+
+}
+
+.count-box{
+
+    width:100%;
+
+}
+
+.hero-card{
+
+    width:95%;
+
+    padding:25px 18px;
+
+}
+
+#birthday-photo{
+
+    width:180px;
+
+    height:180px;
+
+}
+
+#birthday-main-title{
+
+    font-size:3rem;
+
+}
+
+#birthday-second-title{
+
+    font-size:3rem;
+
+}
+
+#birthday-name{
+
+    font-size:1.8rem;
+
+}
+
+#birthday-date{
+
+    font-size:1rem;
+
+}
+
+#open-letter-btn{
+
+    width:100%;
+
+    padding:18px;
+
+    font-size:18px;
+
+}
+
+.balloon{
+
+    width:70px;
+
+}
+
+.balloon-left{
+
+    left:-10px;
+
+}
+
+.balloon-right{
+
+    right:-10px;
+
+}
+
+#birthday-title h1{
+
+    font-size:3rem;
+
+}
+
+#birthday-title h2{
+
+    font-size:2rem;
+
+}
+
+#intro-video{
+
+    object-fit:cover;
+
+}
+
+#fireworks-canvas{
+
+    width:100vw;
+
+    height:100vh;
+
+}
+
+}
+/******************************************************************************
+LOVE LETTER
+******************************************************************************/
+
+@media (max-width:768px){
+
+#letter-overlay{
+
+    padding:20px;
+
+}
+
+#envelope{
+
+    width:100%;
+
+    max-width:430px;
+
+    height:300px;
+
+    transform:scale(1);
+
+}
+
+.letter{
+
+    width:92%;
+
+    height:84%;
+
+}
+
+.letter-paper{
+
+    padding:20px;
+
+}
+
+#letter-title{
+
+    font-size:34px;
+
+}
+
+#letter-text{
+
+    font-size:16px;
+
+    line-height:1.8;
+
+}
+
+#close-letter{
+
+    width:42px;
+
+    height:42px;
+
+    top:-15px;
+
+    right:-15px;
+
+    font-size:18px;
+
+}
+
+}
+
+/******************************************************************************
+SMALL PHONES
+******************************************************************************/
+
+@media (max-width:576px){
+
+.loading-heart{
+
+    font-size:60px;
+
+}
+
+.loading-title{
+
+    font-size:2.4rem;
+
+}
+
+.loading-subtitle{
+
+    font-size:1.4rem;
+
+}
+
+.loading-text{
+
+    font-size:.95rem;
+
+}
+
+.progress-bar{
+
+    height:10px;
+
+}
+
+.countdown-title{
+
+    font-size:1.8rem;
+
+}
+
+.countdown-heading{
+
+    font-size:1rem;
+
+}
+
+.countdown-description{
+
+    font-size:.9rem;
+
+}
+
+.count-box{
+
+    height:90px;
+
+}
+
+.count-box span{
+
+    font-size:2rem;
+
+}
+
+.count-box small{
+
+    font-size:.8rem;
+
+}
+
+.hero-card{
+
+    border-radius:25px;
+
+    padding:20px 15px;
+
+}
+
+#birthday-photo{
+
+    width:150px;
+
+    height:150px;
+
+}
+
+#birthday-main-title{
+
+    font-size:2.5rem;
+
+}
+
+#birthday-second-title{
+
+    font-size:2.5rem;
+
+}
+
+#birthday-name{
+
+    font-size:1.4rem;
+
+}
+
+#birthday-date{
+
+    font-size:.9rem;
+
+}
+
+#open-letter-btn{
+
+    font-size:16px;
+
+    padding:16px;
+
+}
+
+.balloon{
+
+    width:55px;
+
+}
+
+#birthday-title h1{
+
+    font-size:2.3rem;
+
+}
+
+#birthday-title h2{
+
+    font-size:1.5rem;
+
+}
+
+}
+
+/******************************************************************************
+EXTRA SMALL DEVICES
+******************************************************************************/
+
+@media (max-width:400px){
+
+.hero-card{
+
+    width:97%;
+
+    padding:18px 12px;
+
+}
+
+#birthday-photo{
+
+    width:130px;
+
+    height:130px;
+
+}
+
+#birthday-main-title{
+
+    font-size:2rem;
+
+}
+
+#birthday-second-title{
+
+    font-size:2rem;
+
+}
+
+#birthday-name{
+
+    font-size:1.2rem;
+
+}
+
+#birthday-date{
+
+    font-size:.8rem;
+
+}
+
+.countdown-boxes{
+
+    gap:12px;
+
+}
+
+.count-box{
+
+    height:80px;
+
+}
+
+.count-box span{
+
+    font-size:1.6rem;
+
+}
+
+.loading-title{
+
+    font-size:2rem;
+
+}
+
+.loading-subtitle{
+
+    font-size:1.2rem;
+
+}
+
+.loading-heart{
+
+    font-size:50px;
+
+}
+
+#envelope{
+
+    height:250px;
+
+}
+
+#letter-title{
+
+    font-size:28px;
+
+}
+
+#letter-text{
+
+    font-size:14px;
+
+}
+
+}
+
+/******************************************************************************
+LANDSCAPE PHONES
+******************************************************************************/
+
+@media (max-height:500px) and (orientation:landscape){
+
+body{
+
+    overflow-y:auto;
+
+}
+
+.hero-card{
+
+    margin:20px auto;
+
+}
+
+#birthday-photo{
+
+    width:120px;
+
+    height:120px;
+
+}
+
+.balloon{
+
+    display:none;
+
+}
+
+#birthday-main-title{
+
+    font-size:2rem;
+
+}
+
+#birthday-second-title{
+
+    font-size:2rem;
+
+}
+
+#birthday-name{
+
+    font-size:1.2rem;
+
+}
+
+.countdown-card{
+
+    margin:20px auto;
+
+}
+
+}
+
+/******************************************************************************
+TOUCH DEVICES
+******************************************************************************/
+
+@media (hover:none){
+
+button{
+
+    min-height:50px;
+
+}
+
+button:hover{
+
+    transform:none;
+
+}
+
+}
+
+/******************************************************************************
+PERFORMANCE
+******************************************************************************/
+
+@media (max-width:768px){
+
+.floating-heart{
+
+    font-size:18px !important;
+
+}
+
+.star{
+
+    transform:scale(.8);
+
+}
+
+canvas{
+
+    image-rendering:auto;
+
+}
+
+}

@@ -1,8 +1,7 @@
 /******************************************************************************
  * File Name : LetterManager.js
  * Project   : Happy Birthday My Deedah ❤️
- * Author    : Jibril Bulama & ChatGPT
- * Version   : 1.0.0
+ * Version   : 5.0.0
  ******************************************************************************/
 
 import TypewriterManager from "./TypewriterManager.js";
@@ -15,15 +14,48 @@ export default class LetterManager {
 
         this.typewriter = new TypewriterManager();
 
+        // Elements
         this.overlay = document.getElementById("letter-overlay");
-
         this.envelope = document.getElementById("envelope");
-
         this.title = document.getElementById("letter-title");
-
         this.text = document.getElementById("letter-text");
-
         this.closeBtn = document.getElementById("close-letter");
+
+        this.isOpen = false;
+
+        this.registerEvents();
+
+    }
+
+    /******************************************************************
+     * Register Events
+     ******************************************************************/
+
+    registerEvents() {
+
+        if (this.closeBtn) {
+
+            this.closeBtn.addEventListener("click", () => {
+
+                this.hide();
+
+            });
+
+        }
+
+        if (this.overlay) {
+
+            this.overlay.addEventListener("click", (e) => {
+
+                if (e.target === this.overlay) {
+
+                    this.hide();
+
+                }
+
+            });
+
+        }
 
     }
 
@@ -33,13 +65,34 @@ export default class LetterManager {
 
     show() {
 
-        if (!this.overlay) return;
+        if (this.isOpen) return;
+
+        this.isOpen = true;
+
+        // Lower the background music
+        if (this.audioManager) {
+
+            this.audioManager.duckMusic();
+
+        }
 
         this.overlay.classList.add("show");
 
-        this.envelope.classList.add("show");
+        this.envelope.classList.remove("open");
 
-        this.startAnimation();
+        this.text.textContent = "";
+
+        setTimeout(() => {
+
+            this.envelope.classList.add("open");
+
+        }, 600);
+
+        setTimeout(() => {
+
+            this.startTyping();
+
+        }, 1400);
 
     }
 
@@ -49,62 +102,76 @@ export default class LetterManager {
 
     hide() {
 
-        this.overlay.classList.remove("show");
+        if (!this.isOpen) return;
 
-        this.envelope.classList.remove("show");
+        this.isOpen = false;
 
         this.typewriter.stop();
 
-    }
-
-    /******************************************************************
-     * Complete Animation
-     ******************************************************************/
-
-    startAnimation() {
+        this.envelope.classList.remove("open");
 
         setTimeout(() => {
 
-            this.envelope.classList.add("open");
+            this.overlay.classList.remove("show");
 
-        }, 800);
+        }, 400);
 
-        setTimeout(() => {
+        this.text.textContent = "";
 
-            this.startTyping();
+        // Restore music
+        if (this.audioManager) {
 
-        }, 1800);
+            this.audioManager.restoreMusic();
+
+        }
 
     }
 
     /******************************************************************
-     * Typing
+     * Start Typing
      ******************************************************************/
 
     startTyping() {
 
         this.title.textContent = "My Deedah ❤️";
 
+        const message = `Happy Birthday, my love ❤️
+
+Today isn't just another day.
+
+It's the day Allah chose to bless this world with someone incredibly special.
+
+Every smile you give brightens my life.
+Every prayer you make inspires me.
+
+Thank you for loving me.
+Thank you for believing in me.
+
+I pray Allah grants you happiness,
+good health,
+long life,
+barakah,
+and Jannatul Firdaus.
+
+May every dream in your heart come true.
+
+No matter where life takes us...
+
+You will always be my favourite person.
+
+Happy Birthday My Deedah ❤️
+
+Forever Yours,
+
+Senior MM ❤️`;
+
         this.typewriter.type(
 
             this.text,
 
-            `Happy Birthday, my love ❤️
+            message,
 
-Today is your special day.
-
-May Allah continue to protect you,
-guide you,
-bless you,
-and fill your life with endless happiness.
-
-Thank you for being the most beautiful gift in my life.
-
-I love you more than words can ever describe.
-
-Happy Birthday, My Deedah ❤️`,
-
-            40
+            35
 
         );
 
