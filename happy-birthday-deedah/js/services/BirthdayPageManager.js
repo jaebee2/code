@@ -1,45 +1,33 @@
 /******************************************************************************
  * File Name : BirthdayPageManager.js
  * Project   : Happy Birthday My Deedah ❤️
- * Version   : 5.0.0
+ * Author    : Jibril Bulama & ChatGPT
+ * Version   : 3.0.0
  ******************************************************************************/
 
 import TypewriterManager from "./TypewriterManager.js";
 
 export default class BirthdayPageManager {
 
-    constructor(screenManager, letterManager) {
+    constructor(screenManager) {
 
         this.screenManager = screenManager;
-        this.letterManager = letterManager;
 
         this.typewriter = new TypewriterManager();
 
-        /*********************************************************
-         * Hero
-         *********************************************************/
-
+        // Hero
         this.heroCard = document.querySelector(".hero-card");
 
-        /*********************************************************
-         * Titles
-         *********************************************************/
-
+        // Titles
         this.mainTitle = document.getElementById("birthday-main-title");
         this.secondTitle = document.getElementById("birthday-second-title");
         this.nameTitle = document.getElementById("birthday-name");
         this.dateTitle = document.getElementById("birthday-date");
 
-        /*********************************************************
-         * Button
-         *********************************************************/
-
+        // Button
         this.button = document.getElementById("open-letter-btn");
 
-        /*********************************************************
-         * Decorations
-         *********************************************************/
-
+        // Decoration Containers
         this.heartsContainer = document.querySelector(".floating-hearts");
         this.starsContainer = document.querySelector(".floating-stars");
 
@@ -48,9 +36,9 @@ export default class BirthdayPageManager {
 
     }
 
-    /*********************************************************
-     * Show Birthday Screen
-     *********************************************************/
+    /**********************************************************************
+     * Show Birthday Page
+     **********************************************************************/
 
     show() {
 
@@ -78,23 +66,15 @@ export default class BirthdayPageManager {
 
     }
 
-    /*********************************************************
-     * Reset
-     *********************************************************/
+    /**********************************************************************
+     * Reset Screen
+     **********************************************************************/
 
     reset() {
 
-        if (this.heroCard) {
+        this.heroCard.classList.remove("show");
 
-            this.heroCard.classList.remove("show");
-
-        }
-
-        if (this.button) {
-
-            this.button.classList.remove("show");
-
-        }
+        this.button.classList.remove("show");
 
         this.mainTitle.textContent = "";
         this.secondTitle.textContent = "";
@@ -103,9 +83,9 @@ export default class BirthdayPageManager {
 
     }
 
-    /*********************************************************
+    /**********************************************************************
      * Hero Animation
-     *********************************************************/
+     **********************************************************************/
 
     startHeroAnimation() {
 
@@ -119,15 +99,15 @@ export default class BirthdayPageManager {
 
             this.typeMainTitle();
 
-        }, 1000);
+        },1000);
 
     }
 
-    /*********************************************************
+    /**********************************************************************
      * HAPPY
-     *********************************************************/
+     **********************************************************************/
 
-    typeMainTitle() {
+    typeMainTitle(){
 
         this.typewriter.type(
 
@@ -137,7 +117,7 @@ export default class BirthdayPageManager {
 
             100,
 
-            () => {
+            ()=>{
 
                 this.typeSecondTitle();
 
@@ -147,11 +127,11 @@ export default class BirthdayPageManager {
 
     }
 
-    /*********************************************************
+    /**********************************************************************
      * BIRTHDAY
-     *********************************************************/
+     **********************************************************************/
 
-    typeSecondTitle() {
+    typeSecondTitle(){
 
         this.typewriter.type(
 
@@ -161,7 +141,7 @@ export default class BirthdayPageManager {
 
             100,
 
-            () => {
+            ()=>{
 
                 this.typeName();
 
@@ -171,11 +151,11 @@ export default class BirthdayPageManager {
 
     }
 
-    /*********************************************************
+    /**********************************************************************
      * NAME
-     *********************************************************/
+     **********************************************************************/
 
-    typeName() {
+    typeName(){
 
         this.typewriter.type(
 
@@ -185,7 +165,7 @@ export default class BirthdayPageManager {
 
             90,
 
-            () => {
+            ()=>{
 
                 this.typeDate();
 
@@ -195,11 +175,11 @@ export default class BirthdayPageManager {
 
     }
 
-    /*********************************************************
+    /**********************************************************************
      * DATE
-     *********************************************************/
+     **********************************************************************/
 
-    typeDate() {
+    typeDate(){
 
         this.typewriter.type(
 
@@ -209,7 +189,7 @@ export default class BirthdayPageManager {
 
             80,
 
-            () => {
+            ()=>{
 
                 this.showButton();
 
@@ -219,71 +199,72 @@ export default class BirthdayPageManager {
 
     }
 
-    /*********************************************************
-     * Show Button
-     *********************************************************/
+    /**********************************************************************
+     * Button
+     **********************************************************************/
 
-    showButton() {
-
-        if (!this.button) return;
+    showButton(){
 
         this.button.classList.add("show");
 
     }
 
-    /*********************************************************
+    /**********************************************************************
      * Floating Hearts
-     *********************************************************/
+     **********************************************************************/
 
-    createFloatingHearts() {
+    createFloatingHearts(){
 
-        if (!this.heartsContainer) return;
+        if(!this.heartsContainer) return;
 
-        setInterval(() => {
+        setInterval(()=>{
 
-            const heart = document.createElement("div");
+            const heart=document.createElement("div");
 
-            heart.className = "floating-heart";
+            heart.className="floating-heart";
 
-            heart.innerHTML = "❤️";
+            heart.innerHTML="❤️";
 
-            heart.style.left = Math.random() * 100 + "%";
+            heart.style.left=Math.random()*100+"%";
 
-            heart.style.fontSize = (18 + Math.random() * 24) + "px";
+            heart.style.fontSize=
+            (18+Math.random()*24)+"px";
 
-            heart.style.animationDuration = (6 + Math.random() * 5) + "s";
+            heart.style.animationDuration=
+            (6+Math.random()*5)+"s";
 
             this.heartsContainer.appendChild(heart);
 
-            setTimeout(() => {
+            setTimeout(()=>{
 
                 heart.remove();
 
-            }, 12000);
+            },12000);
 
-        }, 350);
+        },350);
 
     }
 
-    /*********************************************************
+    /**********************************************************************
      * Stars
-     *********************************************************/
+     **********************************************************************/
 
-    createStars() {
+    createStars(){
 
-        if (!this.starsContainer) return;
+        if(!this.starsContainer) return;
 
-        for (let i = 0; i < 40; i++) {
+        for(let i=0;i<40;i++){
 
-            const star = document.createElement("div");
+            const star=document.createElement("div");
 
-            star.className = "star";
+            star.className="star";
 
-            star.style.left = Math.random() * 100 + "%";
+            star.style.left=Math.random()*100+"%";
 
-            star.style.top = Math.random() * 100 + "%";
+            star.style.top=Math.random()*100+"%";
 
-            star.style.animationDelay = Math.random() * 4 + "s";
+            star.style.animationDelay=
+            Math.random()*4+"s";
 
             this.starsContainer.appendChild(star);
 

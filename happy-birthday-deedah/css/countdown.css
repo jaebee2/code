@@ -227,3 +227,56 @@ COUNTDOWN ANIMATION
     }
 
 }
+.audio-unlock{
+
+    margin-top:35px;
+
+    text-align:center;
+    align-self:center;
+
+}
+
+#audio-unlock-btn,
+#unlock-audio-btn{
+
+    padding:16px 32px;
+
+    border:none;
+
+    border-radius:50px;
+
+    background:linear-gradient(
+        135deg,
+        #ff4f8b,
+        #ff80ab
+    );
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    box-shadow:0 15px 35px rgba(255,79,139,.35);
+
+}
+
+#unlock-audio-btn:hover{
+
+    transform:translateY(-3px);
+
+}
+
+.audio-unlock p{
+
+    margin-top:12px;
+
+    color:#ddd;
+
+    font-size:15px;
+
+}

@@ -1,7 +1,7 @@
 /******************************************************************************
  * File Name : LetterManager.js
  * Project   : Happy Birthday My Deedah ❤️
- * Version   : 5.0.0
+ * Version   : 3.0.0
  ******************************************************************************/
 
 import TypewriterManager from "./TypewriterManager.js";
@@ -14,32 +14,31 @@ export default class LetterManager {
 
         this.typewriter = new TypewriterManager();
 
-        // Elements
         this.overlay = document.getElementById("letter-overlay");
         this.envelope = document.getElementById("envelope");
+
         this.title = document.getElementById("letter-title");
         this.text = document.getElementById("letter-text");
+
         this.closeBtn = document.getElementById("close-letter");
 
         this.isOpen = false;
 
-        this.registerEvents();
+        this.timers = [];
+
+        this.addEvents();
 
     }
 
     /******************************************************************
-     * Register Events
+     * Events
      ******************************************************************/
 
-    registerEvents() {
+    addEvents() {
 
         if (this.closeBtn) {
 
-            this.closeBtn.addEventListener("click", () => {
-
-                this.hide();
-
-            });
+            this.closeBtn.addEventListener("click", () => this.hide());
 
         }
 
@@ -57,6 +56,16 @@ export default class LetterManager {
 
         }
 
+        document.addEventListener("keydown", (e) => {
+
+            if (e.key === "Escape" && this.isOpen) {
+
+                this.hide();
+
+            }
+
+        });
+
     }
 
     /******************************************************************
@@ -69,8 +78,14 @@ export default class LetterManager {
 
         this.isOpen = true;
 
-        // Lower the background music
-        if (this.audioManager) {
+        this.clearTimers();
+
+        this.typewriter.stop();
+
+        this.title.textContent = "";
+        this.text.textContent = "";
+
+        if (this.audioManager?.duckMusic) {
 
             this.audioManager.duckMusic();
 
@@ -78,21 +93,41 @@ export default class LetterManager {
 
         this.overlay.classList.add("show");
 
-        this.envelope.classList.remove("open");
+        this.envelope.className = "";
 
-        this.text.textContent = "";
+        void this.envelope.offsetWidth;
 
-        setTimeout(() => {
+        this.envelope.classList.add("drop");
+
+        this.timers.push(setTimeout(() => {
+
+            this.envelope.classList.add("bounce");
+
+        }, 800));
+
+        this.timers.push(setTimeout(() => {
+
+            this.envelope.classList.add("glow");
+
+        }, 1200));
+
+        this.timers.push(setTimeout(() => {
 
             this.envelope.classList.add("open");
 
-        }, 600);
+        }, 1800));
 
-        setTimeout(() => {
+        this.timers.push(setTimeout(() => {
+
+            this.envelope.classList.add("show-letter");
+
+        }, 2400));
+
+        this.timers.push(setTimeout(() => {
 
             this.startTyping();
 
-        }, 1400);
+        }, 3100));
 
     }
 
@@ -106,20 +141,28 @@ export default class LetterManager {
 
         this.isOpen = false;
 
+        this.clearTimers();
+
         this.typewriter.stop();
 
-        this.envelope.classList.remove("open");
+        this.envelope.classList.remove(
+            "show-letter",
+            "open",
+            "glow",
+            "bounce",
+            "drop"
+        );
 
-        setTimeout(() => {
+        this.timers.push(setTimeout(() => {
 
             this.overlay.classList.remove("show");
 
-        }, 400);
+            this.title.textContent = "";
+            this.text.textContent = "";
 
-        this.text.textContent = "";
+        }, 500));
 
-        // Restore music
-        if (this.audioManager) {
+        if (this.audioManager?.restoreMusic) {
 
             this.audioManager.restoreMusic();
 
@@ -137,23 +180,23 @@ export default class LetterManager {
 
         const message = `Happy Birthday, my love ❤️
 
-Today isn't just another day.
+Today is not just another day.
 
-It's the day Allah chose to bless this world with someone incredibly special.
+It is the day Allah blessed this world with someone truly special.
 
 Every smile you give brightens my life.
-Every prayer you make inspires me.
+
+Every prayer you make strengthens me.
 
 Thank you for loving me.
+
 Thank you for believing in me.
 
 I pray Allah grants you happiness,
 good health,
 long life,
-barakah,
+success,
 and Jannatul Firdaus.
-
-May every dream in your heart come true.
 
 No matter where life takes us...
 
@@ -174,6 +217,18 @@ Senior MM ❤️`;
             35
 
         );
+
+    }
+
+    /******************************************************************
+     * Clear Timers
+     ******************************************************************/
+
+    clearTimers() {
+
+        this.timers.forEach(timer => clearTimeout(timer));
+
+        this.timers = [];
 
     }
 

@@ -1,710 +1,928 @@
 /******************************************************************************
-RESPONSIVE DESIGN
+RESPONSIVE
+Project : Happy Birthday My Deedah ❤️
 ******************************************************************************/
 
 /******************************************************************************
-Large Desktop (1400px+)
+RESET
 ******************************************************************************/
 
-@media (min-width:1400px){
+*{
 
-.hero-card{
-
-    max-width:700px;
+    box-sizing:border-box;
 
 }
 
-.countdown-card{
+img{
 
-    max-width:900px;
+    max-width:100%;
 
-}
-
-#envelope{
-
-    transform:scale(1);
+    height:auto;
 
 }
 
-}
+video{
 
-/******************************************************************************
-Laptop
-******************************************************************************/
-
-@media (max-width:1200px){
-
-.hero-card{
-
-    width:90%;
-
-}
-
-.countdown-card{
-
-    width:90%;
-
-}
-
-.balloon{
-
-    width:120px;
-
-}
+    max-width:100%;
 
 }
 
 /******************************************************************************
-Tablet
+CONTAINER
 ******************************************************************************/
 
-@media (max-width:992px){
+#app{
 
-body{
+    width:100%;
+
+    min-height:100vh;
 
     overflow-x:hidden;
 
 }
 
-.hero-card{
+/******************************************************************************
+TEXT
+******************************************************************************/
 
-    width:92%;
+h1{
 
-    padding:35px 25px;
-
-}
-
-#birthday-photo{
-
-    width:220px;
-
-    height:220px;
+    line-height:1.15;
 
 }
 
-#birthday-main-title{
+p{
 
-    font-size:4rem;
-
-}
-
-#birthday-second-title{
-
-    font-size:4rem;
-
-}
-
-#birthday-name{
-
-    font-size:2rem;
-
-}
-
-.balloon{
-
-    width:90px;
-
-}
-
-.countdown-boxes{
-
-    gap:15px;
-
-}
-
-.count-box{
-
-    width:100px;
-
-    height:100px;
-
-}
-
-.count-box span{
-
-    font-size:2.5rem;
-
-}
-
-#envelope{
-
-    transform:scale(.90);
-
-}
+    line-height:1.6;
 
 }
 
 /******************************************************************************
-Large Phones
+BUTTONS
 ******************************************************************************/
-
-@media (max-width:768px){
-
-.loading-title{
-
-    font-size:3rem;
-
-}
-
-.loading-subtitle{
-
-    font-size:1.8rem;
-
-}
-
-.loading-text{
-
-    font-size:1rem;
-
-}
-
-.progress-bar{
-
-    width:90%;
-
-}
-
-.countdown-card{
-
-    width:95%;
-
-    padding:30px 20px;
-
-}
-
-.countdown-title{
-
-    font-size:2.2rem;
-
-}
-
-.countdown-description{
-
-    font-size:1rem;
-
-}
-
-.countdown-boxes{
-
-    display:grid;
-
-    grid-template-columns:repeat(2,1fr);
-
-    gap:18px;
-
-}
-
-.count-box{
-
-    width:100%;
-
-}
-
-.hero-card{
-
-    width:95%;
-
-    padding:25px 18px;
-
-}
-
-#birthday-photo{
-
-    width:180px;
-
-    height:180px;
-
-}
-
-#birthday-main-title{
-
-    font-size:3rem;
-
-}
-
-#birthday-second-title{
-
-    font-size:3rem;
-
-}
-
-#birthday-name{
-
-    font-size:1.8rem;
-
-}
-
-#birthday-date{
-
-    font-size:1rem;
-
-}
-
-#open-letter-btn{
-
-    width:100%;
-
-    padding:18px;
-
-    font-size:18px;
-
-}
-
-.balloon{
-
-    width:70px;
-
-}
-
-.balloon-left{
-
-    left:-10px;
-
-}
-
-.balloon-right{
-
-    right:-10px;
-
-}
-
-#birthday-title h1{
-
-    font-size:3rem;
-
-}
-
-#birthday-title h2{
-
-    font-size:2rem;
-
-}
-
-#intro-video{
-
-    object-fit:cover;
-
-}
-
-#fireworks-canvas{
-
-    width:100vw;
-
-    height:100vh;
-
-}
-
-}
-/******************************************************************************
-LOVE LETTER
-******************************************************************************/
-
-@media (max-width:768px){
-
-#letter-overlay{
-
-    padding:20px;
-
-}
-
-#envelope{
-
-    width:100%;
-
-    max-width:430px;
-
-    height:300px;
-
-    transform:scale(1);
-
-}
-
-.letter{
-
-    width:92%;
-
-    height:84%;
-
-}
-
-.letter-paper{
-
-    padding:20px;
-
-}
-
-#letter-title{
-
-    font-size:34px;
-
-}
-
-#letter-text{
-
-    font-size:16px;
-
-    line-height:1.8;
-
-}
-
-#close-letter{
-
-    width:42px;
-
-    height:42px;
-
-    top:-15px;
-
-    right:-15px;
-
-    font-size:18px;
-
-}
-
-}
-
-/******************************************************************************
-SMALL PHONES
-******************************************************************************/
-
-@media (max-width:576px){
-
-.loading-heart{
-
-    font-size:60px;
-
-}
-
-.loading-title{
-
-    font-size:2.4rem;
-
-}
-
-.loading-subtitle{
-
-    font-size:1.4rem;
-
-}
-
-.loading-text{
-
-    font-size:.95rem;
-
-}
-
-.progress-bar{
-
-    height:10px;
-
-}
-
-.countdown-title{
-
-    font-size:1.8rem;
-
-}
-
-.countdown-heading{
-
-    font-size:1rem;
-
-}
-
-.countdown-description{
-
-    font-size:.9rem;
-
-}
-
-.count-box{
-
-    height:90px;
-
-}
-
-.count-box span{
-
-    font-size:2rem;
-
-}
-
-.count-box small{
-
-    font-size:.8rem;
-
-}
-
-.hero-card{
-
-    border-radius:25px;
-
-    padding:20px 15px;
-
-}
-
-#birthday-photo{
-
-    width:150px;
-
-    height:150px;
-
-}
-
-#birthday-main-title{
-
-    font-size:2.5rem;
-
-}
-
-#birthday-second-title{
-
-    font-size:2.5rem;
-
-}
-
-#birthday-name{
-
-    font-size:1.4rem;
-
-}
-
-#birthday-date{
-
-    font-size:.9rem;
-
-}
-
-#open-letter-btn{
-
-    font-size:16px;
-
-    padding:16px;
-
-}
-
-.balloon{
-
-    width:55px;
-
-}
-
-#birthday-title h1{
-
-    font-size:2.3rem;
-
-}
-
-#birthday-title h2{
-
-    font-size:1.5rem;
-
-}
-
-}
-
-/******************************************************************************
-EXTRA SMALL DEVICES
-******************************************************************************/
-
-@media (max-width:400px){
-
-.hero-card{
-
-    width:97%;
-
-    padding:18px 12px;
-
-}
-
-#birthday-photo{
-
-    width:130px;
-
-    height:130px;
-
-}
-
-#birthday-main-title{
-
-    font-size:2rem;
-
-}
-
-#birthday-second-title{
-
-    font-size:2rem;
-
-}
-
-#birthday-name{
-
-    font-size:1.2rem;
-
-}
-
-#birthday-date{
-
-    font-size:.8rem;
-
-}
-
-.countdown-boxes{
-
-    gap:12px;
-
-}
-
-.count-box{
-
-    height:80px;
-
-}
-
-.count-box span{
-
-    font-size:1.6rem;
-
-}
-
-.loading-title{
-
-    font-size:2rem;
-
-}
-
-.loading-subtitle{
-
-    font-size:1.2rem;
-
-}
-
-.loading-heart{
-
-    font-size:50px;
-
-}
-
-#envelope{
-
-    height:250px;
-
-}
-
-#letter-title{
-
-    font-size:28px;
-
-}
-
-#letter-text{
-
-    font-size:14px;
-
-}
-
-}
-
-/******************************************************************************
-LANDSCAPE PHONES
-******************************************************************************/
-
-@media (max-height:500px) and (orientation:landscape){
-
-body{
-
-    overflow-y:auto;
-
-}
-
-.hero-card{
-
-    margin:20px auto;
-
-}
-
-#birthday-photo{
-
-    width:120px;
-
-    height:120px;
-
-}
-
-.balloon{
-
-    display:none;
-
-}
-
-#birthday-main-title{
-
-    font-size:2rem;
-
-}
-
-#birthday-second-title{
-
-    font-size:2rem;
-
-}
-
-#birthday-name{
-
-    font-size:1.2rem;
-
-}
-
-.countdown-card{
-
-    margin:20px auto;
-
-}
-
-}
-
-/******************************************************************************
-TOUCH DEVICES
-******************************************************************************/
-
-@media (hover:none){
 
 button{
 
-    min-height:50px;
+    touch-action:manipulation;
 
 }
-
-button:hover{
-
-    transform:none;
-
-}
-
-}
-
 /******************************************************************************
-PERFORMANCE
+PHONES
 ******************************************************************************/
 
-@media (max-width:768px){
+@media (max-width:480px){
 
-.floating-heart{
+    body{
 
-    font-size:18px !important;
+        overflow-x:hidden;
+
+    }
+
+    #loading-screen{
+
+        padding:20px;
+
+    }
+
+    .loading-title{
+
+        font-size:34px;
+
+    }
+
+    .loading-subtitle{
+
+        font-size:20px;
+
+    }
+
+    .loading-text{
+
+        font-size:16px;
+
+    }
+
+}
+/* =========================================================
+   LOADING SCREEN
+========================================================= */
+
+@media screen and (max-width:768px){
+
+    #loading-screen{
+
+        padding:20px;
+
+    }
+
+    .loading-container{
+
+        width:100%;
+
+        max-width:420px;
+
+        margin:auto;
+
+        text-align:center;
+
+    }
+
+    .loading-heart{
+
+        font-size:70px;
+
+    }
+
+    .loading-title{
+
+        font-size:2rem;
+
+        line-height:1.2;
+
+    }
+
+    .loading-subtitle{
+
+        font-size:1.3rem;
+
+    }
+
+    .loading-text{
+
+        font-size:1rem;
+
+        margin-top:10px;
+
+    }
+
+    .progress-bar{
+
+        width:100%;
+
+        max-width:320px;
+
+        margin:30px auto 0;
+
+    }
 
 }
 
-.star{
+@media screen and (max-width:480px){
 
-    transform:scale(.8);
+    .loading-heart{
+
+        font-size:60px;
+
+    }
+
+    .loading-title{
+
+        font-size:1.7rem;
+
+    }
+
+    .loading-subtitle{
+
+        font-size:1.1rem;
+
+    }
+
+    .loading-text{
+
+        font-size:.9rem;
+
+    }
+
+}
+/* =========================================================
+   COUNTDOWN SCREEN
+========================================================= */
+
+@media screen and (max-width:768px){
+
+    #countdown-screen{
+
+        padding:20px;
+
+    }
+
+    .countdown-card{
+
+        width:100%;
+
+        max-width:500px;
+
+        padding:30px 20px;
+
+        border-radius:25px;
+
+    }
+
+    .countdown-heading{
+
+        font-size:1rem;
+
+    }
+
+    .countdown-title{
+
+        font-size:2rem;
+
+        line-height:1.2;
+
+    }
+
+    .countdown-description{
+
+        font-size:.95rem;
+
+        margin-top:15px;
+
+    }
+
+    .countdown-boxes{
+
+        display:grid;
+
+        grid-template-columns:repeat(2,1fr);
+
+        gap:18px;
+
+        margin-top:35px;
+
+    }
+
+    .count-box{
+
+        width:100%;
+
+        min-height:110px;
+
+    }
+
+    .count-box span{
+
+        font-size:2rem;
+
+    }
+
+    .count-box small{
+
+        font-size:.9rem;
+
+    }
 
 }
 
-canvas{
+@media screen and (max-width:480px){
 
-    image-rendering:auto;
+    .countdown-card{
+
+        padding:25px 15px;
+
+    }
+
+    .countdown-title{
+
+        font-size:1.6rem;
+
+    }
+
+    .count-box{
+
+        min-height:95px;
+
+    }
+
+    .count-box span{
+
+        font-size:1.6rem;
+
+    }
 
 }
+/* =========================================================
+   CELEBRATION SCREEN
+========================================================= */
+
+@media screen and (max-width:992px){
+
+    #celebration-screen{
+
+        overflow:hidden;
+
+        padding:20px;
+
+    }
+
+   #intro-video{
+
+   display: flex;
+}
+
+    #birthday-title{
+
+        width:100%;
+
+        padding:20px;
+
+        text-align:center;
+
+        z-index:100;
+
+    }
+
+    #birthday-title h1{
+
+        font-size:3rem;
+
+        line-height:1;
+
+    }
+
+    #birthday-title h2{
+
+        margin-top:15px;
+
+        font-size:2rem;
+
+    }
+
+   #fireworks-canvas{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+
+    height:100%;
+
+    pointer-events:none;
+
+    z-index:2;
+
+}
+
+}
+
+@media screen and (max-width:768px){
+
+    #birthday-title{
+
+        margin-top:20px;
+
+    }
+
+    #birthday-title h1{
+
+        font-size:2.4rem;
+
+    }
+
+    #birthday-title h2{
+
+        font-size:1.6rem;
+
+    }
+
+}
+
+@media screen and (max-width:480px){
+
+    #birthday-title{
+
+        padding:10px;
+
+    }
+
+    #birthday-title h1{
+
+        font-size:2rem;
+
+    }
+
+    #birthday-title h2{
+
+        font-size:1.3rem;
+
+    }
+
+}
+#flash-overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    background:white;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    z-index:999;
+
+}
+/* =========================================================
+   BIRTHDAY SCREEN
+========================================================= */
+
+@media screen and (max-width:992px){
+
+    #birthday-screen{
+
+        width:100%;
+
+        min-height:100vh;
+
+        padding:30px 20px 80px;
+
+        overflow-x:hidden;
+
+    }
+
+    .hero-card{
+
+        width:100%;
+
+        max-width:700px;
+
+        margin:auto;
+
+        padding:35px 25px;
+
+        border-radius:30px;
+
+    }
+
+}
+@media screen and (max-width:768px){
+
+    .profile-container{
+
+        width:220px;
+
+        height:220px;
+
+        margin:auto;
+
+    }
+
+    #birthday-photo{
+
+        width:100%;
+
+        height:100%;
+
+        object-fit:cover;
+
+        border-radius:50%;
+
+    }
+
+}
+
+@media screen and (max-width:480px){
+
+    .profile-container{
+
+        width:180px;
+
+        height:180px;
+
+    }
+
+}
+@media screen and (max-width:768px){
+
+    #birthday-main-title{
+
+        font-size:3rem;
+
+        line-height:1;
+
+    }
+
+    #birthday-second-title{
+
+        font-size:3rem;
+
+        line-height:1;
+
+    }
+
+    #birthday-name{
+
+        font-size:1.7rem;
+
+        margin-top:20px;
+
+    }
+
+    #birthday-date{
+
+        font-size:1rem;
+
+        margin-top:15px;
+
+    }
+
+}
+
+@media screen and (max-width:480px){
+
+    #birthday-main-title{
+
+        font-size:2.3rem;
+
+    }
+
+    #birthday-second-title{
+
+        font-size:2.3rem;
+
+    }
+
+    #birthday-name{
+
+        font-size:1.3rem;
+
+    }
+
+}
+@media screen and (max-width:768px){
+
+    #open-letter-btn{
+
+        width:100%;
+
+        max-width:320px;
+
+        margin:30px auto 0;
+
+        display:flex;
+
+        justify-content:center;
+
+        align-items:center;
+
+        padding:18px;
+
+        font-size:1rem;
+
+    }
+
+}
+
+@media screen and (max-width:480px){
+
+    #open-letter-btn{
+
+        font-size:.95rem;
+
+        padding:16px;
+
+    }
+
+}
+@media screen and (max-width:768px){
+
+    .balloon{
+
+        width:90px;
+
+    }
+
+    .balloon-left{
+
+        left:-20px;
+
+        top:-20px;
+
+    }
+
+    .balloon-right{
+
+        right:-20px;
+
+        top:-20px;
+
+    }
+
+}
+
+@media screen and (max-width:480px){
+
+    .balloon{
+
+        width:70px;
+
+    }
+
+}
+@media screen and (max-width:768px){
+
+    .floating-hearts{
+
+        transform:scale(.8);
+
+    }
+
+    .floating-stars{
+
+        transform:scale(.8);
+
+    }
+
+}
+
+@media screen and (max-width:480px){
+
+    .floating-hearts{
+
+        transform:scale(.6);
+
+    }
+
+    .floating-stars{
+
+        transform:scale(.6);
+
+    }
+
+}
+.hero-card{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+}
+/* =========================================================
+   LOVE LETTER RESPONSIVE
+========================================================= */
+
+@media screen and (max-width:768px){
+
+    #letter-overlay{
+
+        padding:20px;
+
+        align-items:center;
+
+        justify-content:center;
+
+    }
+
+}
+@media screen and (max-width:768px){
+
+    #envelope{
+
+        width:95vw;
+
+        max-width:500px;
+
+        height:340px;
+
+    }
+
+}
+
+@media screen and (max-width:480px){
+
+    #envelope{
+
+        width:96vw;
+
+        height:280px;
+
+    }
+
+}
+
+@media screen and (max-width:360px){
+
+    #envelope{
+
+        width:98vw;
+
+        height:250px;
+
+    }
+
+}
+@media screen and (max-width:768px){
+
+    .letter{
+
+        width:90%;
+
+        height:380px;
+
+    }
+
+}
+
+@media screen and (max-width:480px){
+
+    .letter{
+
+        width:92%;
+
+        height:300px;
+
+    }
+
+}
+
+@media screen and (max-width:360px){
+
+    .letter{
+
+        width:94%;
+
+        height:260px;
+
+    }
+
+}
+@media screen and (max-width:768px){
+
+    .paper-header{
+
+        padding:20px;
+
+    }
+
+    #letter-title{
+
+        font-size:2rem;
+
+    }
+
+    .gold-line{
+
+        width:140px;
+
+    }
+
+}
+
+@media screen and (max-width:480px){
+
+    #letter-title{
+
+        font-size:1.6rem;
+
+    }
+
+}
+@media screen and (max-width:768px){
+
+    .paper-body{
+
+        padding:20px;
+
+    }
+
+    #letter-text{
+
+        font-size:16px;
+
+        line-height:1.8;
+
+    }
+
+}
+
+@media screen and (max-width:480px){
+
+    #letter-text{
+
+        font-size:15px;
+
+        line-height:1.7;
+
+    }
+
+}
+
+@media screen and (max-width:360px){
+
+    #letter-text{
+
+        font-size:14px;
+
+        line-height:1.6;
+
+    }
+
+}
+@media screen and (max-width:768px){
+
+    .paper-footer{
+
+        padding:18px;
+
+    }
+
+    .paper-footer h3{
+
+        font-size:28px;
+
+    }
+
+    .paper-footer span{
+
+        font-size:14px;
+
+    }
+
+}
+
+@media screen and (max-width:480px){
+
+    .paper-footer h3{
+
+        font-size:22px;
+
+    }
+
+}
+@media screen and (max-width:768px){
+
+    #close-letter{
+
+        width:40px;
+
+        height:40px;
+
+        font-size:18px;
+
+        top:15px;
+
+        right:15px;
+
+    }
+
+}
+
+@media screen and (max-width:480px){
+
+    #close-letter{
+
+        width:36px;
+
+        height:36px;
+
+        font-size:16px;
+
+    }
+
+}
+@media screen and (max-width:768px){
+
+    #envelope.open .letter{
+
+        transform:
+            translateX(-50%)
+            translateY(-220px)
+            scale(1);
+
+    }
+
+}
+
+@media screen and (max-width:480px){
+
+    #envelope.open .letter{
+
+        transform:
+            translateX(-50%)
+            translateY(-180px)
+            scale(1);
+
+    }
+
+}
+
+@media screen and (max-width:360px){
+
+    #envelope.open .letter{
+
+        transform:
+            translateX(-50%)
+            translateY(-150px)
+            scale(1);
+
+    }
 
 }
