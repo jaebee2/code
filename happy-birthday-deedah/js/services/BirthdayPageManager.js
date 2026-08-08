@@ -113,7 +113,7 @@ export default class BirthdayPageManager {
 
             this.mainTitle,
 
-            "HAPPY",
+            "🥳HBD🥳",
 
             100,
 
@@ -137,7 +137,7 @@ export default class BirthdayPageManager {
 
             this.secondTitle,
 
-            "BIRTHDAY",
+            "MY DEEDAH ",
 
             100,
 
@@ -161,7 +161,7 @@ export default class BirthdayPageManager {
 
             this.nameTitle,
 
-            "MY DEEDAH ❤️",
+            " ❤️❤️❤️",
 
             90,
 
@@ -175,29 +175,7 @@ export default class BirthdayPageManager {
 
     }
 
-    /**********************************************************************
-     * DATE
-     **********************************************************************/
-
-    typeDate(){
-
-        this.typewriter.type(
-
-            this.dateTitle,
-
-            "31st August 2026",
-
-            80,
-
-            ()=>{
-
-                this.showButton();
-
-            }
-
-        );
-
-    }
+  
 
     /**********************************************************************
      * Button
