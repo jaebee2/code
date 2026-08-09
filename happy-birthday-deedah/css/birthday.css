@@ -2,52 +2,196 @@
 BIRTHDAY SCREEN
 ******************************************************************************/
 
-#birthday-screen{
-background-image: url("images/background.png");
-    position:relative;
+/* ==========================================
+   BIRTHDAY SCREEN LAYOUT
+========================================== */
 
-    width:100%;
+#birthday-screen {
+    position: relative;
 
-    min-height:100vh;
+   
 
-    display:flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    justify-content:center;
+    overflow: hidden;
 
-    align-items:center;
+    top: 0px;
+    padding-right: 250px;
 
-    overflow:hidden;
+    background-image:url("/images/jibril.gif");
+       
+        
 
-    padding:40px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 40px;
+    
+}
+
+
+/* ==========================================
+   MAIN LAYOUT
+========================================== */
+/* ============================================================
+   BIRTHDAY LAYOUT — BLENDED BACKGROUND
+   ============================================================ */
+
+.birthday-layout {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 35px;
+
+    padding: 40px;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+    /* Main romantic background */
+
+
+
+/* ============================================================
+   SOFT LIGHT OVER ENTIRE BACKGROUND
+   ============================================================ */
+
+.birthday-layout::before {
+    content: "";
+
+    position: absolute;
+
+    inset: -20%;
+
+    pointer-events: none;
+
+    z-index: 0;
 
     background:
-        linear-gradient(
-            135deg,
-            #fff8fb 0%,
-            #ffe7f3 45%,
-            #fffafc 100%
+        radial-gradient(
+            ellipse at center,
+            rgba(255, 255, 255, 0.18),
+            transparent 60%
         );
 
+    filter: blur(30px);
 }
 
-/******************************************************************************
-FLOATING BACKGROUND
-******************************************************************************/
 
-.floating-hearts,
-.floating-stars{
+/* ============================================================
+   LEFT PHOTO AREA
+   ============================================================ */
 
-    position:absolute;
+.birthday-photo-side {
+    position: relative;
 
-    inset:0;
+    width: 45%;
+    min-width: 320px;
+    min-height: 650px;
 
-    overflow:hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    pointer-events:none;
+    flex-shrink: 0;
 
-    z-index:1;
-
+    z-index: 5;
 }
+
+
+/* ============================================================
+   PORTRAIT GLOW — STRONGER BLENDING
+   ============================================================ */
+
+.photo-glow {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 520px;
+    height: 520px;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 175, 210, 0.65) 0%,
+            rgba(255, 185, 215, 0.40) 25%,
+            rgba(255, 195, 220, 0.18) 48%,
+            transparent 72%
+        );
+
+    filter: blur(25px);
+
+    opacity: 0.9;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    animation: photoGlow 4s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   PORTRAIT
+   ============================================================ */
+
+.birthday-side-photo {
+    position: relative;
+
+    z-index: 3;
+
+    display: block;
+
+    width: min(500px, 100%);
+
+    max-width: 100%;
+
+    max-height: 750px;
+
+    height: auto;
+
+    object-fit: contain;
+
+    object-position: center bottom;
+
+    opacity: 1;
+
+    visibility: visible;
+
+    filter:
+        drop-shadow(
+            0 20px 30px
+            rgba(50, 20, 50, 0.22)
+        )
+
+        drop-shadow(
+            0 0 25px
+            rgba(255, 170, 210, 0.22)
+        );
+
+    animation:
+        birthdayPhotoFloat
+        5s
+        ease-in-out
+        infinite;
+}
+
 
 /******************************************************************************
 HERO CARD
@@ -61,11 +205,8 @@ HERO CARD
 .hero-card {
     position: relative;
     z-index: 10;
+    height: 1100px;
 
-    width: min(92vw, 760px);
-    max-width: 760px;
-
-    min-height: auto;
 
     display: flex;
     flex-direction: column;
@@ -74,13 +215,19 @@ HERO CARD
 
     box-sizing: border-box;
 
-    padding: 45px 45px 40px;
 
     border-radius: 40px;
 
     background-color: rgba(255, 255, 255, 0.72);
 
-    background-image: url("../images/background.png");
+    background-image:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.18),
+            transparent 45%
+        ),
+        url("../images/background.png");
+
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -88,13 +235,17 @@ HERO CARD
     backdrop-filter: blur(22px);
     -webkit-backdrop-filter: blur(22px);
 
+    border: 1px solid rgba(255, 255, 255, 0.45);
+
     box-shadow:
-        0 25px 80px rgba(0, 0, 0, 0.18),
-        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        0 20px 60px rgba(80, 35, 70, 0.18),
+        0 5px 25px rgba(255, 150, 190, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.65);
 
     overflow: hidden;
-}
 
+    animation: heroFade 1s ease;
+}
 
 /* ============================================================
    GLASS SHINE
@@ -133,9 +284,11 @@ HERO CARD
 
 .profile-container {
     position: relative;
+    top: -120px;
 
     width: 250px;
     height: 250px;
+    padding: 0;
 
     flex-shrink: 0;
 
@@ -205,6 +358,7 @@ HERO CARD
     width: 100%;
 
     margin: 30px 0 0;
+    top: -145px;
 
     font-size: clamp(2.5rem, 7vw, 4rem);
 
@@ -232,6 +386,7 @@ HERO CARD
     width: 100%;
 
     margin: 5px 0 0;
+    top: -145px;
 
     font-size: clamp(2.3rem, 6.5vw, 3.7rem);
 
@@ -257,6 +412,7 @@ HERO CARD
     width: 100%;
 
     margin: 18px 0 0;
+    top: -145px;
 
     font-family: "Dancing Script", cursive;
 
@@ -299,7 +455,8 @@ HERO CARD
 
 #open-letter-btn {
     margin-top: 25px;
-
+    top: -145px
+;
     padding: 15px 38px;
 
     min-width: 220px;
@@ -670,27 +827,6 @@ DECORATIVE GLOW
 SPARKLES
 ******************************************************************************/
 
-.sparkle{
-
-    position:absolute;
-
-    width:10px;
-
-    height:10px;
-
-    background:#fff;
-
-    border-radius:50%;
-
-    box-shadow:
-
-        0 0 15px #fff;
-
-    animation:
-
-        sparkle 3s infinite;
-
-}
 /******************************************************************************
 PROFILE FLOAT
 ******************************************************************************/
@@ -999,308 +1135,245 @@ PHOTO SHINE
 
 }
 /******************************************************************************
-LARGE DESKTOPS
+RESPONSIVE LAYOUT
 ******************************************************************************/
 
-@media (min-width:1600px){
-
-    .hero-card{
-
-        max-width:1400px;
-
-        min-height:800px;
-
-        padding:90px;
-
+/* Large desktop */
+@media (min-width: 1600px) {
+    .hero-card {
+        max-width: 900px;
+        padding: 70px 70px 60px;
     }
 
-    .profile-container{
-
-        width:380px;
-
-        height:380px;
-
+    .profile-container {
+        width: 320px;
+        height: 320px;
     }
-
-    #birthday-main-title{
-
-        font-size:2rem;
-
-    }
-
-    #birthday-second-title{
-
-        font-size:2rem;
-
-    }
-
-    #birthday-name{
-
-        font-size:1.5rem;
-
-    }
-
 }
 
-/******************************************************************************
-TABLETS
-******************************************************************************/
-
-@media (max-width:992px){
-
-    #birthday-screen{
-
-        padding:25px;
-
+/* Desktop */
+@media (min-width: 1200px) {
+    .birthday-layout {
+        gap: 20px;
     }
 
-    .hero-card{
-
-        width:100%;
-
-        min-height:auto;
-
-        padding:45px 30px;
-
+    .birthday-photo-side {
+        width: 48%;
     }
 
-    .profile-container{
-
-        width:260px;
-
-        height:260px;
-
+    .hero-card {
+        width: 52%;
     }
-
-    #birthday-main-title{
-
-        font-size:3.5rem;
-
-    }
-
-    #birthday-second-title{
-
-        font-size:3rem;
-
-    }
-
-    #birthday-name{
-
-        font-size:2.6rem;
-
-    }
-
-    #birthday-date{
-
-        font-size:1.05rem;
-
-    }
-
-    .balloon{
-
-        width:90px;
-        margin-left: 20%;
-    }
-
 }
 
-/******************************************************************************
-MOBILE
-******************************************************************************/
-
-@media (max-width:768px){
-
-    #birthday-screen{
-
-        padding:20px 15px;
-
+/* Tablet / smaller desktop */
+@media (max-width: 1000px) {
+    #birthday-screen {
+        padding: 25px;
     }
 
-    .hero-card{
-
-        width:100%;
-
-        border-radius:28px;
-
-        padding:30px 20px;
-
+    .birthday-layout {
+        gap: 15px;
+        padding: 30px 20px;
     }
 
-    .profile-container{
-
-        width:210px;
-
-        height:210px;
-
-        border-width:6px;
-
+    .birthday-photo-side {
+        width: 45%;
+        min-width: 280px;
     }
 
-    #birthday-main-title{
-
-        font-size:2.5rem;
-
-        letter-spacing:2px;
-
+    .birthday-side-photo {
+        width: 100%;
     }
 
-    #birthday-second-title{
-
-        font-size:2.2rem;
-
+    .hero-card {
+        width: 55%;
+        min-height: auto;
+        padding: 35px 25px;
     }
 
-    #birthday-name{
-
-        font-size:2rem;
-
+    .profile-container {
+        width: 230px;
+        height: 230px;
     }
 
-    #birthday-date{
-
-        font-size:.95rem;
-
+    .balloon {
+        width: 90px;
     }
-
-    #open-letter-btn{
-
-        width:100%;
-
-        max-width:320px;
-
-        padding:16px;
-
-        font-size:1rem;
-
-    }
-
-    .balloon{
-
-        width:70px;
-
-        opacity:.7;
-
-    }
-
-    .balloon-left{
-
-        top:15px;
-
-        left:10px;
-
-    }
-
-    .balloon-right{
-
-        top:15px;
-
-        right:10px;
-
-    }
-
 }
 
-/******************************************************************************
-SMALL PHONES
-******************************************************************************/
-
-@media (max-width:480px){
-
-    #birthday-screen{
-
-        padding:12px;
-
+/* Mobile */
+@media (max-width: 800px) {
+    #birthday-screen {
+        padding: 20px 15px;
     }
 
-    .hero-card{
-
-        padding:22px 15px;
-
-        border-radius:22px;
-
+    .birthday-layout {
+        flex-direction: column;
+        gap: 10px;
+        padding: 25px 15px;
     }
 
-    .profile-container{
-
-        width:170px;
-
-        height:170px;
-
+    .birthday-photo-side {
+        width: 100%;
+        min-width: 0;
+        min-height: 450px;
     }
 
-    #birthday-main-title{
-
-        font-size:1.9rem;
-
+    .birthday-side-photo {
+        width: min(380px, 90vw);
+        max-height: 500px;
     }
 
-    #birthday-second-title{
-
-        font-size:1.7rem;
-
+    .hero-card {
+        width: 100%;
+        max-width: 760px;
+        padding: 30px 20px;
+        border-radius: 28px;
     }
 
-    #birthday-name{
-
-        font-size:1.5rem;
-
+    .profile-container {
+        width: 210px;
+        height: 210px;
+        border-width: 6px;
     }
 
-    #birthday-date{
-
-        font-size:.85rem;
-
+    #birthday-main-title {
+        font-size: clamp(2.2rem, 8vw, 3.2rem);
+        letter-spacing: 1px;
     }
 
-    #open-letter-btn{
-
-        font-size:.9rem;
-
-        padding:14px;
-
+    #birthday-second-title {
+        font-size: clamp(2rem, 7vw, 3rem);
     }
 
-    .balloon{
-
-        display:none;
-
+    #birthday-name {
+        font-size: clamp(1.8rem, 7vw, 2.6rem);
     }
 
+    #birthday-date {
+        font-size: 0.95rem;
+    }
+
+    #open-letter-btn {
+        width: 100%;
+        max-width: 320px;
+        padding: 15px;
+        font-size: 1rem;
+    }
+
+    .balloon {
+        width: 70px;
+        opacity: 0.7;
+    }
+
+    .balloon-left {
+        top: 15px;
+        left: 10px;
+    }
+
+    .balloon-right {
+        top: 15px;
+        right: 10px;
+    }
 }
 
-/******************************************************************************
-EXTRA SMALL DEVICES
-******************************************************************************/
-
-@media (max-width:360px){
-
-    .profile-container{
-
-        width:145px;
-
-        height:145px;
-
+/* Small phones */
+@media (max-width: 480px) {
+    #birthday-screen {
+        padding: 12px;
     }
 
-    #birthday-main-title{
-
-        font-size:1.6rem;
-
+    .birthday-layout {
+        padding: 15px 10px;
     }
 
-    #birthday-second-title{
-
-        font-size:1.5rem;
-
+    .birthday-photo-side {
+        min-height: 370px;
     }
 
-    #birthday-name{
-
-        font-size:1.3rem;
-
+    .birthday-side-photo {
+        width: min(320px, 92vw);
+        max-height: 420px;
     }
 
+    .photo-glow {
+        width: 300px;
+        height: 300px;
+    }
+
+    .hero-card {
+        width: 94vw;
+        padding: 22px 15px;
+        border-radius: 22px;
+    }
+
+    .profile-container {
+        width: 170px;
+        height: 170px;
+    }
+
+    #birthday-main-title {
+        font-size: 1.9rem;
+        letter-spacing: 0;
+        line-height: 1.1;
+    }
+
+    #birthday-second-title {
+        font-size: 1.7rem;
+        letter-spacing: 0;
+        line-height: 1.1;
+    }
+
+    #birthday-name {
+        font-size: 1.5rem;
+    }
+
+    #birthday-date {
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+    }
+
+    #open-letter-btn {
+        max-width: 90%;
+        font-size: 0.9rem;
+        padding: 14px;
+    }
+
+    .balloon {
+        display: none;
+    }
 }
+
+/* Very small phones */
+@media (max-width: 360px) {
+    .hero-card {
+        padding: 20px 12px;
+    }
+
+    .profile-container {
+        width: 145px;
+        height: 145px;
+    }
+
+    #birthday-main-title {
+        font-size: 1.6rem;
+    }
+
+    #birthday-second-title {
+        font-size: 1.5rem;
+    }
+
+    #birthday-name {
+        font-size: 1.3rem;
+    }
+
+    #open-letter-btn {
+        padding: 11px 20px;
+        font-size: 0.82rem;
+    }
+}
+
 .birthday-intro{
 
     max-width:700px;
@@ -1372,3 +1445,301 @@ EXTRA SMALL DEVICES
     left:8%;
 
 }
+/* =========================================
+   CUT-OUT PORTRAIT AREA
+========================================= */
+
+.portrait-area {
+    position: absolute;
+
+    left: 3%;
+    bottom: 0;
+
+    width: 430px;
+    height: 650px;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    z-index: 6;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   GLOW BEHIND PORTRAIT
+========================================= */
+
+.portrait-glow {
+    position: absolute;
+
+    width: 380px;
+    height: 380px;
+
+    left: 50%;
+    top: 40%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 120, 180, 0.65) 0%,
+            rgba(255, 170, 210, 0.35) 35%,
+            rgba(255, 220, 235, 0.15) 60%,
+            transparent 75%
+        );
+
+    filter: blur(18px);
+
+    z-index: 1;
+
+    animation: portraitGlowPulse 4s ease-in-out infinite;
+}
+
+
+/* =========================================
+   PORTRAIT
+========================================= */
+
+.cutout-portrait {
+    position: relative;
+
+    z-index: 3;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    object-position: bottom center;
+
+    filter:
+        drop-shadow(
+            0 20px 25px rgba(80, 20, 50, 0.30)
+        );
+
+    animation: portraitFloat 5s ease-in-out infinite;
+}
+
+
+/* =========================================
+   FLOATING HEARTS
+========================================= */
+
+.portrait-heart {
+    position: absolute;
+
+    z-index: 5;
+
+    font-size: 30px;
+
+    filter:
+        drop-shadow(
+            0 5px 10px rgba(255, 50, 130, 0.35)
+        );
+
+    animation:
+        heartFloat 4s ease-in-out infinite;
+
+}
+
+
+/* Individual heart positions */
+
+.heart-1 {
+    top: 15%;
+    left: 8%;
+
+    font-size: 32px;
+
+    animation-delay: 0s;
+}
+
+.heart-2 {
+    top: 28%;
+    right: 5%;
+
+    font-size: 25px;
+
+    animation-delay: 0.8s;
+}
+
+.heart-3 {
+    top: 45%;
+    left: 0%;
+
+    font-size: 22px;
+
+    animation-delay: 1.5s;
+}
+
+.heart-4 {
+    top: 55%;
+    right: 0%;
+
+    font-size: 35px;
+
+    animation-delay: 2s;
+}
+
+.heart-5 {
+    top: 70%;
+    left: 8%;
+
+    font-size: 20px;
+
+    animation-delay: 2.7s;
+}
+
+.heart-6 {
+    top: 10%;
+    right: 18%;
+
+    font-size: 20px;
+
+    animation-delay: 3.2s;
+}
+
+
+/* =========================================
+   SPARKLES
+========================================= */
+
+.portrait-sparkle {
+    position: absolute;
+
+    z-index: 5;
+
+    color: #ffffff;
+
+    font-size: 28px;
+
+    text-shadow:
+        0 0 8px #ffffff,
+        0 0 18px rgba(255, 120, 190, 0.9);
+
+    animation: sparkleTwinkle 2s ease-in-out infinite;
+}
+
+.sparkle-1 {
+    top: 20%;
+    left: 25%;
+
+    animation-delay: 0s;
+}
+
+.sparkle-2 {
+    top: 38%;
+    right: 18%;
+
+    font-size: 20px;
+
+    animation-delay: 0.7s;
+}
+
+.sparkle-3 {
+    top: 60%;
+    left: 20%;
+
+    font-size: 18px;
+
+    animation-delay: 1.4s;
+}
+
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes portraitFloat {
+
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+
+}
+
+
+@keyframes portraitGlowPulse {
+
+    0% {
+        transform: translate(-50%, -50%) scale(0.9);
+
+        opacity: 0.55;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.08);
+
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(0.9);
+
+        opacity: 0.55;
+    }
+
+}
+
+
+@keyframes heartFloat {
+
+    0% {
+        transform: translateY(15px) scale(0.9);
+
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translateY(-20px) scale(1.1);
+
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(15px) scale(0.9);
+
+        opacity: 0.5;
+    }
+
+}
+
+
+@keyframes sparkleTwinkle {
+
+    0% {
+        opacity: 0.3;
+        transform: scale(0.7);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.3);
+    }
+
+    100% {
+        opacity: 0.3;
+        transform: scale(0.7);
+    }
+
+}
+
+
+/* =========================================
+   CARD ABOVE PORTRAIT DECORATIONS
+========================================= */
+
