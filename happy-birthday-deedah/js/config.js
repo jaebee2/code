@@ -5,19 +5,19 @@
 const CONFIG = {
 
     // Development
-    TEST_MODE: true,
+    TEST_MODE: false,
 
     // Countdown duration for testing
     TEST_COUNTDOWN: 20,
 
     // Real birthday
     UNLOCK_DATE: new Date(
-        2026,
-        7,
-        31,
-        12,
-        0,
-        0
+        2026,   // Year
+        7,      // August (0 = January)
+        31,     // Day
+        0,      // Hour
+        0,      // Minute
+        0       // Second
     )
 
 };
