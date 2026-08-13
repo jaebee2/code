@@ -2,124 +2,220 @@
  * File Name : CelebrationManager.js
  * Project   : Happy Birthday My Deedah ❤️
  * Purpose   : Controls the complete cinematic celebration sequence.
- * Author    : Jibril Bulama
- * Version   : 3.1.0
+ * Author    : Jibril Bulama & ChatGPT
+ * Version   : 5.0.0
  ******************************************************************************/
 
 import TimelineManager from "./TimelineManager.js";
-import BirthdayPageManager from "./BirthdayPageManager.js";
 
 export default class CelebrationManager {
 
-    constructor(screenManager, fireworksManager, audioManager) {
+    constructor(
+        screenManager,
+        fireworksManager,
+        audioManager
+    ) {
 
-        this.screenManager = screenManager;
-        this.fireworksManager = fireworksManager;
-        this.audioManager = audioManager;
+        this.screenManager =
+            screenManager;
 
-        this.timeline = new TimelineManager();
+        this.fireworksManager =
+            fireworksManager;
 
-        // Birthday Page Manager
-        this.birthdayPageManager = new BirthdayPageManager(screenManager);
+        this.audioManager =
+            audioManager;
+
+        this.timeline =
+            new TimelineManager();
+
+
+        /*
+         * This is assigned by app.js.
+         *
+         * We DO NOT create another BirthdayPageManager here.
+         */
+
+        this.birthdayPageManager = null;
 
     }
 
-    /**
-     * Start Celebration
-     */
+
+    /**********************************************************************
+     * START CELEBRATION
+     **********************************************************************/
+
     start() {
 
-        console.log("🎉 Celebration Started");
+        console.log(
+            "🎉 Celebration Started"
+        );
 
-        this.screenManager.show("celebration");
+
+        this.screenManager.show(
+            "celebration"
+        );
+
 
         this.timeline.clear();
 
-        /************************************************************
-         * TIMELINE
-         ************************************************************/
 
-        // 0.2 seconds
-        this.timeline.add(200, () => {
+        /******************************************************************
+         * Countdown music continues.
+         *
+         * DO NOT restart it.
+         ******************************************************************/
 
-            this.playCountdownBoom();
 
-        });
+        /******************************************************************
+         * 0.2 SECONDS
+         ******************************************************************/
 
-        // 0.5 seconds
-        this.timeline.add(500, () => {
+        this.timeline.add(
+            200,
+            () => {
 
-            this.whiteFlash();
+                this.playCountdownBoom();
 
-        });
+            }
+        );
 
-        // 0.8 seconds
-        this.timeline.add(800, () => {
 
-            this.playIntroVideo();
+        /******************************************************************
+         * 0.5 SECONDS
+         ******************************************************************/
 
-        });
+        this.timeline.add(
+            500,
+            () => {
 
-        // Stop fireworks after 60 seconds
-        this.timeline.add(64500, () => {
+                this.whiteFlash();
 
-            this.stopFireworks();
+            }
+        );
 
-        });
 
-        // Show Birthday Page
-        this.timeline.add(67500, () => {
+        /******************************************************************
+         * 0.8 SECONDS
+         ******************************************************************/
 
-            this.showBirthdayPage();
+        this.timeline.add(
+            800,
+            () => {
 
-        });
+                this.playIntroVideo();
+
+            }
+        );
+
+
+        /******************************************************************
+         * STOP FIREWORKS
+         ******************************************************************/
+
+        this.timeline.add(
+            64500,
+            () => {
+
+                this.stopFireworks();
+
+            }
+        );
+
+
+        /******************************************************************
+         * SHOW BIRTHDAY PAGE
+         ******************************************************************/
+
+        this.timeline.add(
+            67500,
+            () => {
+
+                this.showBirthdayPage();
+
+            }
+        );
+
 
         this.timeline.start();
 
     }
 
-    /**
-     * Countdown Boom
-     */
+
+    /**********************************************************************
+     * COUNTDOWN BOOM
+     **********************************************************************/
+
     playCountdownBoom() {
 
-        console.log("💥 Countdown Boom");
+        console.log(
+            "💥 Countdown Boom"
+        );
 
-        this.audioManager.play("countdownBoom");
+
+        this.audioManager.play(
+            "countdownBoom"
+        );
 
     }
 
-    /**
-     * White Flash
-     */
+
+    /**********************************************************************
+     * WHITE FLASH
+     **********************************************************************/
+
     whiteFlash() {
 
-        const flash = document.getElementById("flash-overlay");
+        const flash =
+            document.getElementById(
+                "flash-overlay"
+            );
+
 
         if (!flash) return;
 
-        flash.classList.add("show");
 
-        setTimeout(() => {
+        flash.classList.add(
+            "show"
+        );
 
-            flash.classList.remove("show");
 
-        }, 200);
+        setTimeout(
+            () => {
+
+                flash.classList.remove(
+                    "show"
+                );
+
+            },
+            200
+        );
 
     }
 
-    /**
-     * Intro Video
-     */
+
+    /**********************************************************************
+     * INTRO VIDEO
+     **********************************************************************/
+
     playIntroVideo() {
 
-        console.log("🎬 Playing Intro Video");
+        console.log(
+            "🎬 Playing Intro Video"
+        );
 
-        const video = document.getElementById("intro-video");
+
+        const video =
+            document.getElementById(
+                "intro-video"
+            );
+
 
         if (!video) {
 
-            console.warn("Intro video not found.");
+            console.warn(
+                "Intro video not found."
+            );
+
 
             this.afterVideo();
 
@@ -127,15 +223,33 @@ export default class CelebrationManager {
 
         }
 
-        video.classList.add("show");
+
+        video.classList.add(
+            "show"
+        );
+
 
         video.currentTime = 0;
 
-        video.play();
+
+        video.play().catch(
+            error => {
+
+                console.warn(
+                    "⚠️ Intro video could not play:",
+                    error
+                );
+
+            }
+        );
+
 
         video.onended = () => {
 
-            video.classList.remove("show");
+            video.classList.remove(
+                "show"
+            );
+
 
             this.afterVideo();
 
@@ -143,111 +257,207 @@ export default class CelebrationManager {
 
     }
 
-    /**
-     * Continue after intro video
-     */
+
+    /**********************************************************************
+     * AFTER VIDEO
+     **********************************************************************/
+
     afterVideo() {
 
-        // Play your recorded birthday message
+        /*
+         * Play recorded birthday voice.
+         */
+
         this.playVoice();
 
-        // After voice
-        setTimeout(() => {
 
-            this.startFireworks();
+        /*
+         * Start fireworks after voice begins.
+         */
 
-            this.startConfetti();
+        setTimeout(
+            () => {
 
-        }, 3500);
+                this.startFireworks();
 
-        // Show title
-        setTimeout(() => {
+                this.startConfetti();
 
-            this.showTitle();
+            },
+            3500
+        );
 
-        }, 4000);
+
+        /*
+         * Show title.
+         */
+
+        setTimeout(
+            () => {
+
+                this.showTitle();
+
+            },
+            4000
+        );
 
     }
 
-    /**
-     * Play Birthday Voice
-     */
+
+    /**********************************************************************
+     * PLAY BIRTHDAY VOICE
+     **********************************************************************/
+
     playVoice() {
 
-        console.log("🎤 Playing Birthday Voice");
+        console.log(
+            "🎤 Playing Birthday Voice"
+        );
 
-        this.audioManager.play("myVoice");
+
+        this.audioManager.play(
+            "myVoice"
+        );
 
     }
 
-    /**
-     * Start Fireworks
-     */
+
+    /**********************************************************************
+     * START FIREWORKS
+     **********************************************************************/
+
     startFireworks() {
 
-        console.log("🎆 Fireworks Started");
+        console.log(
+            "🎆 Fireworks Started"
+        );
+
 
         this.fireworksManager.start();
 
-        // Background music
-        this.audioManager.fadeInMusic(6000);
 
-        // Fireworks ambience
-        this.audioManager.play("fireworks");
+        /*
+         * IMPORTANT:
+         *
+         * We DO NOT start birthday music here.
+         *
+         * Countdown/celebration music is already playing.
+         */
 
-        this.audioManager.play("fireworks2");
+        this.audioManager.play(
+            "fireworks"
+        );
+
+
+        this.audioManager.play(
+            "fireworks2"
+        );
 
     }
 
-    /**
-     * Start Confetti
-     */
+
+    /**********************************************************************
+     * START CONFETTI
+     **********************************************************************/
+
     startConfetti() {
 
-        console.log("🎊 Confetti Started");
+        console.log(
+            "🎊 Confetti Started"
+        );
 
-        // ConfettiManager will be added later
+        /*
+         * ConfettiManager can be added here later.
+         *
+         * No confetti audio is loaded because there is currently
+         * no confetti.mp3 file.
+         */
 
     }
 
-    /**
-     * Show Celebration Title
-     */
+
+    /**********************************************************************
+     * SHOW TITLE
+     **********************************************************************/
+
     showTitle() {
 
-        const title = document.getElementById("birthday-title");
+        const title =
+            document.getElementById(
+                "birthday-title"
+            );
+
 
         if (!title) return;
 
-        title.classList.add("show");
+
+        title.classList.add(
+            "show"
+        );
 
     }
 
-    /**
-     * Stop Fireworks
-     */
+
+    /**********************************************************************
+     * STOP FIREWORKS
+     **********************************************************************/
+
     stopFireworks() {
 
-        console.log("🛑 Fireworks Finished");
+        console.log(
+            "🛑 Fireworks Finished"
+        );
+
 
         this.fireworksManager.stop();
 
-        this.audioManager.stop("fireworks");
 
-        this.audioManager.stop("fireworks2");
+        this.audioManager.stop(
+            "fireworks"
+        );
 
-        // Background music continues
+
+        this.audioManager.stop(
+            "fireworks2"
+        );
+
+
+        /*
+         * Countdown/celebration music continues.
+         */
 
     }
 
-    /**
-     * Show Birthday Page
-     */
+
+    /**********************************************************************
+     * SHOW BIRTHDAY PAGE
+     **********************************************************************/
+
     showBirthdayPage() {
 
-        console.log("🎂 Showing Birthday Page");
+        console.log(
+            "🎂 Showing Birthday Page"
+        );
 
-        this.birthdayPageManager.show();
+
+        /*
+         * STOP COUNTDOWN + CELEBRATION MUSIC
+         */
+
+        this.audioManager
+            .stopCountdownCelebrationMusic();
+
+
+        /*
+         * Show birthday page.
+         */
+
+        if (
+            this.birthdayPageManager
+        ) {
+
+            this.birthdayPageManager.show();
+
+        }
 
     }
 

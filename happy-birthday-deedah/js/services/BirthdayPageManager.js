@@ -2,51 +2,147 @@
  * File Name : BirthdayPageManager.js
  * Project   : Happy Birthday My Deedah ❤️
  * Author    : Jibril Bulama & ChatGPT
- * Version   : 3.0.0
+ * Version   : 5.0.0
  ******************************************************************************/
 
 import TypewriterManager from "./TypewriterManager.js";
 
 export default class BirthdayPageManager {
 
-    constructor(screenManager) {
+    constructor(
+        screenManager,
+        audioManager
+    ) {
 
-        this.screenManager = screenManager;
+        this.screenManager =
+            screenManager;
 
-        this.typewriter = new TypewriterManager();
+        this.audioManager =
+            audioManager;
 
-        // Hero
-        this.heroCard = document.querySelector(".hero-card");
 
-        // Titles
-        this.mainTitle = document.getElementById("birthday-main-title");
-        this.secondTitle = document.getElementById("birthday-second-title");
-        this.nameTitle = document.getElementById("birthday-name");
-        this.dateTitle = document.getElementById("birthday-date");
+        this.typewriter =
+            new TypewriterManager();
 
-        // Button
-        this.button = document.getElementById("open-letter-btn");
 
-        // Decoration Containers
-        this.heartsContainer = document.querySelector(".floating-hearts");
-        this.starsContainer = document.querySelector(".floating-stars");
+        /******************************************************************
+         * HERO
+         ******************************************************************/
+
+        this.heroCard =
+            document.querySelector(
+                ".hero-card"
+            );
+
+
+        /******************************************************************
+         * TITLES
+         ******************************************************************/
+
+        this.mainTitle =
+            document.getElementById(
+                "birthday-main-title"
+            );
+
+        this.secondTitle =
+            document.getElementById(
+                "birthday-second-title"
+            );
+
+        this.nameTitle =
+            document.getElementById(
+                "birthday-name"
+            );
+
+        this.dateTitle =
+            document.getElementById(
+                "birthday-date"
+            );
+
+
+        /******************************************************************
+         * BUTTON
+         ******************************************************************/
+
+        this.button =
+            document.getElementById(
+                "open-letter-btn"
+            );
+
+
+        /******************************************************************
+         * DECORATION
+         ******************************************************************/
+
+        this.heartsContainer =
+            document.querySelector(
+                ".floating-hearts"
+            );
+
+        this.starsContainer =
+            document.querySelector(
+                ".floating-stars"
+            );
+
 
         this.heartsStarted = false;
+
         this.starsStarted = false;
 
     }
 
+
     /**********************************************************************
-     * Show Birthday Page
+     * SHOW BIRTHDAY PAGE
      **********************************************************************/
 
     show() {
 
-        this.screenManager.show("birthday");
+        console.log(
+            "🎂 Birthday Screen Active"
+        );
+
+
+        /*
+         * Switch screen.
+         */
+
+        this.screenManager.show(
+            "birthday"
+        );
+
+
+        /*
+         * Reset page.
+         */
 
         this.reset();
 
+
+        /*
+         * START BIRTHDAY MUSIC.
+         *
+         * This automatically stops countdown/celebration music.
+         */
+
+        if (this.audioManager) {
+
+            this.audioManager
+                .startBirthdayMusic();
+
+        }
+
+
+        /*
+         * Hero animation.
+         */
+
         this.startHeroAnimation();
+
+
+        /******************************************************************
+         * STARS
+         ******************************************************************/
 
         if (!this.starsStarted) {
 
@@ -55,6 +151,11 @@ export default class BirthdayPageManager {
             this.starsStarted = true;
 
         }
+
+
+        /******************************************************************
+         * HEARTS
+         ******************************************************************/
 
         if (!this.heartsStarted) {
 
@@ -66,48 +167,101 @@ export default class BirthdayPageManager {
 
     }
 
+
     /**********************************************************************
-     * Reset Screen
+     * RESET SCREEN
      **********************************************************************/
 
     reset() {
 
-        this.heroCard.classList.remove("show");
+        if (this.heroCard) {
 
-        this.button.classList.remove("show");
+            this.heroCard.classList.remove(
+                "show"
+            );
 
-        this.mainTitle.textContent = "";
-        this.secondTitle.textContent = "";
-        this.nameTitle.textContent = "";
-        this.dateTitle.textContent = "";
+        }
+
+
+        if (this.button) {
+
+            this.button.classList.remove(
+                "show"
+            );
+
+        }
+
+
+        if (this.mainTitle) {
+
+            this.mainTitle.textContent = "";
+
+        }
+
+
+        if (this.secondTitle) {
+
+            this.secondTitle.textContent = "";
+
+        }
+
+
+        if (this.nameTitle) {
+
+            this.nameTitle.textContent = "";
+
+        }
+
+
+        if (this.dateTitle) {
+
+            this.dateTitle.textContent = "";
+
+        }
 
     }
 
+
     /**********************************************************************
-     * Hero Animation
+     * HERO ANIMATION
      **********************************************************************/
 
     startHeroAnimation() {
 
-        requestAnimationFrame(() => {
+        if (!this.heroCard) return;
 
-            this.heroCard.classList.add("show");
 
-        });
+        requestAnimationFrame(
+            () => {
 
-        setTimeout(() => {
+                this.heroCard.classList.add(
+                    "show"
+                );
 
-            this.typeMainTitle();
+            }
+        );
 
-        },1000);
+
+        setTimeout(
+            () => {
+
+                this.typeMainTitle();
+
+            },
+            1000
+        );
 
     }
+
 
     /**********************************************************************
      * HAPPY
      **********************************************************************/
 
-    typeMainTitle(){
+    typeMainTitle() {
+
+        if (!this.mainTitle) return;
+
 
         this.typewriter.type(
 
@@ -117,7 +271,7 @@ export default class BirthdayPageManager {
 
             100,
 
-            ()=>{
+            () => {
 
                 this.typeSecondTitle();
 
@@ -127,21 +281,25 @@ export default class BirthdayPageManager {
 
     }
 
+
     /**********************************************************************
      * BIRTHDAY
      **********************************************************************/
 
-    typeSecondTitle(){
+    typeSecondTitle() {
+
+        if (!this.secondTitle) return;
+
 
         this.typewriter.type(
 
             this.secondTitle,
 
-            "MY DEEDAH ",
+            "🎂MY DEEDAH 🎂",
 
             100,
 
-            ()=>{
+            () => {
 
                 this.typeName();
 
@@ -151,21 +309,25 @@ export default class BirthdayPageManager {
 
     }
 
+
     /**********************************************************************
      * NAME
      **********************************************************************/
 
-    typeName(){
+    typeName() {
+
+        if (!this.nameTitle) return;
+
 
         this.typewriter.type(
 
             this.nameTitle,
 
-            " ❤️❤️❤️",
+            "💘💍👪🏽",
 
             90,
 
-            ()=>{
+            () => {
 
                 this.typeDate();
 
@@ -175,76 +337,128 @@ export default class BirthdayPageManager {
 
     }
 
-  
 
     /**********************************************************************
-     * Button
+     * BUTTON
      **********************************************************************/
 
-    showButton(){
+    showButton() {
 
-        this.button.classList.add("show");
+        if (!this.button) return;
+
+
+        this.button.classList.add(
+            "show"
+        );
 
     }
 
+
     /**********************************************************************
-     * Floating Hearts
+     * FLOATING HEARTS
      **********************************************************************/
 
-    createFloatingHearts(){
+    createFloatingHearts() {
 
-        if(!this.heartsContainer) return;
+        if (!this.heartsContainer) return;
 
-        setInterval(()=>{
 
-            const heart=document.createElement("div");
+        setInterval(
+            () => {
 
-            heart.className="floating-heart";
+                const heart =
+                    document.createElement(
+                        "div"
+                    );
 
-            heart.innerHTML="❤️";
 
-            heart.style.left=Math.random()*100+"%";
+                heart.className =
+                    "floating-heart";
 
-            heart.style.fontSize=
-            (18+Math.random()*24)+"px";
 
-            heart.style.animationDuration=
-            (6+Math.random()*5)+"s";
+                heart.innerHTML =
+                    "❤️";
 
-            this.heartsContainer.appendChild(heart);
 
-            setTimeout(()=>{
+                heart.style.left =
+                    Math.random() * 100 + "%";
 
-                heart.remove();
 
-            },12000);
+                heart.style.fontSize =
+                    (18 +
+                    Math.random() * 24) +
+                    "px";
 
-        },350);
+
+                heart.style.animationDuration =
+                    (6 +
+                    Math.random() * 5) +
+                    "s";
+
+
+                this.heartsContainer
+                    .appendChild(
+                        heart
+                    );
+
+
+                setTimeout(
+                    () => {
+
+                        heart.remove();
+
+                    },
+                    12000
+                );
+
+            },
+            350
+        );
 
     }
 
+
     /**********************************************************************
-     * Stars
+     * STARS
      **********************************************************************/
 
-    createStars(){
+    createStars() {
 
-        if(!this.starsContainer) return;
+        if (!this.starsContainer) return;
 
-        for(let i=0;i<40;i++){
 
-            const star=document.createElement("div");
+        for (
+            let i = 0;
+            i < 40;
+            i++
+        ) {
 
-            star.className="star";
+            const star =
+                document.createElement(
+                    "div"
+                );
 
-            star.style.left=Math.random()*100+"%";
 
-            star.style.top=Math.random()*100+"%";
+            star.className =
+                "star";
 
-            star.style.animationDelay=
-            Math.random()*4+"s";
 
-            this.starsContainer.appendChild(star);
+            star.style.left =
+                Math.random() * 100 + "%";
+
+
+            star.style.top =
+                Math.random() * 100 + "%";
+
+
+            star.style.animationDelay =
+                Math.random() * 4 + "s";
+
+
+            this.starsContainer
+                .appendChild(
+                    star
+                );
 
         }
 

@@ -1,8 +1,8 @@
 /******************************************************************************
  * File Name : AudioManager.js
  * Project   : Happy Birthday My Deedah ❤️
- * Purpose   : Professional Audio Controller
- * Version   : 4.0.0
+ * Purpose   : Central Audio Controller
+ * Version   : 5.0.0
  * Author    : Jibril Bulama & ChatGPT
  ******************************************************************************/
 
@@ -11,34 +11,83 @@ export default class AudioManager {
     constructor() {
 
         /**********************************************************************
-         * Audio Library
+         * AUDIO LIBRARY
          **********************************************************************/
 
         this.audio = {
 
-            // Background Music
-            birthdayMusic: new Audio("./assets/audio/music/happy-birthday.mp3"),
+            /*
+             * Countdown + Celebration
+             *
+             * IMPORTANT:
+             * Make sure this file exists:
+             *
+             * ./assets/audio/music/countdownCelebrationMusic.mp3
+             */
+            countdownCelebrationMusic:
+                new Audio("./assets/audio/music/countdownCelebrationMusic.mp3"),
 
-            // Countdown
-            tick: new Audio("./assets/audio/effects/tick.mp3"),
-            countdownBoom: new Audio("./assets/audio/effects/countdown-boom.mp3"),
+            /*
+             * Birthday Screen Music
+             */
+            birthdayMusic:
+                new Audio("./assets/audio/music/happy-birthday.mp3"),
 
-            // Effects
-            heartbeat: new Audio("./assets/audio/effects/heartbeat.mp3"),
+            /*
+             * Final 10 Seconds
+             *
+             * This is YOUR recording:
+             *
+             * 10
+             * 9
+             * 8
+             * ...
+             * 1
+             */
+            tick:
+                new Audio("./assets/audio/effects/tick.mp3"),
 
-            // Voice Recording
-            myVoice: new Audio("./assets/audio/recordings/happy-birthday-my-deedah.mp3"),
+            /*
+             * Celebration
+             */
+            countdownBoom:
+                new Audio("./assets/audio/effects/countdown-boom.mp3"),
 
-            // Celebration
-            fireworks: new Audio("./assets/audio/celebration/fireworks.mp3"),
-            fireworks2: new Audio("./assets/audio/celebration/fireworks2.mp3"),
-            confetti: new Audio("./assets/audio/celebration/confetti.mp3")
+            fireworks:
+                new Audio("./assets/audio/celebration/fireworks.mp3"),
+
+            fireworks2:
+                new Audio("./assets/audio/celebration/fireworks2.mp3"),
+
+            /*
+             * Birthday Voice
+             */
+            myVoice:
+                new Audio("./assets/audio/recordings/happy-birthday-my-deedah.mp3"),
+
+            /*
+             * Other effects
+             */
+            heartbeat:
+                new Audio("./assets/audio/effects/heartbeat.mp3")
 
         };
 
+
+        /**********************************************************************
+         * VOLUME SETTINGS
+         **********************************************************************/
+
         this.musicVolume = 0.45;
 
+        this.countdownMusicVolume = 0.35;
+
         this.duckVolume = 0.12;
+
+
+        /**********************************************************************
+         * STATE
+         **********************************************************************/
 
         this.fadeAnimation = null;
 
@@ -48,8 +97,9 @@ export default class AudioManager {
 
     }
 
+
     /**********************************************************************
-     * Configure Audio
+     * INITIALISE AUDIO
      **********************************************************************/
 
     initialise() {
@@ -66,18 +116,41 @@ export default class AudioManager {
 
             sound.addEventListener("error", () => {
 
-                console.error(`❌ Failed: ${name}`);
+                console.error(`❌ Failed to load: ${name}`);
 
             });
 
         });
 
-        // Background Music
 
-        this.audio.birthdayMusic.loop = true;
-        this.audio.birthdayMusic.volume = 0;
+        /******************************************************************
+         * COUNTDOWN + CELEBRATION MUSIC
+         ******************************************************************/
 
-        // Fireworks
+        const countdownMusic =
+            this.audio.countdownCelebrationMusic;
+
+        countdownMusic.loop = true;
+
+        countdownMusic.volume =
+            this.countdownMusicVolume;
+
+
+        /******************************************************************
+         * BIRTHDAY MUSIC
+         ******************************************************************/
+
+        const birthdayMusic =
+            this.audio.birthdayMusic;
+
+        birthdayMusic.loop = true;
+
+        birthdayMusic.volume = 0;
+
+
+        /******************************************************************
+         * FIREWORKS
+         ******************************************************************/
 
         this.audio.fireworks.loop = true;
         this.audio.fireworks.volume = 0.50;
@@ -85,18 +158,28 @@ export default class AudioManager {
         this.audio.fireworks2.loop = true;
         this.audio.fireworks2.volume = 0.35;
 
-        // Effects
 
+        /******************************************************************
+         * EFFECTS
+         ******************************************************************/
+
+        this.audio.tick.loop = false;
         this.audio.tick.volume = 0.30;
+
+        this.audio.countdownBoom.loop = false;
         this.audio.countdownBoom.volume = 1;
+
+        this.audio.heartbeat.loop = false;
         this.audio.heartbeat.volume = 1;
+
+        this.audio.myVoice.loop = false;
         this.audio.myVoice.volume = 1;
-        this.audio.confetti.volume = 0.45;
 
     }
 
+
     /**********************************************************************
-     * Generic Play
+     * GENERIC PLAY
      **********************************************************************/
 
     play(name) {
@@ -105,29 +188,253 @@ export default class AudioManager {
 
         if (!sound) {
 
-            console.warn(`${name} does not exist.`);
+            console.warn(`⚠️ Audio "${name}" does not exist.`);
 
             return;
 
         }
 
-        if (name !== "birthdayMusic") {
+
+        /*
+         * Never automatically restart background music.
+         *
+         * This is important because countdown music must continue
+         * smoothly when moving to the celebration screen.
+         */
+
+        if (
+            name !== "birthdayMusic" &&
+            name !== "countdownCelebrationMusic"
+        ) {
 
             sound.currentTime = 0;
 
         }
 
-        sound.play().catch(console.error);
+
+        sound.play().catch(error => {
+
+            console.warn(`⚠️ Could not play ${name}:`, error);
+
+        });
 
     }
 
+
     /**********************************************************************
-     * Pause
+     * PLAY COUNTDOWN + CELEBRATION MUSIC
+     **********************************************************************/
+
+    playCountdownCelebrationMusic() {
+
+        const music =
+            this.audio.countdownCelebrationMusic;
+
+        if (!music) return;
+
+
+        /*
+         * If already playing, DO NOTHING.
+         *
+         * This prevents the music from restarting when
+         * countdown changes to celebration.
+         */
+
+        if (!music.paused) {
+
+            return;
+
+        }
+
+
+        music.volume =
+            this.countdownMusicVolume;
+
+        music.play().catch(error => {
+
+            console.warn(
+                "⚠️ Countdown/Celebration music could not play:",
+                error
+            );
+
+        });
+
+    }
+
+
+    /**********************************************************************
+     * STOP COUNTDOWN + CELEBRATION MUSIC
+     **********************************************************************/
+
+    stopCountdownCelebrationMusic() {
+
+        const music =
+            this.audio.countdownCelebrationMusic;
+
+        if (!music) return;
+
+        music.pause();
+
+        music.currentTime = 0;
+
+    }
+
+
+    /**********************************************************************
+     * START BIRTHDAY MUSIC
+     **********************************************************************/
+
+    startBirthdayMusic() {
+
+        const music =
+            this.audio.birthdayMusic;
+
+        if (!music) return;
+
+
+        /*
+         * Make sure countdown/celebration music is gone.
+         */
+
+        this.stopCountdownCelebrationMusic();
+
+
+        /*
+         * If already playing, don't restart it.
+         */
+
+        if (!music.paused) {
+
+            return;
+
+        }
+
+
+        music.volume = 0;
+
+        music.play().catch(error => {
+
+            console.warn(
+                "⚠️ Birthday music could not play:",
+                error
+            );
+
+        });
+
+
+        this.fadeToBirthdayMusic(
+            this.musicVolume,
+            4000
+        );
+
+    }
+
+
+    /**********************************************************************
+     * STOP BIRTHDAY MUSIC
+     **********************************************************************/
+
+    stopBirthdayMusic() {
+
+        const music =
+            this.audio.birthdayMusic;
+
+        if (!music) return;
+
+        this.stopFade();
+
+        music.pause();
+
+        music.currentTime = 0;
+
+        music.volume = 0;
+
+    }
+
+
+    /**********************************************************************
+     * BIRTHDAY MUSIC FADE
+     **********************************************************************/
+
+    fadeToBirthdayMusic(
+        targetVolume,
+        duration = 1000
+    ) {
+
+        const music =
+            this.audio.birthdayMusic;
+
+        if (!music) return;
+
+
+        this.stopFade();
+
+
+        const startVolume =
+            music.volume;
+
+        const difference =
+            targetVolume - startVolume;
+
+        const startTime =
+            performance.now();
+
+
+        const animate = currentTime => {
+
+            const elapsed =
+                currentTime - startTime;
+
+            const progress =
+                Math.min(elapsed / duration, 1);
+
+
+            const ease =
+                progress < 0.5
+                    ? 2 * progress * progress
+                    : 1 -
+                      Math.pow(
+                          -2 * progress + 2,
+                          2
+                      ) / 2;
+
+
+            music.volume =
+                startVolume +
+                difference * ease;
+
+
+            if (progress < 1) {
+
+                this.fadeAnimation =
+                    requestAnimationFrame(animate);
+
+            } else {
+
+                music.volume =
+                    targetVolume;
+
+                this.fadeAnimation = null;
+
+            }
+
+        };
+
+
+        this.fadeAnimation =
+            requestAnimationFrame(animate);
+
+    }
+
+
+    /**********************************************************************
+     * GENERIC PAUSE
      **********************************************************************/
 
     pause(name) {
 
-        const sound = this.audio[name];
+        const sound =
+            this.audio[name];
 
         if (!sound) return;
 
@@ -135,13 +442,15 @@ export default class AudioManager {
 
     }
 
+
     /**********************************************************************
-     * Stop
+     * GENERIC STOP
      **********************************************************************/
 
     stop(name) {
 
-        const sound = this.audio[name];
+        const sound =
+            this.audio[name];
 
         if (!sound) return;
 
@@ -150,121 +459,67 @@ export default class AudioManager {
         sound.currentTime = 0;
 
     }
-        /**********************************************************************
-     * Smooth Fade Engine
+
+
+    /**********************************************************************
+     * STOP FADE
      **********************************************************************/
 
-    fadeTo(targetVolume, duration = 1000) {
-
-        const music = this.audio.birthdayMusic;
+    stopFade() {
 
         if (this.fadeAnimation) {
 
-            cancelAnimationFrame(this.fadeAnimation);
+            cancelAnimationFrame(
+                this.fadeAnimation
+            );
+
+            this.fadeAnimation = null;
 
         }
 
-        const startVolume = music.volume;
-
-        const volumeDifference = targetVolume - startVolume;
-
-        const startTime = performance.now();
-
-        const animate = (currentTime) => {
-
-            const elapsed = currentTime - startTime;
-
-            const progress = Math.min(elapsed / duration, 1);
-
-            // Ease In Out
-            const ease = progress < 0.5
-                ? 2 * progress * progress
-                : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-
-            music.volume = startVolume + (volumeDifference * ease);
-
-            if (progress < 1) {
-
-                this.fadeAnimation = requestAnimationFrame(animate);
-
-            } else {
-
-                music.volume = targetVolume;
-
-                this.fadeAnimation = null;
-
-                if (targetVolume === 0) {
-
-                    music.pause();
-
-                    music.currentTime = 0;
-
-                }
-
-            }
-
-        };
-
-        this.fadeAnimation = requestAnimationFrame(animate);
-
     }
 
-    /**********************************************************************
-     * Fade In Background Music
-     **********************************************************************/
-
-    fadeInMusic(duration = 4000) {
-
-        const music = this.audio.birthdayMusic;
-
-        music.volume = 0;
-
-        music.play().catch(console.error);
-
-        this.fadeTo(this.musicVolume, duration);
-
-    }
 
     /**********************************************************************
-     * Fade Out Background Music
-     **********************************************************************/
-
-    fadeOutMusic(duration = 2500) {
-
-        this.fadeTo(0, duration);
-
-    }
-
-    /**********************************************************************
-     * Duck Music
+     * DUCK BIRTHDAY MUSIC
      **********************************************************************/
 
     duckMusic(duration = 700) {
 
-        const music = this.audio.birthdayMusic;
+        const music =
+            this.audio.birthdayMusic;
 
-        if (music.paused) return;
+        if (!music || music.paused) return;
 
-        this.fadeTo(this.duckVolume, duration);
+        this.fadeToBirthdayMusic(
+            this.duckVolume,
+            duration
+        );
 
     }
 
+
     /**********************************************************************
-     * Restore Music
+     * RESTORE BIRTHDAY MUSIC
      **********************************************************************/
 
     restoreMusic(duration = 700) {
 
-        const music = this.audio.birthdayMusic;
+        const music =
+            this.audio.birthdayMusic;
 
-        if (music.paused) return;
+        if (!music || music.paused) return;
 
-        this.fadeTo(this.musicVolume, duration);
+        this.fadeToBirthdayMusic(
+            this.musicVolume,
+            duration
+        );
 
     }
 
+
     /**********************************************************************
-     * Unlock Browser Audio
+     * UNLOCK BROWSER AUDIO
      **********************************************************************/
 
     async unlockAudio() {
@@ -275,51 +530,91 @@ export default class AudioManager {
 
         }
 
+
         const promises = [];
 
-        Object.values(this.audio).forEach(sound => {
 
-            const promise = sound.play()
+        Object.entries(this.audio).forEach(
+            ([name, sound]) => {
 
-                .then(() => {
+                /*
+                 * Don't actually start looping music during unlock.
+                 */
 
-                    sound.pause();
+                const wasLooping =
+                    sound.loop;
 
-                    sound.currentTime = 0;
+                sound.loop = false;
 
-                })
 
-                .catch(() => {});
+                const promise =
+                    sound.play()
 
-            promises.push(promise);
+                    .then(() => {
 
-        });
+                        sound.pause();
+
+                        sound.currentTime = 0;
+
+                    })
+
+                    .catch(() => {})
+
+                    .finally(() => {
+
+                        sound.loop =
+                            wasLooping;
+
+                    });
+
+
+                promises.push(promise);
+
+            }
+        );
+
 
         await Promise.all(promises);
 
+
         this.audioUnlocked = true;
 
-        console.log("🔊 Audio Successfully Unlocked");
+        console.log(
+            "🔊 Audio Successfully Unlocked"
+        );
 
     }
-        /**********************************************************************
-     * Set Music Volume
+
+
+    /**********************************************************************
+     * SET BIRTHDAY MUSIC VOLUME
      **********************************************************************/
 
     setMusicVolume(volume) {
 
-        this.musicVolume = Math.max(0, Math.min(volume, 1));
+        this.musicVolume =
+            Math.max(
+                0,
+                Math.min(volume, 1)
+            );
 
-        if (!this.audio.birthdayMusic.paused) {
 
-            this.audio.birthdayMusic.volume = this.musicVolume;
+        const music =
+            this.audio.birthdayMusic;
+
+
+        if (!music.paused) {
+
+            music.volume =
+                this.musicVolume;
 
         }
 
     }
 
+
     /**********************************************************************
-     * Mute Music
+     * MUTE BIRTHDAY MUSIC
      **********************************************************************/
 
     muteMusic() {
@@ -328,8 +623,9 @@ export default class AudioManager {
 
     }
 
+
     /**********************************************************************
-     * Unmute Music
+     * UNMUTE BIRTHDAY MUSIC
      **********************************************************************/
 
     unmuteMusic() {
@@ -338,55 +634,54 @@ export default class AudioManager {
 
     }
 
+
     /**********************************************************************
-     * Resume Background Music
+     * RESUME BIRTHDAY MUSIC
      **********************************************************************/
 
     resumeMusic() {
 
-        const music = this.audio.birthdayMusic;
-
-        if (music.paused) {
-
-            music.play().catch(console.error);
-
-            this.fadeTo(this.musicVolume, 1000);
-
-        }
+        this.startBirthdayMusic();
 
     }
 
+
     /**********************************************************************
-     * Stop Everything
+     * STOP EVERYTHING
      **********************************************************************/
 
     stopAll() {
 
-        if (this.fadeAnimation) {
+        this.stopFade();
 
-            cancelAnimationFrame(this.fadeAnimation);
 
-            this.fadeAnimation = null;
+        Object.values(this.audio).forEach(
+            sound => {
 
-        }
+                sound.pause();
 
-        Object.values(this.audio).forEach(sound => {
+                sound.currentTime = 0;
 
-            sound.pause();
+            }
+        );
 
-            sound.currentTime = 0;
 
-        });
+        this.audio.birthdayMusic.volume = 0;
+
+        this.audio.countdownCelebrationMusic.volume =
+            this.countdownMusicVolume;
 
     }
 
+
     /**********************************************************************
-     * Is Playing?
+     * IS PLAYING
      **********************************************************************/
 
     isPlaying(name) {
 
-        const sound = this.audio[name];
+        const sound =
+            this.audio[name];
 
         if (!sound) {
 

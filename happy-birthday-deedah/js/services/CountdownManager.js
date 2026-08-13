@@ -1,76 +1,188 @@
 /******************************************************************************
  * File Name : CountdownManager.js
  * Project   : Happy Birthday My Deedah ❤️
+ * Purpose   : Main countdown controller.
+ * Version   : 5.0.0
  ******************************************************************************/
 
 import CONFIG from "../config.js";
 
 export default class CountdownManager {
 
-    constructor(onComplete) {
+    constructor(onComplete, audioManager) {
 
         this.onComplete = onComplete;
 
-        // TEST MODE
-        if (CONFIG.TEST_MODE) {
-
-            this.unlockDate = new Date(
-                Date.now() + (CONFIG.TEST_COUNTDOWN * 1000)
-            );
-
-            console.log("🧪 TEST MODE");
-            console.log("Unlock Date:", this.unlockDate);
-
-        }
-
-        // PRODUCTION MODE
-        else {
-
-            this.unlockDate = CONFIG.UNLOCK_DATE;
-
-            console.log("🎂 PRODUCTION MODE");
-
-        }
+        this.audioManager = audioManager;
 
         this.timer = null;
 
+
+        /******************************************************************
+         * TEST MODE
+         ******************************************************************/
+
+        if (CONFIG.TEST_MODE) {
+
+            this.unlockDate =
+                new Date(
+                    Date.now() +
+                    (CONFIG.TEST_COUNTDOWN * 1000)
+                );
+
+
+            console.log(
+                "🧪 TEST MODE"
+            );
+
+            console.log(
+                "Unlock Date:",
+                this.unlockDate
+            );
+
+        }
+
+
+        /******************************************************************
+         * PRODUCTION MODE
+         ******************************************************************/
+
+        else {
+
+            this.unlockDate =
+                CONFIG.UNLOCK_DATE;
+
+
+            console.log(
+                "🎂 PRODUCTION MODE"
+            );
+
+            console.log(
+                "Unlock Date:",
+                this.unlockDate
+            );
+
+        }
+
     }
+
+
+    /**********************************************************************
+     * START
+     **********************************************************************/
 
     start() {
 
+        /*
+         * Start countdown/celebration background music.
+         *
+         * It will continue playing when the countdown changes
+         * to the celebration screen.
+         */
+
+        if (this.audioManager) {
+
+            this.audioManager
+                .playCountdownCelebrationMusic();
+
+        }
+
+
         this.update();
 
-        this.timer = setInterval(() => {
 
-            this.update();
+        this.timer =
+            setInterval(
+                () => {
 
-        }, 1000);
+                    this.update();
+
+                },
+                1000
+            );
 
     }
+
+
+    /**********************************************************************
+     * STOP
+     **********************************************************************/
 
     stop() {
 
-        clearInterval(this.timer);
+        if (this.timer) {
+
+            clearInterval(
+                this.timer
+            );
+
+            this.timer = null;
+
+        }
 
     }
 
+
+    /**********************************************************************
+     * UPDATE
+     **********************************************************************/
+
     update() {
 
-        const now = new Date();
+        const now =
+            new Date();
 
-        const difference = this.unlockDate - now;
+
+        const difference =
+            this.unlockDate - now;
+
+
+        /******************************************************************
+         * COUNTDOWN FINISHED
+         ******************************************************************/
 
         if (difference <= 0) {
 
-            clearInterval(this.timer);
+            this.stop();
 
-            if (window.finalTenManager) {
+
+            /*
+             * Stop the final 10-second voice.
+             */
+
+            if (
+                window.finalTenManager
+            ) {
 
                 window.finalTenManager.stop();
 
             }
 
-            this.render(0,0,0,0);
+
+            /*
+             * Render zero.
+             */
+
+            this.render(
+                0,
+                0,
+                0,
+                0
+            );
+
+
+            console.log(
+                "🎉 Countdown Finished"
+            );
+
+
+            /*
+             * Celebration begins.
+             *
+             * Countdown/celebration music is NOT stopped here.
+             *
+             * It continues into the celebration screen.
+             */
 
             this.onComplete();
 
@@ -78,24 +190,51 @@ export default class CountdownManager {
 
         }
 
-        const days = Math.floor(
-            difference / (1000 * 60 * 60 * 24)
-        );
 
-        const hours = Math.floor(
-            (difference % (1000 * 60 * 60 * 24))
-            / (1000 * 60 * 60)
-        );
+        /******************************************************************
+         * CALCULATE TIME
+         ******************************************************************/
 
-        const minutes = Math.floor(
-            (difference % (1000 * 60 * 60))
-            / (1000 * 60)
-        );
+        const days =
+            Math.floor(
+                difference /
+                (1000 * 60 * 60 * 24)
+            );
 
-        const seconds = Math.floor(
-            (difference % (1000 * 60))
-            / 1000
-        );
+
+        const hours =
+            Math.floor(
+                (
+                    difference %
+                    (1000 * 60 * 60 * 24)
+                ) /
+                (1000 * 60 * 60)
+            );
+
+
+        const minutes =
+            Math.floor(
+                (
+                    difference %
+                    (1000 * 60 * 60)
+                ) /
+                (1000 * 60)
+            );
+
+
+        const seconds =
+            Math.floor(
+                (
+                    difference %
+                    (1000 * 60)
+                ) /
+                1000
+            );
+
+
+        /******************************************************************
+         * RENDER
+         ******************************************************************/
 
         this.render(
             days,
@@ -104,43 +243,102 @@ export default class CountdownManager {
             seconds
         );
 
-        if (window.finalTenManager) {
 
-            window.finalTenManager.update(seconds);
+        /******************************************************************
+         * FINAL 10 SECONDS
+         ******************************************************************/
+
+        if (
+            window.finalTenManager
+        ) {
+
+            window.finalTenManager.update(
+                days,
+                hours,
+                minutes,
+                seconds
+            );
 
         }
 
     }
 
-    render(days,hours,minutes,seconds){
 
-        this.setValue("days",days);
+    /**********************************************************************
+     * RENDER
+     **********************************************************************/
 
-        this.setValue("hours",hours);
+    render(
+        days,
+        hours,
+        minutes,
+        seconds
+    ) {
 
-        this.setValue("minutes",minutes);
+        this.setValue(
+            "days",
+            days
+        );
 
-        this.setValue("seconds",seconds);
+        this.setValue(
+            "hours",
+            hours
+        );
+
+        this.setValue(
+            "minutes",
+            minutes
+        );
+
+        this.setValue(
+            "seconds",
+            seconds
+        );
 
     }
 
-    setValue(id,value){
 
-        const element=document.getElementById(id);
+    /**********************************************************************
+     * SET VALUE
+     **********************************************************************/
 
-        if(!element)return;
+    setValue(
+        id,
+        value
+    ) {
 
-        const formatted=String(value).padStart(2,"0");
+        const element =
+            document.getElementById(id);
 
-        if(element.textContent!==formatted){
 
-            element.textContent=formatted;
+        if (!element) return;
 
-            element.classList.remove("beat");
+
+        const formatted =
+            String(value)
+                .padStart(2, "0");
+
+
+        if (
+            element.textContent !==
+            formatted
+        ) {
+
+            element.textContent =
+                formatted;
+
+
+            element.classList.remove(
+                "beat"
+            );
+
 
             void element.offsetWidth;
 
-            element.classList.add("beat");
+
+            element.classList.add(
+                "beat"
+            );
 
         }
 

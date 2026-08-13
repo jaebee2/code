@@ -2,215 +2,338 @@
  * File Name : app.js
  * Project   : Happy Birthday My Deedah ❤️
  * Author    : Jibril Bulama & ChatGPT
- * Version   : 4.0.0
+ * Version   : 5.0.0
  ******************************************************************************/
 
-import ScreenManager from "./services/ScreenManager.js";
-import CountdownManager from "./services/CountdownManager.js";
-import AudioManager from "./services/AudioManager.js";
-import FinalTenSecondsManager from "./services/FinalTenSecondsManager.js";
-import BackgroundManager from "./services/BackgroundManager.js";
-import FireworksManager from "./services/FireworksManager.js";
-import CelebrationManager from "./services/CelebrationManager.js";
-import BirthdayPageManager from "./services/BirthdayPageManager.js";
-import LetterManager from "./services/LetterManager.js";
+import ScreenManager
+    from "./services/ScreenManager.js";
+
+import CountdownManager
+    from "./services/CountdownManager.js";
+
+import AudioManager
+    from "./services/AudioManager.js";
+
+import FinalTenSecondsManager
+    from "./services/FinalTenSecondsManager.js";
+
+import BackgroundManager
+    from "./services/BackgroundManager.js";
+
+import FireworksManager
+    from "./services/FireworksManager.js";
+
+import CelebrationManager
+    from "./services/CelebrationManager.js";
+
+import BirthdayPageManager
+    from "./services/BirthdayPageManager.js";
+
+import LetterManager
+    from "./services/LetterManager.js";
+
 
 /**********************************************************************
  * AUDIO
  **********************************************************************/
 
-const audioManager = new AudioManager();
+const audioManager =
+    new AudioManager();
+
+window.audioManager =
+    audioManager;
+
 
 /**********************************************************************
- * Unlock Browser Audio
+ * FINAL TEN SECONDS
  **********************************************************************/
 
-function unlockMedia() {
+const finalTenManager =
+    new FinalTenSecondsManager(
+        audioManager
+    );
 
-    if (!audioManager.audio) return;
+window.finalTenManager =
+    finalTenManager;
 
-    Object.values(audioManager.audio).forEach(sound => {
-
-        if (!sound) return;
-
-        sound.play()
-            .then(() => {
-
-                sound.pause();
-                sound.currentTime = 0;
-
-            })
-            .catch(() => {});
-
-    });
-
-    document.removeEventListener("click", unlockMedia);
-    document.removeEventListener("touchstart", unlockMedia);
-
-}
-
-document.addEventListener("click", unlockMedia);
-document.addEventListener("touchstart", unlockMedia);
 
 /**********************************************************************
- * GLOBALS
+ * SCREEN MANAGER
  **********************************************************************/
 
-window.audioManager = audioManager;
+const screenManager =
+    new ScreenManager();
+
 
 /**********************************************************************
- * Final Ten Seconds
+ * SCREENS
  **********************************************************************/
 
-const finalTenManager = new FinalTenSecondsManager(audioManager);
+const loadingScreen =
+    document.getElementById(
+        "loading-screen"
+    );
 
-window.finalTenManager = finalTenManager;
+const countdownScreen =
+    document.getElementById(
+        "countdown-screen"
+    );
+
+const celebrationScreen =
+    document.getElementById(
+        "celebration-screen"
+    );
+
+const birthdayScreen =
+    document.getElementById(
+        "birthday-screen"
+    );
+
+
+screenManager.register(
+    "loading",
+    loadingScreen
+);
+
+screenManager.register(
+    "countdown",
+    countdownScreen
+);
+
+screenManager.register(
+    "celebration",
+    celebrationScreen
+);
+
+screenManager.register(
+    "birthday",
+    birthdayScreen
+);
+
 
 /**********************************************************************
- * Screen Manager
+ * BACKGROUND
  **********************************************************************/
 
-const screenManager = new ScreenManager();
-
-/**********************************************************************
- * Register Screens
- **********************************************************************/
-
-const loadingScreen = document.getElementById("loading-screen");
-const countdownScreen = document.getElementById("countdown-screen");
-const celebrationScreen = document.getElementById("celebration-screen");
-const birthdayScreen = document.getElementById("birthday-screen");
-
-screenManager.register("loading", loadingScreen);
-screenManager.register("countdown", countdownScreen);
-screenManager.register("celebration", celebrationScreen);
-screenManager.register("birthday", birthdayScreen);
-
-/**********************************************************************
- * Background
- **********************************************************************/
-
-const backgroundManager = new BackgroundManager();
+const backgroundManager =
+    new BackgroundManager();
 
 backgroundManager.create();
 
-/**********************************************************************
- * Fireworks
- **********************************************************************/
-
-const fireworksManager = new FireworksManager();
 
 /**********************************************************************
- * Birthday Page
+ * FIREWORKS
  **********************************************************************/
 
-const birthdayPageManager = new BirthdayPageManager(screenManager);
+const fireworksManager =
+    new FireworksManager();
 
-window.birthdayPageManager = birthdayPageManager;
 
 /**********************************************************************
- * Letter Manager
+ * BIRTHDAY PAGE
  **********************************************************************/
 
-const letterManager = new LetterManager(audioManager);
+const birthdayPageManager =
+    new BirthdayPageManager(
+        screenManager,
+        audioManager
+    );
 
-window.letterManager = letterManager;
+window.birthdayPageManager =
+    birthdayPageManager;
+
 
 /**********************************************************************
- * Celebration
+ * LETTER MANAGER
  **********************************************************************/
 
-const celebrationManager = new CelebrationManager(
+const letterManager =
+    new LetterManager(
+        audioManager
+    );
 
-    screenManager,
-    fireworksManager,
-    audioManager
+window.letterManager =
+    letterManager;
 
-);
+
+/**********************************************************************
+ * CELEBRATION MANAGER
+ **********************************************************************/
+
+const celebrationManager =
+    new CelebrationManager(
+        screenManager,
+        fireworksManager,
+        audioManager
+    );
+
 
 /*
-Pass BirthdayPageManager to CelebrationManager
-*/
+ * Give CelebrationManager the SAME BirthdayPageManager.
+ */
 
-celebrationManager.birthdayPageManager = birthdayPageManager;
+celebrationManager.birthdayPageManager =
+    birthdayPageManager;
+
 
 /**********************************************************************
- * Letter Button
+ * LETTER BUTTON
  **********************************************************************/
 
-const letterButton = document.getElementById("open-letter-btn");
+const letterButton =
+    document.getElementById(
+        "open-letter-btn"
+    );
+
 
 if (letterButton) {
 
-    letterButton.addEventListener("click", () => {
+    letterButton.addEventListener(
+        "click",
+        () => {
 
-        letterManager.show();
+            letterManager.show();
 
-    });
+        }
+    );
 
 }
 
+
 /**********************************************************************
- * Close Letter
+ * CLOSE LETTER
  **********************************************************************/
 
-const closeButton = document.getElementById("close-letter");
+const closeButton =
+    document.getElementById(
+        "close-letter"
+    );
+
 
 if (closeButton) {
 
-    closeButton.addEventListener("click", () => {
+    closeButton.addEventListener(
+        "click",
+        () => {
 
-        letterManager.hide();
+            letterManager.hide();
 
-    });
+        }
+    );
 
 }
 
-/**********************************************************************
- * Loading Screen
- **********************************************************************/
-
-screenManager.show("loading");
 
 /**********************************************************************
- * Start App
+ * LOADING SCREEN
  **********************************************************************/
 
-setTimeout(() => {
+screenManager.show(
+    "loading"
+);
 
-    screenManager.show("countdown");
 
-    if (loadingScreen) {
+/**********************************************************************
+ * START APP
+ **********************************************************************/
 
-        loadingScreen.remove();
+setTimeout(
+    () => {
 
-    }
+        /*
+         * Go to countdown.
+         */
 
-    const countdown = new CountdownManager(() => {
+        screenManager.show(
+            "countdown"
+        );
 
-        console.log("🎉 Countdown Finished");
 
-        celebrationManager.start();
+        /*
+         * Create countdown.
+         */
 
-    });
+        const countdown =
+            new CountdownManager(
 
-    window.countdown = countdown;
+                () => {
 
-    countdown.start();
+                    console.log(
+                        "🎉 Countdown Finished"
+                    );
 
-}, 3000);
 
-console.log("✅ Birthday App Initialized");
-const unlockButton = document.getElementById("unlock-audio-btn");
+                    /*
+                     * Start celebration.
+                     *
+                     * Countdown/celebration music
+                     * continues automatically.
+                     */
 
-unlockButton?.addEventListener("click", async () => {
+                    celebrationManager.start();
 
-    await audioManager.unlockAudio();
+                },
 
-    unlockButton.innerHTML = "✅ Audio Ready";
+                audioManager
 
-    unlockButton.disabled = true;
+            );
 
-    unlockButton.style.opacity = ".7";
 
-});
+        window.countdown =
+            countdown;
+
+
+        /*
+         * Start countdown.
+         */
+
+        countdown.start();
+
+    },
+    3000
+);
+
+
+/**********************************************************************
+ * BROWSER AUDIO UNLOCK BUTTON
+ **********************************************************************/
+
+const unlockButton =
+    document.getElementById(
+        "unlock-audio-btn"
+    );
+
+
+if (unlockButton) {
+
+    unlockButton.addEventListener(
+        "click",
+        async () => {
+
+            await audioManager.unlockAudio();
+
+
+            unlockButton.innerHTML =
+                "✅ Audio Ready";
+
+
+            unlockButton.disabled =
+                true;
+
+
+            unlockButton.style.opacity =
+                ".7";
+
+        }
+    );
+
+}
+
+
+/**********************************************************************
+ * INITIALIZED
+ **********************************************************************/
+
+console.log(
+    "✅ Birthday App Initialized"
+);

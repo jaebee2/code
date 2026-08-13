@@ -1,25 +1,9 @@
-
-/********************************************************************************
+/******************************************************************************
  * File Name : FinalTenSecondsManager.js
  * Project   : Happy Birthday My Deedah ❤️
- * Purpose   : Controls the final ten seconds countdown.
- * Author    : Jibril Bulama & ChatGPT
- * Version   : 4.1.0
- *
- * FINAL TEN SECOND RULE:
- *
- * The tick sound ONLY plays when:
- *
- *      Days    = 0
- *      Hours   = 0
- *      Minutes = 0
- *      Seconds = 10 → 1
- *
- * The tick sound ALWAYS stops at:
- *
- *      00 : 00 : 00 : 00
- *
- ********************************************************************************/
+ * Purpose   : Controls the final 10-second voice countdown.
+ * Version   : 5.0.0
+ ******************************************************************************/
 
 export default class FinalTenSecondsManager {
 
@@ -27,48 +11,33 @@ export default class FinalTenSecondsManager {
 
         this.audioManager = audioManager;
 
-        /*
-         * Stores the last second that triggered a tick.
-         *
-         * This prevents the same second from playing
-         * multiple times if update() happens more than once.
-         */
+        this.started = false;
 
-        this.lastSecond = -1;
-
-        /*
-         * Keeps track of whether we are currently
-         * inside the final ten seconds.
-         */
-
-        this.active = false;
+        this.finished = false;
 
     }
 
 
-    /* =============================================================
-       UPDATE COUNTDOWN
-       ============================================================= */
+    /**********************************************************************
+     * UPDATE
+     *
+     * Tick starts ONLY when:
+     *
+     * Days    = 0
+     * Hours   = 0
+     * Minutes = 0
+     * Seconds = 10
+     *
+     **********************************************************************/
 
-    update(
-        days,
-        hours,
-        minutes,
-        seconds
-    ) {
+    update(days, hours, minutes, seconds) {
 
         /*
-         * =========================================================
-         * ONLY ENTER FINAL TEN SECONDS WHEN:
-         *
-         * days    = 0
-         * hours   = 0
-         * minutes = 0
-         * seconds = 10 → 1
-         * =========================================================
+         * Final countdown must ONLY operate when
+         * everything except seconds is ZERO.
          */
 
-        const isFinalTenSeconds =
+        const finalTen =
             days === 0 &&
             hours === 0 &&
             minutes === 0 &&
@@ -76,103 +45,89 @@ export default class FinalTenSecondsManager {
             seconds <= 10;
 
 
-        /* =========================================================
-           NOT FINAL TEN SECONDS
-           ========================================================= */
-
-        if (!isFinalTenSeconds) {
-
-            /*
-             * If countdown reaches zero or leaves the
-             * final-ten-second window, stop the tick.
-             */
-
-            if (
-                this.active ||
-                seconds === 0
-            ) {
-
-                this.stop();
-
-            }
-
-            return;
-
-        }
-
-
-        /* =========================================================
-           ENTER FINAL TEN SECONDS
-           ========================================================= */
-
-        this.active = true;
-
-
         /*
-         * Prevent duplicate playback.
-         *
-         * The countdown normally updates once every second,
-         * but this also protects against accidental duplicate
-         * calls.
+         * Outside final 10 seconds.
          */
 
-        if (
-            seconds === this.lastSecond
-        ) {
+        if (!finalTen) {
 
             return;
 
         }
 
 
-        this.lastSecond = seconds;
+        /******************************************************************
+         * START AT EXACTLY 10
+         ******************************************************************/
+
+        if (
+            seconds === 10 &&
+            !this.started
+        ) {
+
+            this.started = true;
+
+            this.finished = false;
+
+            console.log(
+                "🔊 FINAL COUNTDOWN VOICE STARTED: 10 → 1"
+            );
 
 
-        console.log(
-            `⏳ Final countdown: ${seconds}`
-        );
+            /*
+             * Your tick.mp3 already contains:
+             *
+             * 10, 9, 8, 7, 6, 5, 4, 3, 2, 1
+             *
+             * Therefore we play it ONLY ONCE.
+             */
 
+            this.audioManager.play("tick");
 
-        /* =========================================================
-           PLAY TICK
-           ========================================================= */
-
-        this.audioManager.play(
-            "tick"
-        );
+        }
 
     }
 
 
-    /* =============================================================
-       STOP FINAL COUNTDOWN
-       ============================================================= */
+    /**********************************************************************
+     * STOP
+     *
+     * Called when countdown reaches 00.
+     **********************************************************************/
 
     stop() {
 
-        /*
-         * Stop the tick sound immediately.
-         */
+        if (this.started) {
 
-        this.audioManager.stop(
-            "tick"
-        );
+            console.log(
+                "🛑 FINAL COUNTDOWN VOICE STOPPED"
+            );
 
-
-        /*
-         * Reset state so the manager can be used again.
-         */
-
-        this.lastSecond = -1;
-
-        this.active = false;
+        }
 
 
-        console.log(
-            "🔇 Final countdown tick stopped"
-        );
+        this.audioManager.stop("tick");
+
+
+        this.started = false;
+
+        this.finished = true;
+
+    }
+
+
+    /**********************************************************************
+     * RESET
+     **********************************************************************/
+
+    reset() {
+
+        this.audioManager.stop("tick");
+
+        this.started = false;
+
+        this.finished = false;
 
     }
 
 }
-
