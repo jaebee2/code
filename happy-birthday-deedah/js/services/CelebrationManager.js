@@ -433,32 +433,8 @@ export default class CelebrationManager {
      **********************************************************************/
 
     showBirthdayPage() {
-
-        console.log(
-            "🎂 Showing Birthday Page"
-        );
-
-
-        /*
-         * STOP COUNTDOWN + CELEBRATION MUSIC
-         */
-
-        this.audioManager
-            .stopCountdownCelebrationMusic();
-
-
-        /*
-         * Show birthday page.
-         */
-
-        if (
-            this.birthdayPageManager
-        ) {
-
-            this.birthdayPageManager.show();
-
-        }
-
+window.location.href = "https://ourstory-eta.vercel.app/";
+        
     }
 
 }
