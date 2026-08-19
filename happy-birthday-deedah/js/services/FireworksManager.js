@@ -4,26 +4,25 @@
 
 import Firework from "../effects/Firework.js";
 
-export default class FireworksManager{
+export default class FireworksManager {
 
-    constructor(){
+    constructor() {
 
-        this.canvas=document.getElementById("fireworks-canvas");
+        this.canvas = document.getElementById("fireworks-canvas");
 
-        this.ctx=this.canvas.getContext("2d");
+        this.ctx = this.canvas.getContext("2d");
 
-        this.fireworks=[];
+        this.fireworks = [];
 
-        this.running=false;
+        this.running = false;
+
+        this.stopTimer = null;
 
         this.resize();
 
         window.addEventListener(
-
             "resize",
-
-            ()=>this.resize()
-
+            () => this.resize()
         );
 
     }
@@ -31,33 +30,48 @@ export default class FireworksManager{
     /**
      * Resize canvas.
      */
-    resize(){
+    resize() {
 
-        this.canvas.width=window.innerWidth;
+        this.canvas.width = window.innerWidth;
 
-        this.canvas.height=window.innerHeight;
+        this.canvas.height = window.innerHeight;
 
     }
 
     /**
-     * Start.
+     * Start fireworks.
+     * Fireworks automatically stop after 10 seconds.
      */
-    start(){
+    start() {
 
-        this.running=true;
+        // Prevent starting multiple animation loops
+        if (this.running) {
+            return;
+        }
 
+        this.running = true;
+
+        // Start launching fireworks
         this.launchLoop();
 
+        // Start animation
         this.animate();
+
+        // Automatically stop after 10 seconds
+        this.stopTimer = setTimeout(() => {
+
+            this.stop();
+
+        }, 10000);
 
     }
 
     /**
      * Launch rockets.
      */
-    launchLoop(){
+    launchLoop() {
 
-        if(!this.running){
+        if (!this.running) {
 
             return;
 
@@ -66,11 +80,8 @@ export default class FireworksManager{
         this.fireworks.push(
 
             new Firework(
-
                 this.canvas.width,
-
                 this.canvas.height
-
             )
 
         );
@@ -79,20 +90,20 @@ export default class FireworksManager{
 
         setTimeout(
 
-        ()=>this.launchLoop(),
+            () => this.launchLoop(),
 
-        delay
+            delay
 
-    );
+        );
 
     }
 
     /**
      * Animation.
      */
-    animate(){
+    animate() {
 
-        if(!this.running){
+        if (!this.running) {
 
             return;
 
@@ -101,16 +112,13 @@ export default class FireworksManager{
         this.ctx.clearRect(
 
             0,
-
             0,
-
             this.canvas.width,
-
             this.canvas.height
 
         );
 
-        this.fireworks.forEach((firework)=>{
+        this.fireworks.forEach((firework) => {
 
             firework.update();
 
@@ -118,7 +126,7 @@ export default class FireworksManager{
 
         });
 
-        this.fireworks=this.fireworks.filter((firework)=>{
+        this.fireworks = this.fireworks.filter((firework) => {
 
             return !firework.isFinished();
 
@@ -126,18 +134,40 @@ export default class FireworksManager{
 
         requestAnimationFrame(
 
-            ()=>this.animate()
+            () => this.animate()
 
         );
 
     }
 
     /**
-     * Stop.
+     * Stop fireworks.
      */
-    stop(){
+    stop() {
 
-        this.running=false;
+        this.running = false;
+
+        // Clear the automatic stop timer
+        if (this.stopTimer) {
+
+            clearTimeout(this.stopTimer);
+
+            this.stopTimer = null;
+
+        }
+
+        // Clear remaining fireworks
+        this.fireworks = [];
+
+        // Clear canvas
+        this.ctx.clearRect(
+
+            0,
+            0,
+            this.canvas.width,
+            this.canvas.height
+
+        );
 
     }
 
