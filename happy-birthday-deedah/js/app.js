@@ -2,7 +2,7 @@
  * File Name : app.js
  * Project   : Happy Birthday My Deedah ❤️
  * Author    : Jibril Bulama & ChatGPT
- * Version   : 5.0.0
+ * Version   : 6.0.0 - iPhone / Safari Compatible
  ******************************************************************************/
 
 import ScreenManager
@@ -177,6 +177,100 @@ celebrationManager.birthdayPageManager =
 
 
 /**********************************************************************
+ * IPHONE / SAFARI MEDIA UNLOCK
+ *
+ * IMPORTANT:
+ *
+ * Safari requires media playback to be associated with a real
+ * user interaction.
+ *
+ * We therefore attempt to unlock audio on the first:
+ *
+ * - touch
+ * - pointer
+ * - click
+ *
+ * anywhere on the page.
+ **********************************************************************/
+
+let mediaUnlockAttempted = false;
+
+
+const unlockFromUserInteraction = async () => {
+
+    if (mediaUnlockAttempted) {
+
+        return;
+
+    }
+
+
+    mediaUnlockAttempted = true;
+
+
+    console.log(
+        "📱 User interaction detected."
+    );
+
+
+    try {
+
+        await audioManager.unlockAudio();
+
+        console.log(
+            "🔊 iPhone audio unlocked."
+        );
+
+    } catch (error) {
+
+        console.warn(
+            "⚠️ Could not unlock audio:",
+            error
+        );
+
+        /*
+         * Allow another interaction to try again.
+         */
+
+        mediaUnlockAttempted = false;
+
+    }
+
+};
+
+
+/**********************************************************************
+ * USER INTERACTION LISTENERS
+ **********************************************************************/
+
+document.addEventListener(
+    "touchstart",
+    unlockFromUserInteraction,
+    {
+        passive: true
+    }
+);
+
+
+document.addEventListener(
+    "pointerdown",
+    unlockFromUserInteraction,
+    {
+        passive: true
+    }
+);
+
+
+document.addEventListener(
+    "click",
+    unlockFromUserInteraction,
+    {
+        passive: true
+    }
+);
+
+
+/**********************************************************************
  * LETTER BUTTON
  **********************************************************************/
 
@@ -240,6 +334,11 @@ screenManager.show(
 setTimeout(
     () => {
 
+        console.log(
+            "🚀 Starting countdown..."
+        );
+
+
         /*
          * Go to countdown.
          */
@@ -265,9 +364,6 @@ setTimeout(
 
                     /*
                      * Start celebration.
-                     *
-                     * Countdown/celebration music
-                     * continues automatically.
                      */
 
                     celebrationManager.start();
@@ -295,7 +391,9 @@ setTimeout(
 
 
 /**********************************************************************
- * BROWSER AUDIO UNLOCK BUTTON
+ * OPTIONAL AUDIO UNLOCK BUTTON
+ *
+ * If the button exists, keep supporting it.
  **********************************************************************/
 
 const unlockButton =
@@ -308,21 +406,32 @@ if (unlockButton) {
 
     unlockButton.addEventListener(
         "click",
-        async () => {
+        async event => {
 
-            await audioManager.unlockAudio();
+            /*
+             * Stop this click from being treated as a
+             * separate interaction by other handlers.
+             */
 
-
-            unlockButton.innerHTML =
-                "✅ Audio Ready";
-
-
-            unlockButton.disabled =
-                true;
+            event.stopPropagation();
 
 
-            unlockButton.style.opacity =
-                ".7";
+            const unlocked =
+                await audioManager.unlockAudio();
+
+
+            if (unlocked !== false) {
+
+                unlockButton.innerHTML =
+                    "✅ Audio Ready";
+
+                unlockButton.disabled =
+                    true;
+
+                unlockButton.style.opacity =
+                    ".7";
+
+            }
 
         }
     );
@@ -336,4 +445,8 @@ if (unlockButton) {
 
 console.log(
     "✅ Birthday App Initialized"
+);
+
+console.log(
+    "📱 iPhone/Safari media unlock enabled."
 );

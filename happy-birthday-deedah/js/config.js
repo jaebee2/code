@@ -5,7 +5,7 @@
 const CONFIG = {
 
     // Development
-    TEST_MODE: false,
+    TEST_MODE: true,
 
     // Countdown duration for testing
     TEST_COUNTDOWN: 20,
