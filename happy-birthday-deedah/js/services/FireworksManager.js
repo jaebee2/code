@@ -40,7 +40,7 @@ export default class FireworksManager {
 
     /**
      * Start fireworks.
-     * Fireworks automatically stop after 10 seconds.
+     * Fireworks automatically stop after 15 seconds.
      */
     start() {
 
@@ -57,12 +57,12 @@ export default class FireworksManager {
         // Start animation
         this.animate();
 
-        // Automatically stop after 10 seconds
+        // Automatically stop after 15 seconds
         this.stopTimer = setTimeout(() => {
 
             this.stop();
 
-        }, 10000);
+        }, 15000);
 
     }
 

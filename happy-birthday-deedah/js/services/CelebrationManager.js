@@ -100,20 +100,6 @@ export default class CelebrationManager {
         );
 
 
-        /******************************************************************
-         * SHOW BIRTHDAY PAGE
-         ******************************************************************/
-
-        this.timeline.add(
-            67500,
-            () => {
-
-                this.showBirthdayPage();
-
-            }
-        );
-
-
         this.timeline.start();
 
     }
@@ -392,7 +378,7 @@ export default class CelebrationManager {
          * Start fireworks 3.5 seconds after the birthday voice begins.
          *
          * FireworksManager automatically stops the visual fireworks
-         * after 10 seconds.
+         * after 15 seconds.
          */
 
         setTimeout(
@@ -443,7 +429,7 @@ export default class CelebrationManager {
     startFireworks() {
 
         console.log(
-            "🎆 Fireworks Started - 10 seconds"
+            "🎆 Fireworks Started - 15 seconds"
         );
 
         this.fireworksManager.start();
@@ -461,7 +447,7 @@ export default class CelebrationManager {
 
         /*
          * Keep the fireworks audio duration synchronized with the
-         * 10-second visual fireworks duration.
+         * 15-second visual fireworks duration.
          */
 
         if (this.fireworksAudioTimer) {
@@ -479,8 +465,14 @@ export default class CelebrationManager {
 
                     this.stopFireworks();
 
+                    /*
+                     * The fireworks screen is finished after exactly
+                     * 15 seconds. Move to the birthday page immediately.
+                     */
+                    this.showBirthdayPage();
+
                 },
-                10000
+                15000
             );
 
     }
