@@ -2,7 +2,7 @@
  * File Name : app.js
  * Project   : Happy Birthday My Deedah ❤️
  * Author    : Jibril Bulama & ChatGPT
- * Version   : 6.0.0 - iPhone / Safari Compatible
+ * Version   : 6.1.0 - iPhone / Safari Compatible
  ******************************************************************************/
 
 import ScreenManager
@@ -167,107 +167,153 @@ const celebrationManager =
         audioManager
     );
 
-
-/*
- * Give CelebrationManager the SAME BirthdayPageManager.
- */
-
 celebrationManager.birthdayPageManager =
     birthdayPageManager;
 
 
 /**********************************************************************
- * IPHONE / SAFARI MEDIA UNLOCK
+ * IPHONE / SAFARI USER-GESTURE UNLOCK
  *
  * IMPORTANT:
  *
- * Safari requires media playback to be associated with a real
- * user interaction.
+ * iPhone Safari does not allow an audio/video element to suddenly
+ * start with sound after a completely unrelated timer event.
  *
- * We therefore attempt to unlock audio on the first:
+ * The user must interact with the page at least once.
  *
- * - touch
- * - pointer
- * - click
- *
- * anywhere on the page.
+ * This listener unlocks the audio files on the first real gesture.
  **********************************************************************/
 
-let mediaUnlockAttempted = false;
-
+let mediaUnlockStarted = false;
 
 const unlockFromUserInteraction = async () => {
 
-    if (mediaUnlockAttempted) {
-
+    if (mediaUnlockStarted) {
         return;
-
     }
 
-
-    mediaUnlockAttempted = true;
-
+    mediaUnlockStarted = true;
 
     console.log(
-        "📱 User interaction detected."
+        "📱 User interaction detected - unlocking media..."
     );
-
 
     try {
 
         await audioManager.unlockAudio();
 
+        /*
+         * If the countdown has already been created and its
+         * background music was blocked before the tap, try again
+         * now that Safari has granted media playback.
+         */
+
+        if (
+            window.countdown &&
+            !window.countdownFinished
+        ) {
+
+            await audioManager
+                .playCountdownCelebrationMusic();
+
+        }
+
+        updateAudioUnlockUI(true);
+
         console.log(
-            "🔊 iPhone audio unlocked."
+            "🔊 iPhone audio is ready."
         );
 
     } catch (error) {
 
         console.warn(
-            "⚠️ Could not unlock audio:",
+            "⚠️ Media unlock failed:",
             error
         );
 
-        /*
-         * Allow another interaction to try again.
-         */
+        mediaUnlockStarted = false;
 
-        mediaUnlockAttempted = false;
+        updateAudioUnlockUI(false);
 
     }
 
 };
 
 
-/**********************************************************************
- * USER INTERACTION LISTENERS
- **********************************************************************/
-
-document.addEventListener(
-    "touchstart",
-    unlockFromUserInteraction,
-    {
-        passive: true
-    }
-);
-
-
+/*
+ * pointerdown is preferred because it works for mouse, touch and
+ * stylus on modern browsers.
+ */
 document.addEventListener(
     "pointerdown",
     unlockFromUserInteraction,
     {
-        passive: true
+        passive: true,
+        once: true
     }
 );
 
 
+/*
+ * touchstart is kept as an iPhone Safari fallback.
+ */
 document.addEventListener(
-    "click",
+    "touchstart",
     unlockFromUserInteraction,
     {
-        passive: true
+        passive: true,
+        once: true
     }
 );
+
+
+/**********************************************************************
+ * AUDIO UNLOCK UI
+ **********************************************************************/
+
+function updateAudioUnlockUI(unlocked) {
+
+    const button =
+        document.getElementById(
+            "unlock-audio-btn"
+        );
+
+    const message =
+        document.querySelector(
+            ".audio-unlock p"
+        );
+
+    if (button) {
+
+        if (unlocked) {
+
+            button.textContent =
+                "✅ Sound Enabled";
+
+            button.disabled = true;
+
+            button.style.opacity =
+                "0.7";
+
+        } else {
+
+            button.textContent =
+                "🔊 Tap to Enable Sound";
+
+        }
+
+    }
+
+    if (message) {
+
+        message.textContent =
+            unlocked
+                ? "Sound is ready ❤️"
+                : "Tap once to enable sound on iPhone.";
+
+    }
+
+}
 
 
 /**********************************************************************
@@ -278,7 +324,6 @@ const letterButton =
     document.getElementById(
         "open-letter-btn"
     );
-
 
 if (letterButton) {
 
@@ -302,7 +347,6 @@ const closeButton =
     document.getElementById(
         "close-letter"
     );
-
 
 if (closeButton) {
 
@@ -338,33 +382,21 @@ setTimeout(
             "🚀 Starting countdown..."
         );
 
-
-        /*
-         * Go to countdown.
-         */
-
         screenManager.show(
             "countdown"
         );
-
-
-        /*
-         * Create countdown.
-         */
 
         const countdown =
             new CountdownManager(
 
                 () => {
 
+                    window.countdownFinished =
+                        true;
+
                     console.log(
                         "🎉 Countdown Finished"
                     );
-
-
-                    /*
-                     * Start celebration.
-                     */
 
                     celebrationManager.start();
 
@@ -374,14 +406,11 @@ setTimeout(
 
             );
 
-
         window.countdown =
             countdown;
 
-
-        /*
-         * Start countdown.
-         */
+        window.countdownFinished =
+            false;
 
         countdown.start();
 
@@ -391,9 +420,7 @@ setTimeout(
 
 
 /**********************************************************************
- * OPTIONAL AUDIO UNLOCK BUTTON
- *
- * If the button exists, keep supporting it.
+ * OPTIONAL EXPLICIT AUDIO BUTTON
  **********************************************************************/
 
 const unlockButton =
@@ -401,35 +428,42 @@ const unlockButton =
         "unlock-audio-btn"
     );
 
-
 if (unlockButton) {
 
     unlockButton.addEventListener(
-        "click",
+        "pointerdown",
         async event => {
-
-            /*
-             * Stop this click from being treated as a
-             * separate interaction by other handlers.
-             */
 
             event.stopPropagation();
 
+            mediaUnlockStarted = true;
 
-            const unlocked =
+            try {
+
                 await audioManager.unlockAudio();
 
+                if (
+                    window.countdown &&
+                    !window.countdownFinished
+                ) {
 
-            if (unlocked !== false) {
+                    await audioManager
+                        .playCountdownCelebrationMusic();
 
-                unlockButton.innerHTML =
-                    "✅ Audio Ready";
+                }
 
-                unlockButton.disabled =
-                    true;
+                updateAudioUnlockUI(true);
 
-                unlockButton.style.opacity =
-                    ".7";
+            } catch (error) {
+
+                mediaUnlockStarted = false;
+
+                updateAudioUnlockUI(false);
+
+                console.warn(
+                    "⚠️ Audio button unlock failed:",
+                    error
+                );
 
             }
 
@@ -448,5 +482,5 @@ console.log(
 );
 
 console.log(
-    "📱 iPhone/Safari media unlock enabled."
+    "📱 iPhone/Safari media support enabled."
 );

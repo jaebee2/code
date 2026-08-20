@@ -2,8 +2,7 @@
  * File Name : CelebrationManager.js
  * Project   : Happy Birthday My Deedah ❤️
  * Purpose   : Controls the complete cinematic celebration sequence.
- * Author    : Jibril Bulama & ChatGPT
- * Version   : 5.0.0
+ * Version   : 6.1.0 - iPhone / Safari Compatible
  ******************************************************************************/
 
 import TimelineManager from "./TimelineManager.js";
@@ -28,14 +27,11 @@ export default class CelebrationManager {
         this.timeline =
             new TimelineManager();
 
+        this.birthdayPageManager =
+            null;
 
-        /*
-         * This is assigned by app.js.
-         *
-         * We DO NOT create another BirthdayPageManager here.
-         */
-
-        this.birthdayPageManager = null;
+        this.fireworksAudioTimer =
+            null;
 
     }
 
@@ -50,20 +46,16 @@ export default class CelebrationManager {
             "🎉 Celebration Started"
         );
 
-
         this.screenManager.show(
             "celebration"
         );
 
-
         this.timeline.clear();
 
 
-        /******************************************************************
+        /*
          * Countdown music continues.
-         *
-         * DO NOT restart it.
-         ******************************************************************/
+         */
 
 
         /******************************************************************
@@ -109,20 +101,6 @@ export default class CelebrationManager {
 
 
         /******************************************************************
-         * STOP FIREWORKS
-         ******************************************************************/
-
-        this.timeline.add(
-            64500,
-            () => {
-
-                this.stopFireworks();
-
-            }
-        );
-
-
-        /******************************************************************
          * SHOW BIRTHDAY PAGE
          ******************************************************************/
 
@@ -151,7 +129,6 @@ export default class CelebrationManager {
             "💥 Countdown Boom"
         );
 
-
         this.audioManager.play(
             "countdownBoom"
         );
@@ -170,14 +147,11 @@ export default class CelebrationManager {
                 "flash-overlay"
             );
 
-
         if (!flash) return;
-
 
         flash.classList.add(
             "show"
         );
-
 
         setTimeout(
             () => {
@@ -195,27 +169,29 @@ export default class CelebrationManager {
 
     /**********************************************************************
      * INTRO VIDEO
+     *
+     * iPhone Safari may reject video.play() when it is triggered by
+     * the timeline rather than directly by a user gesture.
+     *
+     * If that happens, we show a real "Tap to Play" button.
      **********************************************************************/
 
-    playIntroVideo() {
+    async playIntroVideo() {
 
         console.log(
             "🎬 Playing Intro Video"
         );
-
 
         const video =
             document.getElementById(
                 "intro-video"
             );
 
-
         if (!video) {
 
             console.warn(
                 "Intro video not found."
             );
-
 
             this.afterVideo();
 
@@ -229,19 +205,29 @@ export default class CelebrationManager {
         );
 
 
+        video.setAttribute(
+            "playsinline",
+            ""
+        );
+
+        video.setAttribute(
+            "webkit-playsinline",
+            ""
+        );
+
+        video.controls = false;
+
+        video.preload = "auto";
+
         video.currentTime = 0;
 
 
-        video.play().catch(
-            error => {
+        /*
+         * Keep the video unmuted because the MP4 contains its own
+         * AAC audio track.
+         */
 
-                console.warn(
-                    "⚠️ Intro video could not play:",
-                    error
-                );
-
-            }
-        );
+        video.muted = false;
 
 
         video.onended = () => {
@@ -250,10 +236,145 @@ export default class CelebrationManager {
                 "show"
             );
 
+            this.removeVideoFallback();
 
             this.afterVideo();
 
         };
+
+
+        try {
+
+            await video.play();
+
+            console.log(
+                "▶️ Intro video started."
+            );
+
+        } catch (error) {
+
+            console.warn(
+                "⚠️ iPhone blocked intro video autoplay:",
+                error
+            );
+
+            this.showVideoFallback(
+                video
+            );
+
+        }
+
+    }
+
+
+    /**********************************************************************
+     * VIDEO FALLBACK
+     **********************************************************************/
+
+    showVideoFallback(video) {
+
+        this.removeVideoFallback();
+
+
+        const overlay =
+            document.createElement(
+                "div"
+            );
+
+        overlay.id =
+            "iphone-video-fallback";
+
+
+        overlay.innerHTML = `
+            <div class="iphone-video-fallback-card">
+                <div class="iphone-video-fallback-icon">▶️</div>
+                <h2>Tap to play</h2>
+                <p>Tap once to start the birthday video with sound ❤️</p>
+                <button type="button" id="iphone-video-play-btn">
+                    ▶ Play Birthday Video
+                </button>
+            </div>
+        `;
+
+
+        document.body.appendChild(
+            overlay
+        );
+
+
+        const button =
+            document.getElementById(
+                "iphone-video-play-btn"
+            );
+
+
+        button.addEventListener(
+            "pointerdown",
+            async event => {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+
+                try {
+
+                    /*
+                     * Unlock the normal audio library during the same
+                     * user gesture.
+                     */
+
+                    await this.audioManager.unlockAudio();
+
+
+                    video.muted = false;
+
+                    video.currentTime = 0;
+
+
+                    await video.play();
+
+
+                    this.removeVideoFallback();
+
+
+                    console.log(
+                        "▶️ Intro video started from user gesture."
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "❌ Video still could not play:",
+                        error
+                    );
+
+                }
+
+            },
+            {
+                passive: false
+            }
+        );
+
+    }
+
+
+    /**********************************************************************
+     * REMOVE VIDEO FALLBACK
+     **********************************************************************/
+
+    removeVideoFallback() {
+
+        const overlay =
+            document.getElementById(
+                "iphone-video-fallback"
+            );
+
+        if (overlay) {
+
+            overlay.remove();
+
+        }
 
     }
 
@@ -264,15 +385,14 @@ export default class CelebrationManager {
 
     afterVideo() {
 
-        /*
-         * Play recorded birthday voice.
-         */
-
         this.playVoice();
 
 
         /*
-         * Start fireworks after voice begins.
+         * Start fireworks 3.5 seconds after the birthday voice begins.
+         *
+         * FireworksManager automatically stops the visual fireworks
+         * after 10 seconds.
          */
 
         setTimeout(
@@ -286,10 +406,6 @@ export default class CelebrationManager {
             3500
         );
 
-
-        /*
-         * Show title.
-         */
 
         setTimeout(
             () => {
@@ -313,7 +429,6 @@ export default class CelebrationManager {
             "🎤 Playing Birthday Voice"
         );
 
-
         this.audioManager.play(
             "myVoice"
         );
@@ -328,20 +443,11 @@ export default class CelebrationManager {
     startFireworks() {
 
         console.log(
-            "🎆 Fireworks Started"
+            "🎆 Fireworks Started - 10 seconds"
         );
-
 
         this.fireworksManager.start();
 
-
-        /*
-         * IMPORTANT:
-         *
-         * We DO NOT start birthday music here.
-         *
-         * Countdown/celebration music is already playing.
-         */
 
         this.audioManager.play(
             "fireworks"
@@ -351,6 +457,31 @@ export default class CelebrationManager {
         this.audioManager.play(
             "fireworks2"
         );
+
+
+        /*
+         * Keep the fireworks audio duration synchronized with the
+         * 10-second visual fireworks duration.
+         */
+
+        if (this.fireworksAudioTimer) {
+
+            clearTimeout(
+                this.fireworksAudioTimer
+            );
+
+        }
+
+
+        this.fireworksAudioTimer =
+            setTimeout(
+                () => {
+
+                    this.stopFireworks();
+
+                },
+                10000
+            );
 
     }
 
@@ -364,13 +495,6 @@ export default class CelebrationManager {
         console.log(
             "🎊 Confetti Started"
         );
-
-        /*
-         * ConfettiManager can be added here later.
-         *
-         * No confetti audio is loaded because there is currently
-         * no confetti.mp3 file.
-         */
 
     }
 
@@ -386,9 +510,7 @@ export default class CelebrationManager {
                 "birthday-title"
             );
 
-
         if (!title) return;
-
 
         title.classList.add(
             "show"
@@ -407,23 +529,27 @@ export default class CelebrationManager {
             "🛑 Fireworks Finished"
         );
 
-
         this.fireworksManager.stop();
-
 
         this.audioManager.stop(
             "fireworks"
         );
-
 
         this.audioManager.stop(
             "fireworks2"
         );
 
 
-        /*
-         * Countdown/celebration music continues.
-         */
+        if (this.fireworksAudioTimer) {
+
+            clearTimeout(
+                this.fireworksAudioTimer
+            );
+
+            this.fireworksAudioTimer =
+                null;
+
+        }
 
     }
 
@@ -433,8 +559,12 @@ export default class CelebrationManager {
      **********************************************************************/
 
     showBirthdayPage() {
-window.location.href = "https://ourstory-eta.vercel.app/";
-        
+
+        this.stopFireworks();
+
+        window.location.href =
+            "https://ourstory-eta.vercel.app/";
+
     }
 
 }
