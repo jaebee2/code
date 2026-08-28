@@ -422,60 +422,53 @@ export default class CelebrationManager {
     }
 
 
-    /**********************************************************************
-     * START FIREWORKS
-     **********************************************************************/
+   /**********************************************************************
+ * START FIREWORKS
+ **********************************************************************/
 
-    startFireworks() {
+startFireworks() {
 
-        console.log(
-            "🎆 Fireworks Started - 15 seconds"
+    console.log(
+        "🎆 Fireworks Started - 6.5 seconds"
+    );
+
+    this.fireworksManager.start();
+
+    this.audioManager.play(
+        "fireworks"
+    );
+
+    this.audioManager.play(
+        "fireworks2"
+    );
+
+    /*
+     * Total screen duration = 10 seconds.
+     * Fireworks begin 3.5 seconds after the voice starts,
+     * therefore they should run for 6.5 seconds.
+     */
+
+    if (this.fireworksAudioTimer) {
+
+        clearTimeout(
+            this.fireworksAudioTimer
         );
-
-        this.fireworksManager.start();
-
-
-        this.audioManager.play(
-            "fireworks"
-        );
-
-
-        this.audioManager.play(
-            "fireworks2"
-        );
-
-
-        /*
-         * Keep the fireworks audio duration synchronized with the
-         * 15-second visual fireworks duration.
-         */
-
-        if (this.fireworksAudioTimer) {
-
-            clearTimeout(
-                this.fireworksAudioTimer
-            );
-
-        }
-
-
-        this.fireworksAudioTimer =
-            setTimeout(
-                () => {
-
-                    this.stopFireworks();
-
-                    /*
-                     * The fireworks screen is finished after exactly
-                     * 15 seconds. Move to the birthday page immediately.
-                     */
-                    this.showBirthdayPage();
-
-                },
-                15000
-            );
 
     }
+
+    this.fireworksAudioTimer =
+        setTimeout(
+            () => {
+
+                this.stopFireworks();
+
+                this.showBirthdayPage();
+
+            },
+            6500
+        );
+
+}
 
 
     /**********************************************************************

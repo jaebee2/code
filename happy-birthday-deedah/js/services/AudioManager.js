@@ -18,9 +18,7 @@ export default class AudioManager {
             birthdayMusic:
                 new Audio("./assets/audio/music/happy-birthday.mp3"),
 
-            tick:
-                new Audio("./assets/audio/effects/tick.mp3"),
-
+           
             countdownBoom:
                 new Audio("./assets/audio/effects/countdown-boom.mp3"),
 
@@ -92,9 +90,7 @@ export default class AudioManager {
         this.audio.fireworks2.volume = 0.35;
 
 
-        this.audio.tick.loop = false;
-        this.audio.tick.volume = 0.30;
-
+       
         this.audio.countdownBoom.loop = false;
         this.audio.countdownBoom.volume = 1;
 
