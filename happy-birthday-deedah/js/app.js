@@ -78,7 +78,7 @@ if (isMobileDevice()) {
             <div>
                 <h1>💻 Desktop Only</h1>
                 <p>
-                    This birthday experience is only available on a laptop or desktop computer.
+                    This is only available on a laptop or desktop computer.
                 </p>
             </div>
         </div>
