@@ -43,7 +43,52 @@ const audioManager =
 window.audioManager =
     audioManager;
 
+/**********************************************************************
+ * BLOCK MOBILE DEVICES
+ **********************************************************************/
 
+const isMobileDevice = () => {
+
+    const mobileUA =
+        /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(
+            navigator.userAgent
+        );
+
+    const smallScreen =
+        window.innerWidth <= 768;
+
+    return mobileUA || smallScreen;
+
+};
+
+if (isMobileDevice()) {
+
+    document.body.innerHTML = `
+        <div style="
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+            text-align:center;
+            font-family:Arial,sans-serif;
+            padding:30px;
+            background:#000;
+            color:#fff;
+        ">
+            <div>
+                <h1>💻 Desktop Only</h1>
+                <p>
+                    This birthday experience is only available on a laptop or desktop computer.
+                </p>
+            </div>
+        </div>
+    `;
+
+    throw new Error(
+        "Mobile devices are not supported."
+    );
+
+}
 /**********************************************************************
  * FINAL TEN SECONDS
  **********************************************************************/
